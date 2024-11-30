@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -6,18 +7,21 @@ from django.http import HttpResponse
 from server.models import *
 from geopy.distance import geodesic
 
-RADIUS = 10000 # in metres
+RADIUS = 2000 # in metres
 
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
 # Create your views here.
+@csrf_exempt
 def searchParkings(request):
-    data = request.POST
-    lat = float(data['lat'])
-    long = float(data['long'])
-    city = data['city'].lower().strip()
-    state = data['state'].lower().strip()
+    data = json.loads(request.body)
+    print(request.body)
+    # print(dict(data))
+    lat = float(data.get('lat'))
+    long = float(data.get('long'))
+    city = data['city'].strip().title()
+    state = data['state'].strip().title()
 
     parkings = Parkings.objects.filter(city=city, state=state)
 
