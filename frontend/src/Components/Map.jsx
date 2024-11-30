@@ -13,6 +13,16 @@ import axios from "axios";
 import marker from "./icons/marker-without-bg.png";
 import userMarker from "./icons/marker-user-removebg.png";
 
+const FlyToLocation = ({ lat, lng }) => {
+  const map = useMap();
+  useEffect(() => {
+    if (lat && lng) {
+      map.flyTo([lat, lng], 14, { duration: 1.5 });
+    }
+  }, [lat, lng, map]);
+  return null;
+};
+
 const MergedComponent = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,18 +39,18 @@ const MergedComponent = () => {
   const [lng, setLng] = useState(initialLng); // Use initialLng as default
   const [address, setAddress] = useState("");
   const [selectedStore, setSelectedStore] = useState(null);
+  const [storeList, setStoreList] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/getCords")
+      .then((response) => response.json())
+      .then((data) => {
+        setStoreList(data.data);
+        console.log(data);
+      });
+  }, []);
 
   const apiKey = "NVo2x7Bp_UDXwLmUwpWxzVm83NuM5uulbAXNsbtBgVE";
-
-  const FlyToLocation = ({ lat, lng }) => {
-    const map = useMap();
-    useEffect(() => {
-      if (lat && lng) {
-        map.flyTo([lat, lng], 14, { duration: 3 });
-      }
-    }, [lat, lng, map]);
-    return null;
-  };
 
   const getAddress = async (lat, lng) => {
     try {
@@ -69,31 +79,6 @@ const MergedComponent = () => {
 
   const isValidLatLng = (lat, lng) =>
     typeof lat === "number" && typeof lng === "number";
-
-  const storeList = [
-    {
-      properties: {
-        name: "Parking Space 1",
-        address:
-          "Besides Capitol Heights, Medical Chowk, Nagpur, Maharashtra 440024, India",
-        phone: "23 2323 2323",
-      },
-      geometry: {
-        coordinates: [79.09679, 21.14812],
-      },
-    },
-    {
-      properties: {
-        name: "Parking Space 2",
-        address:
-          "Shop No 7, Ground Floor, Chemox House, Hospital Lane, Barrack Rd, New Marine Lines, Mumbai, Maharashtra 400020, India",
-        phone: "23 2323 2323",
-      },
-      geometry: {
-        coordinates: [72.82815459698692, 18.94324557965778],
-      },
-    },
-  ];
 
   const handleInputChange = async (e) => {
     const value = e.target.value;
@@ -204,8 +189,8 @@ const MergedComponent = () => {
               <Marker
                 key={index}
                 position={[
-                  shop.geometry.coordinates[1],
                   shop.geometry.coordinates[0],
+                  shop.geometry.coordinates[1],
                 ]}
                 icon={customIcon}
                 eventHandlers={{
@@ -228,11 +213,10 @@ const MergedComponent = () => {
             )}
             {selectedStore && (
               <FlyToLocation
-                lat={selectedStore.geometry.coordinates[1]}
-                lng={selectedStore.geometry.coordinates[0]}
+                lat={selectedStore.geometry.coordinates[0]}
+                lng={selectedStore.geometry.coordinates[1]}
               />
             )}
-            {/* Fly to the user's current location when they get it */}
             <FlyToLocation lat={lat} lng={lng} />
           </MapContainer>
         </div>
