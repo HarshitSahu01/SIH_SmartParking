@@ -1,4 +1,5 @@
 import React from 'react';
+import Fetcher from '../Components/Fetcher'
 
 const Home = () => {
     return (
@@ -10,8 +11,11 @@ const Home = () => {
                 <p>Find and book parking spots easily with our smart parking system.</p>
             </main>
             <footer>
-                <p>&copy; 2023 Smart Parking. All rights reserved.</p>
+                <p>&copy; 2024 Smart Parking. All rights reserved.</p>
             </footer>
+            hiiiiiii
+            <br />
+            <Fetcher />
         </div>
     );
 };
