@@ -16,6 +16,7 @@ const Home = () => {
             hiiiiiii
             <br />
             <Fetcher />
+    
         </div>
     );
 };
