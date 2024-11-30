@@ -34,10 +34,19 @@ def searchParkings(request):
     return JsonResponse({"parkings": [parking.serialize() for parking in filtered_parkings]})
 
 def getCords(request):
-    cords = []
+    data = []
     for parking in Parkings.objects.all():
-        cords.append({"lat": parking.lat, "long": parking.long})
-    return JsonResponse({'cords': cords})
+        data.append({
+            'properties': {
+                'name': parking.name,
+                'address': parking.address,
+                'phone': parking.contact,
+            },
+            'geometry': {
+                'coordinates': [parking.lat, parking.long],
+            }
+        })
+    return JsonResponse({'data': data})
 
 '''
 
