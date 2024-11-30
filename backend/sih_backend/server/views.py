@@ -8,6 +8,9 @@ from geopy.distance import geodesic
 
 RADIUS = 10000 # in metres
 
+def index(request):
+    return HttpResponse("Hello, world. You're at the polls index.")
+
 # Create your views here.
 @require_POST
 def searchParkings(request):
