@@ -6,9 +6,7 @@ def main():
 
     # Query to list all tables in the public schema of defaultdb
     query_sql = """
-    SELECT table_name 
-    FROM information_schema.tables 
-    WHERE table_schema = 'public';
+    SELECT * from server_parkings;
     """
 
     # Create a cursor object and execute the query
@@ -20,7 +18,7 @@ def main():
 
     # Print the list of tables
     for table in tables:
-        print(table[0])
+        print(table)
 
     # Close the cursor and connection
     cur.close()
