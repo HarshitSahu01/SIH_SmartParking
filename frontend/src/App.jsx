@@ -14,7 +14,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/maps" element={<Map />} />
         <Route path="/drop-pin" element={<DropPin />} />
-        <Route path="/test-swiper" element={<Swiper />} />
+        <Route path="/test" element={<Swiper />} />
 
       </Routes>
     </>
