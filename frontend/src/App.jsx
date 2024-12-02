@@ -5,6 +5,7 @@ import About from './Pages/About'
 import DropPin from './Pages/DropPin'
 import Map from './Pages/Map'
 import Swiper from './Pages/testSwiper'
+import TestingLandingPage from './Pages/TestingLandingPage'
 function App() {
 
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/maps" element={<Map />} />
         <Route path="/drop-pin" element={<DropPin />} />
         <Route path="/test" element={<Swiper />} />
+        <Route path="/testlan" element={<TestingLandingPage />} />
 
       </Routes>
     </>
