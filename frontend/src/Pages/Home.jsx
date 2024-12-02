@@ -16,7 +16,7 @@ const LandingPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#94b9fb] flex flex-col items-center justify-center">
+        <div className="min-h-screen bg-[#B0BEC5] flex flex-col items-center justify-center">
             <header className="w-full flex justify-between items-center px-4 py-3 bg-white bg-opacity-60 relative">
                 <div className="flex items-center">
                     <img
