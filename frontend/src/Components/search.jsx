@@ -5,7 +5,7 @@ const Search = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col w-full p-4 bg-blue-200 shadow-md">
+    <div className="flex flex-col w-full p-4 bg-blue-400 shadow-md">
       {/* Back Button */}
       <div className="flex justify-end">
         <button

@@ -5,7 +5,7 @@ import clock from "../assets/clock.png"
 import price from "../assets/price.png"
 const ParkingBox = () => {
     return (
-        <div className="flex mx-6 mt-4 ">
+        <div className="flex mx-2 mt-4 ">
             <div className="flex flex-col w-full sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-white shadow-md transform transition-transform duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100">
                 <img
                     src="https://img.freepik.com/premium-photo/parking-lot-with-car-parked-it-parking-lot-with-sign-that-says-no-parking_1023064-45887.jpg?semt=ais_hybrid"
