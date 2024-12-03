@@ -6,6 +6,7 @@ import "leaflet/dist/leaflet.css";
 import axios from "axios";
 import marker from "./icons/marker-without-bg.png";
 import userMarker from "./icons/marker-user-removebg.png";
+import LoadingSearch from "./LoadingSearch";
 
 const FlyToLocation = ({ lat, lng }) => {
   const map = useMap();
@@ -34,7 +35,7 @@ const MergedComponent = () => {
   const [selectedStore, setSelectedStore] = useState(null);
   const [storeList, setStoreList] = useState([]);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false); // State for full-screen panel
-
+  const [loading, setloading] = useState(false)
   useEffect(() => {
     fetch("http://localhost:8000/getCords")
       .then((response) => response.json())
@@ -125,14 +126,17 @@ const MergedComponent = () => {
   };
 
   const handleGetCurrentLocation = () => {
+    setloading(true);
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
         setLat(latitude);
         setLng(longitude);
+        setloading(false); 
       },
       (error) => {
         console.error("Error getting location:", error);
+        setloading(false); 
       }
     );
   };
@@ -142,6 +146,12 @@ const MergedComponent = () => {
   <main className="relative">
     <div className="h-screen w-screen">
       {/* Map */}
+      {loading && (
+      <div className="flex justify-center items-center mt-4">
+        <LoadingSearch/>
+      </div>
+      )}
+    {!loading && (
       <MapContainer
         center={[lat, lng]}
         zoom={13}
@@ -188,6 +198,7 @@ const MergedComponent = () => {
           />
         )}
       </MapContainer>
+       )}
     </div>
 
     {/* Location Confirmation Panel */}
@@ -205,7 +216,7 @@ const MergedComponent = () => {
           className="bg-white text-black px-4 py-2 rounded-lg border drop-shadow-lg border-gray-700 hover:bg-gray-100 flex justify-between items-center gap-2 w-full sm:w-96 h-[6vh] text-lg sm:text-xl font-semibold"
           onClick={handleGetCurrentLocation}
         >
-          <h1 className="text-lg sm:text-2xl ml-4 sm:ml-12">Use current location</h1>
+          <h1 className="text-lg sm:text-2xl ml-4 sm:ml-12">{loading ? "Getting Location..." : "Use Your Current Loaction"}</h1>
           <svg
             width="32"
             height="32"
@@ -263,14 +274,15 @@ const MergedComponent = () => {
           ))}
         </ul>
         <button
-          onClick={() => {
-            console.log("Location confirmed:", lat, lng);
-            setIsSearchExpanded(false);
-          }}
-          className="bg-black text-white px-4 py-2 rounded-3xl text-lg sm:text-2xl font-bold shadow-md hover:bg-gray-700 drop-shadow-2xl w-full sm:w-64 h-12 sm:h-16"
-        >
-          Confirm Location
-        </button>
+  onClick={() => {
+    console.log("Location confirmed:", lat, lng);
+    navigate("/parkings-maps", { state: { lat, lng } });
+  }}
+  className="bg-black text-white px-4 py-2 rounded-3xl text-lg sm:text-2xl font-bold shadow-md hover:bg-gray-700 drop-shadow-2xl w-full sm:w-64 h-12 sm:h-16"
+>
+  Confirm Location
+</button>
+
       </div>
     </div>
   </main>
