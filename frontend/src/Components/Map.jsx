@@ -7,7 +7,8 @@ import axios from "axios";
 import marker from "./icons/marker-without-bg.png";
 import userMarker from "./icons/marker-user-removebg.png";
 import LoadingSearch from "./LoadingSearch";
-
+import dropin from "../assets/droppin.gif"
+import searchicon from "../assets/searchicon.gif"
 const FlyToLocation = ({ lat, lng }) => {
   const map = useMap();
   useEffect(() => {
@@ -36,14 +37,14 @@ const MergedComponent = () => {
   const [storeList, setStoreList] = useState([]);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false); // State for full-screen panel
   const [loading, setloading] = useState(false)
-  useEffect(() => {
-    fetch("http://localhost:8000/getCords")
-      .then((response) => response.json())
-      .then((data) => {
-        setStoreList(data.data);
-        console.log(data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://localhost:8000/getCords")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setStoreList(data.data);
+  //       console.log(data);
+  //     });
+  // }, []);
 
   const apiKey = "NVo2x7Bp_UDXwLmUwpWxzVm83NuM5uulbAXNsbtBgVE";
 
@@ -144,6 +145,7 @@ const MergedComponent = () => {
   return (
     <div className="merged-component">
   <main className="relative">
+
     <div className="h-screen w-screen">
       {/* Map */}
       {loading && (
@@ -162,7 +164,7 @@ const MergedComponent = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
         />
         {/* Render Stores */}
-        {storeList.map((shop, index) => (
+        {/* {storeList.map((shop, index) => (
           <Marker
             key={index}
             position={[
@@ -182,7 +184,7 @@ const MergedComponent = () => {
               {shop.properties.phone}
             </Popup>
           </Marker>
-        ))}
+        ))} */}
         {/* User Marker */}
         {isValidLatLng(lat, lng) && (
           <Marker position={[lat, lng]} icon={customIconUser}>
@@ -228,16 +230,16 @@ const MergedComponent = () => {
             <path
               d="M24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44Z"
               stroke="#1E1E1E"
-              stroke-width="4"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
               d="M32.48 15.52L28.24 28.24L15.52 32.48L19.76 19.76L32.48 15.52Z"
               stroke="#1E1E1E"
-              stroke-width="4"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </button>
@@ -249,16 +251,10 @@ const MergedComponent = () => {
             value={query}
             onChange={handleInputChange}
             onFocus={() => setIsSearchExpanded(true)} // Expand panel on focus
-            className="text-black bg-white text-base sm:text-xl px-2 py-1 rounded-lg border border-gray-700 w-full h-10 sm:h-15 focus:outline-none drop-shadow-2xl"
+            className="text-black bg-white text-base sm:text-xl px-2 py-1 h-12 rounded-lg border border-gray-700 w-full md:h-16 focus:outline-none drop-shadow-2xl flex justify-center items-center"
           />
-          <div className="srchbutn rounded-lg border border-gray-700 bg-white h-10 sm:h-14 flex items-center">
-            <lord-icon
-              src="https://cdn.lordicon.com/wjyqkiew.json"
-              trigger="hover"
-              stroke="bold"
-              colors="primary:#121331,secondary:#00000"
-              style={{ height: "25px", width: "40px", sm: { height: "45px", width: "45px" } }}
-            ></lord-icon>
+          <div className="srchbutn rounded-lg  h-12 sm:h-14 flex items-center">
+<img src={searchicon} alt="Search" />
           </div>
         </div>
 
@@ -273,6 +269,20 @@ const MergedComponent = () => {
             </li>
           ))}
         </ul>
+        <div className="droppin flex felx-col justify-center items-center">
+
+        <p>
+          or Drop a Pin 
+        </p>
+        <button onClick={()=>{
+          navigate("/drop-pin");
+        }}>
+
+
+<img src={dropin} alt="Click here" className="w-8" />
+
+        </button>
+        </div>
         <button
   onClick={() => {
     console.log("Location confirmed:", lat, lng);

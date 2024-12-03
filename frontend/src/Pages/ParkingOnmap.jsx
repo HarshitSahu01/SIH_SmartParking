@@ -27,21 +27,38 @@ const ParkingOnmap = () => {
     lat: 20.5937, // Default latitude (India)
     lng: 78.9629, // Default longitude (India)
   };
-  const [lat, setLat] = useState(initialLat); // Use initialLat as default
-  const [lng, setLng] = useState(initialLng); // Use initialLng as default
+  const [lat, setLat] = useState(initialLat);
+  const [lng, setLng] = useState(initialLng);
+  const [address, setAddress] = useState(""); // Store user's address
   const [selectedStore, setSelectedStore] = useState(null);
   const [storeList, setStoreList] = useState([]);
-  const [isSearchExpanded, setIsSearchExpanded] = useState(false); // State for full-screen panel
-  const panelRef = useRef(null); // Reference for the panel container
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const panelRef = useRef(null);
 
   useEffect(() => {
-    fetch("http://localhost:8000/getCords")
-      .then((response) => response.json())
-      .then((data) => {
-        setStoreList(data.data);
-        console.log(data);
-      });
+    axios
+      .get("http://localhost:8000/getCords")
+      .then((response) => {
+        setStoreList(response.data.data);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
   }, []);
+
+  useEffect(() => {
+    fetchAddress(lat, lng);
+  }, [lat, lng]);
+  
+
+  const fetchAddress = async (latitude, longitude) => {
+    try {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+      );
+      setAddress(response.data.display_name);
+    } catch (error) {
+      console.error("Error fetching address:", error);
+    }
+  };
 
   const customIcon = new L.Icon({
     iconUrl: marker,
@@ -53,9 +70,6 @@ const ParkingOnmap = () => {
     iconSize: [30, 40],
   });
 
-  const isValidLatLng = (lat, lng) =>
-    typeof lat === "number" && typeof lng === "number";
-
   const toggleSearchPanel = () => {
     if (panelRef.current) {
       panelRef.current.scrollIntoView({
@@ -63,14 +77,19 @@ const ParkingOnmap = () => {
         block: "start",
       });
     }
-    setIsSearchExpanded((prev) => !prev); // Toggle the expanded state
+    setIsSearchExpanded((prev) => !prev);
   };
 
   return (
     <div className="merged-component">
       <main className="relative">
+        <div
+          className="map-head flex justify-center items-center h-20 rounded-b-3xl bg-[#93B5F7]/90 absolute top-0 left-0 right-0"
+          style={{ zIndex: 1100 }}
+        >
+          <h1 className="text-2xl font-bold">Parkings Available Near You!</h1>
+        </div>
         <div className="h-[100vh] w-[100vw]">
-          {/* Map */}
           <MapContainer
             center={[lat, lng]}
             zoom={13}
@@ -78,7 +97,7 @@ const ParkingOnmap = () => {
           >
             <TileLayer
               url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-              attribution=''
+              attribution=""
             />
             {storeList.map((shop, index) => (
               <Marker
@@ -97,58 +116,53 @@ const ParkingOnmap = () => {
                 </Popup>
               </Marker>
             ))}
-            {isValidLatLng(lat, lng) && (
-              <Marker position={[lat, lng]} icon={customIconUser}>
-                <Popup>Your Location</Popup>
-              </Marker>
-            )}
+            <Marker position={[lat, lng]} icon={customIconUser}>
+              <Popup>Your Location</Popup>
+            </Marker>
             <FlyToLocation lat={lat} lng={lng} />
-            {selectedStore && (
-              <FlyToLocation
-                lat={selectedStore.geometry.coordinates[0]}
-                lng={selectedStore.geometry.coordinates[1]}
-              />
-            )}
           </MapContainer>
         </div>
         <div
-  ref={panelRef}
-  className={`absolute bottom-0 left-0 right-0 ${
-    isSearchExpanded ? "top-0 h-full" : "min-h-[5vh] rounded-t-3xl"
-  } bg-[#93B5F7]/90 p-4 shadow-lg flex flex-col items-center justify-center gap-2 transition-all duration-1000`}
-  style={{ zIndex: 1000 }}
->
-  <div className="flex gap-2">
-    
-  <p
-    className={`text-black font-bold ${
-      isSearchExpanded ? "text-xl" : "text-3xl"
-    }`}
-  >
-    {isSearchExpanded ? "View on Map" : "View All"}
-  </p>
-  <button onClick={toggleSearchPanel}>
-        <img
-          src={down}
-          alt=""
-          className={`transition-transform duration-500 ${
-            isSearchExpanded ? "w-8 h-8 rotate-0" : "w-12 h-12 rotate-180"
-          }`}
-          />
-      </button>
-  </div>
-
-  <div className="flex flex-col items-center gap-4">
-    <div className="flex flex-col items-center bg-[#93B5F7] px-4 py-2 rounded-lg gap-1">
+          ref={panelRef}
+          className={`absolute bottom-0 left-0 right-0 ${
+            isSearchExpanded ? "top-0 h-full" : "min-h-[5vh] rounded-t-3xl"
+          } bg-[#93B5F7]/90 p-4 shadow-lg flex flex-col items-center justify-center gap-2 transition-all duration-1000`}
+          style={{ zIndex: 1200 }}
+        >
+          <div className="flex gap-2">
+            <p
+              className={`text-black font-bold ${
+                isSearchExpanded ? "text-xl" : "text-3xl"
+              }`}
+            >
+              {isSearchExpanded ? "View on Map" : "View All"}
+            </p>
+            <button onClick={toggleSearchPanel}>
+              <img
+                src={down}
+                alt=""
+                className={`transition-transform duration-500 ${
+                  isSearchExpanded ? "w-8 h-8 rotate-0" : "w-12 h-12 rotate-180"
+                }`}
+              />
+            </button>
+          </div>
+          <p className="text-md font-medium">
+            Your Location : <span className="font-semibold">{address}</span>
+          </p>
           {isSearchExpanded && (
             <div className="main-panel z-[2000]">
               <ParkingBox />
             </div>
           )}
-    </div>
-  </div>
-</div>
-
+          <div className="changeLoc flex justify-end items-end">
+              <button onClick={()=>{
+                navigate("/maps");
+              }}>
+                Change Location.
+              </button>
+          </div>
+        </div>
       </main>
     </div>
   );
