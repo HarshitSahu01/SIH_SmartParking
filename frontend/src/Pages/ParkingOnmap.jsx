@@ -4,8 +4,8 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import axios from "axios";
-import marker from "../components/icons/marker-without-bg.png";
-import userMarker from "../components/icons/marker-user-removebg.png";
+import marker from "../Components/icons/marker-without-bg.png";
+import userMarker from "../Components/icons/marker-user-removebg.png";
 import down from "../assets/down.png";
 import ParkingBox from "../Components/ParkingBox";
 import SearchComp from "../Pages/Search";
@@ -123,7 +123,7 @@ const ParkingOnmap = () => {
       <div
         ref={panelRef}
         className={`absolute bottom-0 left-0 right-0 ${
-          isSearchExpanded ? "top-0 pt-36 min-h-screen bg-white " : "min-h-[5vh] rounded-t-3xl bg-[#003060]"
+          isSearchExpanded ? "top-0 pt-24 min-h-screen bg-white " : "min-h-[5vh] rounded-t-3xl bg-[#003060]"
         }  text-white py-4 shadow-lg flex flex-col items-center justify-center gap-2 transition-all duration-1000 overflow-scroll`}
         style={{zIndex:"2000"}}
       >

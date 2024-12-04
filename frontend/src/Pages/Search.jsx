@@ -10,7 +10,7 @@ const Search = () => {
       <div className="p-4 space-y-6 bg-transparent">
         <div>
           <h2 className="text-xl font-semibold text-gray-800 mb-3">
-            Nearby Parkings
+          <h1 className="text-2xl font-bold">Parkings Available Near You!</h1>
           </h2>
           <ParkingBox
             name="Abdul Parking Boom"
