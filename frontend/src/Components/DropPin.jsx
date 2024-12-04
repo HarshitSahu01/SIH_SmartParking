@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom"; // Import for navigation
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-
+import pin from "../assets/dropPin.png"
 // Custom Marker Icon
 const customIcon = new L.Icon({
-  iconUrl: "https://leafletjs.com/examples/custom-icons/leaf-red.png", // URL to marker icon
-  iconSize: [25, 41], // Size of the icon
+  iconUrl:pin, // URL to marker icon
+  iconSize: [40, 41], // Size of the icon
   iconAnchor: [12, 41], // Point of the icon which will correspond to marker's location
 });
 
@@ -32,36 +32,31 @@ const Pin = () => {
   // Handle confirm button click
   const handleConfirmLocation = () => {
     if (pin) {
-      navigate("/maps", { state: { lat: pin.lat, lng: pin.lng } }); // Navigate with state
+      navigate("/parkings-maps", { state: { lat: pin.lat, lng: pin.lng } }); // Navigate with state
     } else {
       alert("Please drop a pin to select your location first!");
     }
   };
 
   return (
-    <>
-      <h1>
-        {pin
+    <div className="relative">
+      <div className="panel flex flex-col justify-center items-center absolute bottom-0 left-0 right-0 bg-blue-300/80 rounded-t-2xl z-[2000] h-36 gap-4">
+      <h1 className="text-xl font-semibold">
+        {/* {pin
           ? `Dropped Pin Coordinates: Latitude ${pin.lat.toFixed(
               4
             )}, Longitude ${pin.lng.toFixed(4)}`
-          : "Click on the map to drop a pin"}
+          : ""} */}
+      Tap on the map to drop a pin
+
       </h1>
       <button
         onClick={handleConfirmLocation}
-        style={{
-          margin: "10px",
-          padding: "10px 20px",
-          fontSize: "16px",
-          backgroundColor: "blue",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
+        className="py-3 px-5 bg-black/80 text-white drop-shadow-2xl  rounded-3xl"
       >
         Confirm My Location
       </button>
+      </div>
       <MapContainer
         center={[20.5937, 78.9629]} // Default center (India)
         zoom={5}
@@ -70,7 +65,7 @@ const Pin = () => {
         {/* Tile Layer from OpenStreetMap */}
         <TileLayer
               url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+              attribution=''
             />
 
         {/* Add click handler to the map */}
@@ -84,7 +79,7 @@ const Pin = () => {
           />
         )}
       </MapContainer>
-    </>
+    </div>
   );
 };
 

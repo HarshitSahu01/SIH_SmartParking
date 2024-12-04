@@ -3,12 +3,13 @@ import pandas as pd
 import numpy as np
 from ultralytics import YOLO
 import ast
+import pickle
 
 # Load the YOLO model once
 model = YOLO('yolov8s.pt')
 
 
-def detect_parking_spots_from_image(image_path, spots_file, class_file='coco.txt'):
+def detect_parking_spots_from_image(image_path, spots_binary, class_file='coco.txt'):
     """
     Detects empty parking spots from an image and displays the result.
 
@@ -24,9 +25,11 @@ def detect_parking_spots_from_image(image_path, spots_file, class_file='coco.txt
     with open(class_file, "r") as file:
         class_list = file.read().split("\n")
 
-    # Load parking areas
-    with open(spots_file, "r") as file:
-        parking_areas = ast.literal_eval(file.read())
+    # # Load parking areas
+    # with open(spots_file, "r") as file:
+    #     parking_areas = ast.literal_eval(file.read())
+    
+    parking_areas = pickle.loads(spots_binary)
 
     # Read and resize the input image
     image = cv2.imread(image_path)
@@ -84,7 +87,8 @@ def detect_parking_spots_from_image(image_path, spots_file, class_file='coco.txt
 # Example usage
 if __name__ == "__main__":
     image_path = 'ParkingLot.jpg'  # Input image file
-    spots_file = 'sample.txt'  # Parking areas file
+    points = [[[328, 496], [430, 488], [465, 537], [352, 547]], [[432, 488], [529, 475], [571, 536], [464, 544]], [[528, 483], [617, 481], [678, 526], [577, 537]], [[620, 488], [729, 465], [782, 510], [686, 534]], [[123, 505], [232, 505], [236, 558], [120, 555]], [[230, 468], [233, 504], [131, 502], [142, 465]], [[235, 496], [331, 489], [348, 534], [241, 560]], [[324, 456], [400, 440], [419, 473], [334, 488]], [[568, 448], [611, 478], [537, 484], [488, 446]], [[625, 478], [718, 454], [662, 411], [579, 438]], [[955, 462], [1067, 433], [1115, 473], [1059, 494]]]
+    spots_file = pickle.dumps(points)
 
     try:
         empty_spots = detect_parking_spots_from_image(image_path, spots_file)
