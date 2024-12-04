@@ -4,10 +4,10 @@ import ParkingBox from "../Components/ParkingBox";
 
 const Search = () => {
   return (
-    <div className="bg-[#B2C9FF] min-h-screen">
-      <SearchHeader />
+    <div className="bg-transparent">
+      {/* <SearchHeader /> */}
 
-      <div className="p-4 space-y-6 bg-gray-100">
+      <div className="p-4 space-y-6 bg-transparent">
         <div>
           <h2 className="text-xl font-semibold text-gray-800 mb-3">
             Nearby Parkings
