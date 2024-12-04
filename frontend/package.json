@@ -17,6 +17,7 @@
     "react-leaflet": "^4.2.1",
     "react-router-dom": "^7.0.1",
     "react-swiper": "^0.1.5",
+    "react-toastify": "^10.0.6",
     "swiper": "^11.1.15",
     "tailwindcss-motion": "^0.4.3-beta"
   },
