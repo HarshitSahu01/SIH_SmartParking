@@ -82,9 +82,9 @@ const ParkingOnmap = () => {
   return (
     <div className="merged-component">
     <main className="relative">
-      <div
-        className="map-head flex justify-center items-center h-20 rounded-b-3xl bg-[#003060] text-white absolute top-0 left-0 right-0 z-[1000]"
-      >
+    <div className="map-head flex justify-center items-center h-20 rounded-b-3xl text-white absolute top-0 left-0 right-0 z-[1000] bg-custom-gradient">
+
+
         <h1 className="text-2xl font-bold">Parkings Available Near You!</h1>
       </div>
       <div className="h-[100vh] w-[100vw]">
@@ -123,11 +123,11 @@ const ParkingOnmap = () => {
       <div
         ref={panelRef}
         className={`absolute bottom-0 left-0 right-0 ${
-          isSearchExpanded ? "top-0 pt-24 min-h-screen bg-white " : "min-h-[5vh] rounded-t-3xl bg-[#003060]"
+          isSearchExpanded ? "top-0 pt-24 min-h-screen bg-custom-gradient " : "min-h-[5vh] rounded-t-3xl bg-custom-gradient"
         }  text-white py-4 shadow-lg flex flex-col items-center justify-center gap-2 transition-all duration-1000 overflow-scroll`}
         style={{zIndex:"2000"}}
       >
-        <div className={`panel-head bg-[#003060] flex flex-col justify-center items-center gap-2 ${isSearchExpanded?"rounded-b-3xl drop-shadow-2xl":""} p-4`}>
+        <div className={`panel-head bg-custom-gradient flex flex-col justify-center items-center gap-2 ${isSearchExpanded?"rounded-b-3xl drop-shadow-2xl":""} p-4`}>
         <div className="flex gap-3">
           <p
             className={` font-bold ${

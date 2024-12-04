@@ -40,7 +40,7 @@ const Pin = () => {
 
   return (
     <div className="relative">
-      <div className="panel flex flex-col justify-center items-center absolute bottom-0 left-0 right-0 bg-blue-300/80 rounded-t-2xl z-[2000] h-36 gap-4">
+      <div className="panel flex flex-col justify-center items-center absolute bottom-0 left-0 right-0 bg-custom-gradient rounded-t-2xl z-[2000] h-36 gap-4">
       <h1 className="text-xl font-semibold">
         {/* {pin
           ? `Dropped Pin Coordinates: Latitude ${pin.lat.toFixed(

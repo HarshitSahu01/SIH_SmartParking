@@ -207,8 +207,8 @@ const MergedComponent = () => {
     <div
       className={`absolute bottom-0 left-0 right-0 transition-all duration-300 ${
         isSearchExpanded
-          ? "top-0 h-full bg-[#93B5F7]"
-          : "min-h-[28vh] rounded-t-3xl bg-[#93B5F7]"
+          ? "top-0 h-full bg-custom-gradient"
+          : "min-h-[28vh] rounded-t-3xl bg-custom-gradient"
       } p-4 shadow-lg flex flex-col items-center gap-4 transition-all duration-300`}
       style={{ zIndex: 1000 }}
     >
@@ -218,7 +218,7 @@ const MergedComponent = () => {
           className="bg-white text-black px-4 py-2 rounded-lg border drop-shadow-lg border-gray-700 hover:bg-gray-100 flex justify-between items-center gap-2 w-full sm:w-96 h-[6vh] text-lg sm:text-xl font-semibold"
           onClick={handleGetCurrentLocation}
         >
-          <h1 className="text-lg sm:text-2xl ml-4 sm:ml-12">{loading ? "Getting Location..." : "Use Your Current Loaction"}</h1>
+          <h1 className="text-lg sm:text-2xl ml-4 sm:ml-12">{loading ? "Getting Location..." : "Use Your Current Location"}</h1>
           <svg
             width="32"
             height="32"
@@ -244,19 +244,22 @@ const MergedComponent = () => {
           </svg>
         </button>
 
-        <div className="flex items-center w-full sm:w-96 bg-[#93B5F7] px-4 py-2 rounded-lg gap-1">
-          <input
-            type="text"
-            placeholder="Enter location"
-            value={query}
-            onChange={handleInputChange}
-            onFocus={() => setIsSearchExpanded(true)} // Expand panel on focus
-            className="text-black bg-white text-base sm:text-xl px-2 py-1 h-12 rounded-lg border border-gray-700 w-full md:h-16 focus:outline-none drop-shadow-2xl flex justify-center items-center"
-          />
-          <div className="srchbutn rounded-lg  h-12 sm:h-14 flex items-center">
-<img src={searchicon} alt="Search" />
-          </div>
-        </div>
+ <div className="flex items-center w-full sm:w-96">
+  <input
+    type="text"
+    placeholder="Enter location"
+    value={query}
+    onChange={handleInputChange}
+    onFocus={() => setIsSearchExpanded(true)}
+    className="text-black bg-white text-base sm:text-xl px-4 h-12 sm:h-14 rounded-l-lg border border-gray-700 focus:outline-none drop-shadow-lg flex-grow"
+  />
+  <div className="srchbutn bg-white h-12 sm:h-14 flex items-center justify-center rounded-r-lg drop-shadow-lg px-2">
+    <img src={searchicon} alt="Search" className="w-8 sm:w-10" />
+  </div>
+</div>
+
+
+
 
         <ul className="flex flex-col justify-center items-start w-full sm:w-96 gap-1 drop-shadow-lg">
           {suggestions.map((suggestion, index) => (
@@ -269,20 +272,21 @@ const MergedComponent = () => {
             </li>
           ))}
         </ul>
-        <div className="droppin flex felx-col justify-center items-center">
+        <div className="flex flex-col items-center w-full sm:w-96 gap-4">
+  <button
+    className="bg-white text-black px-4 py-2 rounded-lg border drop-shadow-lg border-gray-700 hover:bg-gray-100 flex justify-between items-center gap-2 w-full h-12 sm:h-14 text-lg sm:text-xl font-semibold"
+    onClick={() => {
+      navigate("/drop-pin");
+    }}
+  >
+    <h1 className="text-lg sm:text-xl">Set location on map</h1>
+    <img src={dropin} alt="Drop a Pin" className="w-8 sm:w-10" />
+  </button>
+</div>
 
-        <p>
-          or Drop a Pin 
-        </p>
-        <button onClick={()=>{
-          navigate("/drop-pin");
-        }}>
 
 
-<img src={dropin} alt="Click here" className="w-8" />
 
-        </button>
-        </div>
         <button
   onClick={() => {
     console.log("Location confirmed:", lat, lng);
