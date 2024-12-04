@@ -7,6 +7,10 @@ from django.http import HttpResponse
 from server.models import *
 from geopy.distance import geodesic
 
+print('Loading model')
+from model.imageProcess import detect_parking_spots_from_image
+print('Model loaded')
+
 RADIUS = 2000 # in metres
 
 def index(request):
@@ -50,6 +54,20 @@ def getCords(request):
             }
         })
     return JsonResponse({'data': data})
+
+
+def testView(request):
+    
+    image_path = 'model/image.png'  # Input image file
+    car_spots_file = 'model/cars.txt'  # Car parking areas file
+    bike_spots_file = 'model/image.txt'  # Motorcycle parking areas file
+
+    try:
+        empty_cars, empty_bikes = detect_parking_spots_from_image(image_path, car_spots_file, bike_spots_file, 'model/coco.txt')
+        print(f"Free car spots: {empty_cars}, Free bike spots: {empty_bikes}")
+    except ValueError as e:
+        print(f"Error: {e}")
+    return JsonResponse({'message': 'Hello World!','data':empty_cars})
 
 '''
 
