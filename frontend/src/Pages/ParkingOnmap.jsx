@@ -123,7 +123,7 @@ const ParkingOnmap = () => {
       <div
         ref={panelRef}
         className={`absolute bottom-0 left-0 right-0 ${
-          isSearchExpanded ? "top-0 pt-36 min-h-screen bg-white " : "min-h-[5vh] rounded-t-3xl bg-[#003060]"
+          isSearchExpanded ? "top-0 pt-28 min-h-screen bg-white " : "min-h-[5vh] rounded-t-3xl bg-[#003060]"
         }  text-white py-4 shadow-lg flex flex-col items-center justify-center gap-2 transition-all duration-1000 overflow-scroll`}
         style={{zIndex:"2000"}}
       >
