@@ -23,7 +23,7 @@ function App() {
         <Route path="/parking-card" element={<ParkingBox />} />
         <Route path="/search" element={<Search />} />
         <Route path="/parkings-maps" element={<ParkingOnMap />} />
-
+    
       </Routes>
     </>
   )

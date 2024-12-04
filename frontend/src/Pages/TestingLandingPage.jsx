@@ -1,104 +1,94 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import car from "../assets/CarTest.gif";
+import React, { useRef, useEffect } from "react";
 import logo from "../assets/parking_logo.svg";
-import arr from "../assets/getStartedArr.gif";
-import test from "../assets/test.svg";
+import BoxConfirmCanvas from "../Components/BoxConfirmCanvas";
+import imageSrc from '../assets/sampleParking.png';
 
-const LandingPage = () => {
-  const navigate = useNavigate();
-  const [menuOpen, setMenuOpen] = useState(false);
+const ParkingSpaceForm = () => {
+    const canvasRef = useRef(null);
+    // const imageSrc = 'your-image-path.jpg'; // Replace with the actual image path
 
-  return (
-    <div className="lan-main min-h-screen bg-[#fff] flex flex-col items-center">
-  {/* Header */}
-  <header className="w-full rounded-b-2xl flex justify-between items-center px-4 py-3 bg-blue-400/60 relative">
-    <div className="flex items-center">
-      <img src={logo} alt="Logo" className="w-16 h-10 md:w-20 sm:h-12 rounded-full" />
-      <span className="ml-2 text-lg sm:text-2xl font-bold text-gray-800 tracking-tighter">
-        ParkSmart
-      </span>
-    </div>
-    <div
-      className="cursor-pointer"
-      onClick={() => setMenuOpen((prev) => !prev)}
-    >
-      <svg
-        fill="none"
-        viewBox="0 0 50 50"
-        height="28"
-        width="28"
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-12 h-12 md:w-16 md:-16"
-      >
-        <path
-          className="lineTop line"
-          strokeLinecap="round"
-          strokeWidth="4"
-          stroke="black"
-          d="M6 11L44 11"
-        ></path>
-        <path
-          strokeLinecap="round"
-          strokeWidth="4"
-          stroke="black"
-          d="M6 24H43"
-          className="lineMid line"
-        ></path>
-        <path
-          strokeLinecap="round"
-          strokeWidth="4"
-          stroke="black"
-          d="M6 37H43"
-          className="lineBottom line"
-        ></path>
-      </svg>
-    </div>
-    {menuOpen && (
-      <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg w-32 sm:w-40">
-        <ul className="text-gray-800">
-          <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-            Admin Controls
-          </li>
-        </ul>
-      </div>
-    )}
-  </header>
+    // Quadrilaterals: [[x1, y1, x2, y2, x3, y3, x4, y4], ...]
+    const quadrilaterals = [
+        [50, 50, 150, 50, 150, 200, 50, 200],  // Quadrilateral 1
+        [200, 100, 320, 100, 300, 180, 180, 180], // Quadrilateral 2
+        [400, 300, 550, 300, 520, 400, 380, 400] // Quadrilateral 3
+    ];
 
-  {/* Main Content */}
-  <main className="flex flex-col items-center gap-3 mx-auto h-[89vh] md:h-[93vh] text-center">
-    <div className="motion-preset-slide-right motion-opacity-in-[50%] motion-blur-in-[2px] motion-duration-[1.13s]/opacity motion-delay-[0.75s]/blur">
-      <img src={test} alt="Illustration" className="w-[75vw] md:w-[60vw]" />
-    </div>
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        const image = new Image();
 
-    <img
-      src={car}
-      alt="Car animation"
-      className="motion-opacity-in-[50%] motion-duration-[1.13s]/opacity motion-delay-[0.75s]/blur rounded-full w-[80vw] sm:w-[60vw] motion-preset-shake"
-    />
-    <p className="mt-3 mx-auto motion-preset-slide-right motion-delay-1000  text-xl md:text-2xl font-bold">
-      Discover nearby parkings, save time, and park smartly.
-    </p>
-    <div className="get-started mt-3 flex justify-center items-center gap-5 pb-4">
-      <button className="w-56 h-16 motion-opacity-in-[50%] motion-blur-in-[2px] motion-duration-[1.13s]/opacity motion-delay-[0.75s]/blur motion-preset-expand drop-shadow-lg text-lg sm:text-xl font-semibold px-4 sm:px-5 py-2 border-2 border-blue-950 rounded-full relative text-black transition-all overflow-hidden bg-blue-200/75 shadow-sm shadow-white hover:text-white group">
-        <a
-          href="#getstarted"
-          className="pl-2 flex gap relative z-10 text-xl font-bold no-underline transition-colors"
-        >
-          Get Started <img className="opacity-70 w-14 md:w-16" src={arr} alt="Arrow" />
-        </a>
-        <span className="absolute inset-0 bg-black transform translate-y-full group-hover:translate-y-0 rounded-full transition-all"></span>
-      </button>
-    </div>
-  </main>
+        image.src = imageSrc;
 
-  {/* Footer */}
-  <footer className="w-full rounded-t-2xl sticky bottom-0 text-center py-2  bg-blue-300/75 text-gray-700 text-xs sm:text-sm">
-    © 2024 ParkSmart ~ All rights reserved
-  </footer>
-</div>
+        image.onload = () => {
+            // Set canvas size to match the image
+            canvas.width = image.width;
+            canvas.height = image.height;
 
-  );
+            // Draw the image
+            ctx.drawImage(image, 0, 0);
+
+            // Draw quadrilaterals and number them
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 2;
+            ctx.font = '16px Arial';
+            ctx.fillStyle = 'blue';
+
+            quadrilaterals.forEach((quad, index) => {
+                ctx.beginPath();
+                ctx.moveTo(quad[0], quad[1]);
+                for (let i = 2; i < quad.length; i += 2) {
+                    ctx.lineTo(quad[i], quad[i + 1]);
+                }
+                ctx.closePath();
+                ctx.stroke();
+
+                // Add number at the first vertex
+                ctx.fillText(`Q${index + 1}`, quad[0] + 5, quad[1] - 5);
+            });
+        };
+
+        // Point-in-polygon check using ray-casting algorithm
+        const isPointInPolygon = (x, y, polygon) => {
+            let inside = false;
+            for (let i = 0, j = polygon.length / 2 - 1; i < polygon.length / 2; j = i++) {
+                const xi = polygon[i * 2], yi = polygon[i * 2 + 1];
+                const xj = polygon[j * 2], yj = polygon[j * 2 + 1];
+
+                const intersect = ((yi > y) !== (yj > y)) &&
+                                  (x < ((xj - xi) * (y - yi)) / (yj - yi) + xi);
+                if (intersect) inside = !inside;
+            }
+            return inside;
+        };
+
+        // Handle clicks on the canvas
+        const handleClick = (event) => {
+            const rect = canvas.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const clickY = event.clientY - rect.top;
+
+            quadrilaterals.forEach((quad, index) => {
+                if (isPointInPolygon(clickX, clickY, quad)) {
+                    alert(`You clicked on Quadrilateral ${index + 1}`);
+                }
+            });
+        };
+
+        canvas.addEventListener('click', handleClick);
+
+        // Cleanup event listener on component unmount
+        return () => {
+            canvas.removeEventListener('click', handleClick);
+        };
+    }, [imageSrc, quadrilaterals]);
+
+    return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f5f5f5' }}>
+            <canvas ref={canvasRef}></canvas>
+        </div>
+    );
 };
 
-export default LandingPage;
+export default ParkingSpaceForm;
