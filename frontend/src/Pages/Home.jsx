@@ -12,7 +12,7 @@ const LandingPage = () => {
   return (
     <div className="lan-main min-h-screen flex flex-col bg-[#fff]">
       {/* Header */}
-      <header className="w-full rounded-b-2xl flex justify-between items-center px-4 py-3 bg-[#003060]">
+      <header className="w-full rounded-b-2xl flex justify-between items-center px-4 py-3 bg-custom-gradient">
         <div className="flex items-center">
           <img src={logo} alt="Logo" className="w-12 h-8 md:w-16 md:h-10 rounded-full" />
           <span className="ml-2 text-lg sm:text-2xl font-bold text-white tracking-tighter">
@@ -79,7 +79,7 @@ const LandingPage = () => {
         <div className="get-started mt-3 flex justify-center items-center gap-5 pb-4">
           <button
             onClick={() => navigate("/maps")}
-            className="w-48 h-12 drop-shadow-lg text-lg sm:text-xl font-semibold px-4 sm:px-5 py-2 border-2 rounded-full relative text-white transition-all overflow-hidden bg-[#003060] shadow-sm shadow-white hover:bg-[#68BBE3] hover:shadow-[0_4px_20px_#68BBE3] hover:text-white group"
+            className="w-48 h-12 drop-shadow-lg text-lg sm:text-xl font-semibold px-4 sm:px-5 py-2 border-2 rounded-full relative text-white transition-all overflow-hidden bg-custom-gradient shadow-sm shadow-white hover:bg-[#68BBE3] hover:shadow-[0_4px_20px_#68BBE3] hover:text-white group"
           >
             <span
               className="pl-2 flex items-center gap-2 relative z-10 text-lg font-bold no-underline transition-colors"
@@ -93,7 +93,7 @@ const LandingPage = () => {
       </main>
 
       {/* Footer */}
-      <footer className="w-full rounded-t-2xl text-center py-2 bg-[#003060] text-white text-xs sm:text-sm">
+      <footer className="w-full rounded-t-2xl text-center py-2 bg-custom-gradient text-white text-xs sm:text-sm">
         © 2024 ParkSmart ~ All rights reserved
       </footer>
     </div>

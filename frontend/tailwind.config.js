@@ -5,7 +5,13 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'custom-gradient': "linear-gradient(163deg, rgba(203,140,197,1) 1%, rgba(97,89,183,1) 57%)",
+      },
+    },
   },
-  plugins: [require('tailwindcss-motion')], 
+  plugins: [
+    require('tailwindcss-motion'),
+  ], 
 }
