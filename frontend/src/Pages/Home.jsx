@@ -12,10 +12,10 @@ const LandingPage = () => {
   return (
     <div className="lan-main min-h-screen flex flex-col bg-[#fff]">
       {/* Header */}
-      <header className="w-full rounded-b-2xl flex justify-between items-center px-4 py-3 bg-custom-gradient">
+      <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3 bg-custom-gradient">
         <div className="flex items-center">
           <img src={logo} alt="Logo" className="w-12 h-8 md:w-16 md:h-10 rounded-full" />
-          <span className="ml-2 text-lg sm:text-2xl font-bold text-white tracking-tighter">
+          <span className="ml-2 text-2xl sm:text-2xl font-semibold text-white tracking-tighter">
             ParkSmart
           </span>
         </div>
@@ -79,10 +79,10 @@ const LandingPage = () => {
         <div className="get-started mt-3 flex justify-center items-center gap-5 pb-4">
           <button
             onClick={() => navigate("/maps")}
-            className="w-48 h-12 drop-shadow-lg text-lg sm:text-xl font-semibold px-4 sm:px-5 py-2 border-2 rounded-full relative text-white transition-all overflow-hidden bg-custom-gradient shadow-sm shadow-white hover:bg-[#68BBE3] hover:shadow-[0_4px_20px_#68BBE3] hover:text-white group"
+            className="w-52 h-16 drop-shadow-lg text-lg sm:text-xl font-semibold px-4 sm:px-5 py-2 border-2 rounded-full relative text-white transition-all overflow-hidden bg-custom-gradient shadow-sm shadow-white hover:bg-[#68BBE3] hover:shadow-[0_4px_20px_#68BBE3] hover:text-white group"
           >
             <span
-              className="pl-2 flex items-center gap-2 relative z-10 text-lg font-bold no-underline transition-colors"
+              className="pl-2 flex items-center gap-2 relative z-10 text-xl font-bold no-underline transition-colors"
             >
               Get Started <img className="opacity-70 w-10 md:w-12" src={arr} alt="Arrow" />
             </span>

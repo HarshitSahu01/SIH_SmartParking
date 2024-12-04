@@ -122,9 +122,9 @@ const ParkingOnmap = () => {
       </div>
       <div
         ref={panelRef}
-        className={`absolute bottom-0 left-0 right-0 ${
-          isSearchExpanded ? "top-0 pt-24 min-h-screen bg-custom-gradient " : "min-h-[5vh] rounded-t-3xl bg-custom-gradient"
-        }  text-white py-4 shadow-lg flex flex-col items-center justify-center gap-2 transition-all duration-1000 overflow-scroll`}
+        className={`absolute  left-0 right-0 ${
+          isSearchExpanded ? "top-0  min-h-screen bg-custom-gradient " : "min-h-[5vh] bottom-0 rounded-t-3xl bg-custom-gradient"
+        }  text-white shadow-lg flex flex-col items-center justify-center gap-2 transition-all duration-1000 overflow-scroll`}
         style={{zIndex:"2000"}}
       >
         <div className={`panel-head bg-custom-gradient flex flex-col justify-center items-center gap-2 ${isSearchExpanded?"rounded-b-3xl drop-shadow-2xl":""} p-4`}>
@@ -167,13 +167,13 @@ const ParkingOnmap = () => {
             <SearchComp />
           </div>
         )}
-        <div className={`changeLoc flex justify-end ${isSearchExpanded?"text-black":"text-white"}`}>
+        <div className={`changeLoc flex justify-center items-center py-1 font-bold  ${isSearchExpanded?"text-white":"text-white"}`}>
           <button
             onClick={() => {
               navigate("/maps");
             }}
           >
-            Change Location.
+            ←{" "}Change Location.
           </button>
         </div>
       </div>

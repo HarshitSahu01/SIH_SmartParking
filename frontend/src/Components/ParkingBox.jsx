@@ -1,32 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { toast, ToastContainer } from "react-toastify"; // No need to import toast.dismiss directly
+import { toast, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import P from "../assets/P.png";
 import Car from "../assets/car.png";
 import clock from "../assets/clock.png";
-import price from "../assets/price.png";
-
+import priceicon from "../assets/price.png";
+import bike from "../assets/bike.png"
+import addressicon from "../assets/address.png"
 // Import worker file
-const ParkingBox = () => {
-  const [showModal, setShowModal] = useState(false); // Modal for initial tracking confirmation
-  const [showTrackingModal, setShowTrackingModal] = useState(false); // Modal for already tracked parking
-  const [spotsLeft, setSpotsLeft] = useState(28); // Dummy state for spots left
-  const [isTracking, setIsTracking] = useState(false); // Track whether the parking is being tracked
-  const [worker, setWorker] = useState(null); // State to manage the worker
+const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image }) => {
+  const [showModal, setShowModal] = useState(false); 
+  const [showTrackingModal, setShowTrackingModal] = useState(false);
+  const [carspotsLeft, setCarSpotsLeft] = useState(carspots); // Correct initialization
+  const [bikespotsLeft, setBikeSpotsLeft] = useState(bikespots); // Correct initialization
+  const [isTracking, setIsTracking] = useState(false);
+  const [worker, setWorker] = useState(null);
 
-  // Initialize the Web Worker
   useEffect(() => {
     const newWorker = new Worker(new URL("../parkingWorker.worker.js", import.meta.url));
     setWorker(newWorker);
 
-    // Clean up worker on component unmount
     return () => {
       newWorker.terminate();
     };
   }, []);
 
-  // Handle worker messages
   useEffect(() => {
     if (worker) {
       worker.onmessage = (event) => {
@@ -44,32 +43,34 @@ const ParkingBox = () => {
     }
   }, [worker]);
 
-  // Start tracking parking updates
   const startTracking = () => {
     if (worker) {
-      worker.postMessage({ action: "startTracking", spotsLeft, parkingName: "Abdul Parking Boom" });
+      worker.postMessage({
+        action: "startTracking",
+        carspotsLeft,
+        bikespotsLeft,
+        parkingName: name,
+      });
     }
     setIsTracking(true);
-    setShowModal(false); // Close the initial modal
-    setShowTrackingModal(false); // Close tracking modal if parking is already being tracked
+    setShowModal(false);
+    setShowTrackingModal(false);
   };
 
-  // Stop tracking parking updates and clear all notifications
   const stopTracking = () => {
     if (worker) {
       worker.postMessage({ action: "stopTracking" });
     }
     setIsTracking(false);
-    toast.dismiss(); // Dismiss all active toast notifications
+    toast.dismiss();
   };
-
   return (
     <div className="flex mx-2 mt-4 relative">
-                {isTracking && (
+      {isTracking && (
         <div className="notstopbtn absolute top-0 right-0 z-[1000] bg-red-500 text-white  px-2 py-1 rounded-lg ">
-            <button onClick={stopTracking}>Stop notifications</button>
+          <button onClick={stopTracking}>Stop notifications</button>
         </div>
-        )}
+      )}
       <div
         className="flex flex-col w-full sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-white shadow-md transform transition-transform duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100 "
         onClick={() => {
@@ -80,9 +81,8 @@ const ParkingBox = () => {
           }
         }} // Show the modal when clicked
       >
-
         <img
-          src="https://img.freepik.com/premium-photo/parking-lot-with-car-parked-it-parking-lot-with-sign-that-says-no-parking_1023064-45887.jpg?semt=ais_hybrid"
+          src={image}
           alt="Parking"
           className="w-full h-[220px] object-cover p-3 rounded-3xl"
         />
@@ -90,31 +90,43 @@ const ParkingBox = () => {
           <div className="flex flex-row mx-2 sm:flex-row justify-between items-start sm:items-center">
             <div className="c11 flex flex-col gap-3">
               <div className="c1 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
-                <div className="icon1">
-                  <img src={P} alt="" className="w-7" />
-                </div>
-                Abdul Parking Boom
+              <div className="icon1">
+                  <img src={P} alt="P" className="w-7" />
+              </div>
+                <p>{name}</p>
               </div>
               <div className="c2 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
-                <div className="icon2">
+              <div className="icon2">
                   <img src={clock} alt="" className="w-7" />
                 </div>
-                <p>5 mins</p>
+                <p>{distance}</p>
+              </div>
+              <div className="c3 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
+              <div className="icon3">
+                  <img src={addressicon} alt="" className="w-7" />
+                </div>
+                <p>{address}</p>
               </div>
             </div>
 
             <div className="c22 flex flex-col gap-3">
-              <div className="c2 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
-                <div className="icon3">
-                  <img src={price} alt="" className="w-7" />
+              <div className="c4 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
+              <div className="icon4">
+                  <img src={priceicon} alt="" className="w-7" />
                 </div>
-                <p>Rs 30/hr</p>
+                <p>Rs {price}</p>
               </div>
-              <div className="c4 flex items-center text-sm font-bold text-gray-600 gap-2">
-                <div className="icon4">
+              <div className="c5 flex items-center text-sm font-bold text-gray-600 gap-2">
+              <div className="icon5">
                   <img src={Car} alt="" className="w-7" />
                 </div>
-                {spotsLeft} spots
+                <p>{carspotsLeft} spots</p>
+              </div>
+              <div className="c6 flex items-center text-sm font-bold text-gray-600 gap-2">
+              <div className="icon6">
+                  <img src={bike} alt="" className="w-7" />
+                </div>
+                <p>{bikespotsLeft} spots</p>
               </div>
             </div>
           </div>
@@ -150,7 +162,7 @@ const ParkingBox = () => {
       {showTrackingModal && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-[90%] sm:w-[400px]">
-            <h2 className="text-xl  text-black font-bold mb-4">
+            <h2 className="text-xl font-bold mb-4">
               This parking is already being tracked.
             </h2>
             <div className="flex justify-between">
@@ -167,7 +179,6 @@ const ParkingBox = () => {
 
       {/* Toast Container */}
       <ToastContainer />
-
     </div>
   );
 };
