@@ -15,7 +15,7 @@ def detect_parking_spots_from_image(image_path, spots_file, class_file='coco.txt
     Args:
         image_path (str): Path to the input image file.
         spots_file (str): Path to the spots.txt file containing parking area coordinates.
-        class_file (str): Path to the file containing class names (default: 'FinalParking/coco.txt').
+        class_file (str): Path to the file containing class names (default: 'coco.txt').
 
     Returns:
         int: Number of empty parking spots detected.
