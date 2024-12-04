@@ -3,11 +3,13 @@ import pandas as pd
 import numpy as np
 from ultralytics import YOLO
 import ast
+import pickle
 
 # Load the YOLO model once
 model = YOLO('yolov8s.pt')
 
-def detect_parking_spots_from_image(image_path, car_spots_file, bike_spots_file, class_file='coco.txt'):
+# def detect_parking_spots_from_image(image_path, car_spots_file, bike_spots_file, class_file='coco.txt'):
+def detect_parking_spots_from_image(image_path, spots_binary, class_file='coco.txt'):
     """
     Detects empty car and motorcycle parking spots from an image and displays the result.
 
@@ -25,10 +27,14 @@ def detect_parking_spots_from_image(image_path, car_spots_file, bike_spots_file,
         class_list = file.read().split("\n")
 
     # Load car and motorcycle parking areas
-    with open(car_spots_file, "r") as file:
-        car_parking_areas = ast.literal_eval(file.read())
-    with open(bike_spots_file, "r") as file:
-        bike_parking_areas = ast.literal_eval(file.read())
+    # with open(car_spots_file, "r") as file:
+    #     car_parking_areas = ast.literal_eval(file.read())
+    # with open(bike_spots_file, "r") as file:
+    #     bike_parking_areas = ast.literal_eval(file.read())
+    
+    spots = pickle.loads(spots_binary)
+    car_parking_areas = spots['car']
+    bike_parking_areas = spots['bike']
 
     # Read and resize the input image
     image = cv2.imread(image_path)
@@ -97,9 +103,9 @@ def detect_parking_spots_from_image(image_path, car_spots_file, bike_spots_file,
                 cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2)
 
     # Display the output image
-    cv2.imshow("Detected Parking Spots", image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    # cv2.imshow("Detected Parking Spots", image)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
     return free_cars, free_bikes
 
