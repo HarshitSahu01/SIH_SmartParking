@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 export default function BoxConfirmCanvas() {
     const path = 'assets/sampleParking.png'
   return (
