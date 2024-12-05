@@ -2,4 +2,9 @@
     background: rgb(255, 255, 255);
 /* background: linear-gradient(0deg, #1198ec
 0%, rgba(255, 253, 253, 0.558) 80%); */
+background:linear-gradient(163deg, rgba(203,140,197,1)
+ 1%, rgba(97,89,183,1) 57%);
+}
+.main-home{
+    background-image: url("/");
 }

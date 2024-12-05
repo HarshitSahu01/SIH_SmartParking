@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import car from "../assets/CarTest.gif";
-import logo from "../assets/logo.svg";
+import logo from "../assets/logo.png";
 import arr from "../assets/getStartedArr.gif";
 import test from "../assets/test.svg";
 
@@ -12,11 +12,11 @@ const LandingPage = () => {
   return (
     <div className="lan-main min-h-screen flex flex-col bg-[#fff]">
       {/* Header */}
-      <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3 bg-custom-gradient">
+      <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3 ">
         <div className="flex items-center">
-          <img src={logo} alt="Logo" className="w-12 h-8 md:w-16 md:h-10 rounded-full" />
+          <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-10" />
           <span className="ml-2 text-2xl sm:text-2xl font-semibold text-white tracking-tighter">
-            ParkSmart
+            Park-N-Go
           </span>
         </div>
         <div className="cursor-pointer" onClick={() => setMenuOpen((prev) => !prev)}>
@@ -73,27 +73,31 @@ const LandingPage = () => {
           alt="Car animation"
           className="motion-opacity-in-[50%] motion-duration-[1.13s]/opacity motion-delay-[0.75s]/blur rounded-full w-[50vw] sm:w-[40vw] motion-preset-shake"
         />
-        <p className="mt-3 text-[#055C9D] mx-auto motion-preset-slide-right motion-delay-1000 text-lg md:text-xl font-bold">
+        <p className="mx-4 text-white mt-4 motion-preset-slide-right motion-delay-1000 text-lg md:text-xl font-bold">
           Discover nearby parkings, save time, and park smartly.
         </p>
-        <div className="get-started mt-3 flex justify-center items-center gap-5 pb-4 motion-preset-pop">
-          <button
-            onClick={() => navigate("/maps")}
-            className="w-52 h-16 drop-shadow-lg text-lg sm:text-xl font-semibold px-4 sm:px-5 py-2 border-2 rounded-full relative text-white transition-all overflow-hidden bg-custom-gradient shadow-sm shadow-white hover:bg-[#68BBE3] hover:shadow-[0_4px_20px_#68BBE3] hover:text-white group"
-          >
-            <span
-              className="pl-2 flex items-center gap-2 relative z-10 text-xl font-bold no-underline transition-colors"
-            >
-              Get Started <img className="opacity-70 w-10 md:w-12" src={arr} alt="Arrow" />
-            </span>
-            <span className="absolute inset-0 bg-black transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out rounded-full"></span>
-          </button>
-        </div>
+        <div className="get started flex justify-center items-center gap-5 py-2">
+            <button
+            onClick={()=>{
+              setTimeout(() => {
+                navigate("/maps");
+              }, 500);
+            }}
+            className="text-xl font-semibold px-10 py-3 border border-blue-950  rounded-full relative text-white transition-all overflow-hidden bg-black/70 shadow-sm shadow-white hover:text-black group">
+              <a
+                href="#getstarted"
+                className="relative z-10 text-inherit no-underline transition-colors"
+              >
+                Get Started 
+              </a>
+              <span className="absolute inset-0 bg-white transform translate-y-full group-hover:translate-y-0 rounded-full transition-all"></span>
+            </button>
+          </div>
 
       </main>
 
       {/* Footer */}
-      <footer className="w-full rounded-t-2xl text-center py-2 bg-custom-gradient text-white text-xs sm:text-sm">
+      <footer className="w-full rounded-t-2xl text-center py-2  text-white text-xs sm:text-sm">
         © 2024 ParkSmart ~ All rights reserved
       </footer>
     </div>
