@@ -9,6 +9,7 @@ import Search from './Pages/Search'
 import TestingLandingPage from './Pages/TestingLandingPage'
 import ParkingBox from './Pages/ParkingBox'
 import ParkingOnMap from './Pages/ParkingOnmap'
+import ParkingOncards from './Pages/ParkingOncards'
 function App() {
 
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/parking-card" element={<ParkingBox />} />
         <Route path="/search" element={<Search />} />
         <Route path="/parkings-maps" element={<ParkingOnMap />} />
+        <Route path="/parkings-cards" element={<ParkingOncards />} />
     
       </Routes>
     </>

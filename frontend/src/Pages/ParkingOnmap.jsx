@@ -81,9 +81,17 @@ const ParkingOnmap = () => {
 
   return (
     <div className="merged-component">
-      <main className="relative">
-        <div className="map-head flex justify-center items-center h-20 rounded-b-3xl text-white absolute top-0 left-0 right-0 z-[1000] bg-custom-gradient">
-          <h1 className="text-2xl font-bold">Parkings Available Near You!</h1>
+      <main className="relative z-0">
+        <div className="back absolute top-2 left-2 bg-black text-white px-2 rounded-xl z-[2000]">
+          <button
+            onClick={() => {
+              navigate("/parkings-cards", {
+                state: { lat, lng }, // Properly wrap `state` inside an object
+              });
+            }}
+          >
+            Go back
+          </button>
         </div>
         <div className="h-[100vh] w-[100vw]">
           <MapContainer
@@ -121,7 +129,7 @@ const ParkingOnmap = () => {
         <div
           ref={panelRef}
           className={`absolute  left-0 right-0 ${
-            !isSearchExpanded
+            isSearchExpanded
               ? "top-0  min-h-screen rounded-b-3xl bg-white "
               : "min-h-[5vh] bottom-0 rounded-t-3xl bg-custom-gradient"
           }  text-white drop-shadow-2xl flex flex-col items-center justify-center gap-2 transition-all duration-1000 overflow-scroll`}
@@ -133,21 +141,15 @@ const ParkingOnmap = () => {
             } p-4`}
           >
             <div className="flex gap-3">
-              <p
-                className={` font-bold ${
-                  !isSearchExpanded ? "text-xl" : "text-3xl"
-                }`}
-              >
-                {!isSearchExpanded ? "View on Map" : "View All"}
+              <p className={` font-bold text-2xl`}>
+                Parkings Available Near You!
               </p>
               <button onClick={toggleSearchPanel}>
                 <img
                   src={down}
                   alt=""
                   className={`transition-transform duration-500 ${
-                    !isSearchExpanded
-                      ? "w-8 h-8 rotate-0"
-                      : "w-8 h-8 rotate-180"
+                    isSearchExpanded ? "w-8 h-8 rotate-0" : "w-8 h-8 rotate-180"
                   }`}
                 />
               </button>
@@ -168,11 +170,11 @@ const ParkingOnmap = () => {
               <span className="font-semibold min-w-[82vw]">{address}</span>
             </p>
           </div>
-          {!isSearchExpanded && (
+          {/* {isSearchExpanded && (
             <div className="main-panel bg-white w-[100%]">
               <SearchComp />
             </div>
-          )}
+          )} */}
           <div
             className={`changeLoc flex justify-center items-center py-1 font-bold  ${
               isSearchExpanded ? "text-white" : "text-white"

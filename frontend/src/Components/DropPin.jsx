@@ -32,7 +32,7 @@ const Pin = () => {
   // Handle confirm button click
   const handleConfirmLocation = () => {
     if (pin) {
-      navigate("/parkings-maps", { state: { lat: pin.lat, lng: pin.lng } }); // Navigate with state
+      navigate("/parkings-cards", { state: { lat: pin.lat, lng: pin.lng } }); // Navigate with state
     } else {
       alert("Please drop a pin to select your location first!");
     }

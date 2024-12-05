@@ -291,7 +291,7 @@ const MergedComponent = () => {
         <button
   onClick={() => {
     console.log("Location confirmed:", lat, lng);
-    navigate("/parkings-maps", { state: { lat, lng } });
+    navigate("/parkings-cards", { state: { lat, lng } });
   }}
   className="bg-black text-white px-4 py-2 rounded-3xl text-lg sm:text-2xl font-bold shadow-md hover:bg-gray-700 drop-shadow-2xl w-full sm:w-64 h-12 sm:h-16"
 >
