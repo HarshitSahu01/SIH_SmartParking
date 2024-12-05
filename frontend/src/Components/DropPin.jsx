@@ -64,9 +64,9 @@ const Pin = () => {
       >
         {/* Tile Layer from OpenStreetMap */}
         <TileLayer
-              url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-              attribution=''
-            />
+  url="https://tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=b3a0689a59104875a48e7b0370951490"
+  attribution=''
+/>
 
         {/* Add click handler to the map */}
         <MapClickHandler />

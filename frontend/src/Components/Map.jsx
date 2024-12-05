@@ -159,10 +159,10 @@ const MergedComponent = () => {
         zoom={13}
         style={{ height: "100%", width: "100%" }}
       >
-        <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
-        />
+<TileLayer
+  url="https://tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=b3a0689a59104875a48e7b0370951490"
+  attribution=''
+/>
         {/* Render Stores */}
         {/* {storeList.map((shop, index) => (
           <Marker
@@ -218,7 +218,7 @@ const MergedComponent = () => {
           className="bg-white text-black px-4 py-2 rounded-lg border drop-shadow-lg border-gray-700 hover:bg-gray-100 flex justify-between items-center gap-2 w-full sm:w-96 h-[6vh] text-lg sm:text-xl font-semibold"
           onClick={handleGetCurrentLocation}
         >
-          <h1 className="text-lg sm:text-2xl ml-4 sm:ml-12">{loading ? "Getting Location..." : "Use Your Current Location"}</h1>
+          <h1 className="text-lg sm:text-2xl pl-6 sm:ml-12">{loading ? "Getting Location..." : "Use Your Current Location"}</h1>
           <svg
             width="32"
             height="32"
@@ -243,6 +243,17 @@ const MergedComponent = () => {
             />
           </svg>
         </button>
+        <div className="flex flex-col items-center w-full sm:w-96 gap-4">
+  <button
+    className="bg-white text-black px-4 py-2 rounded-lg border drop-shadow-lg border-gray-700 hover:bg-gray-100 flex justify-between items-center gap-2 w-full h-12 sm:h-14 text-lg sm:text-xl font-semibold"
+    onClick={() => {
+      navigate("/drop-pin");
+    }}
+  >
+    <h1 className="text-lg sm:text-xl pl-6">Set location on map</h1>
+    <img src={dropin} alt="Drop a Pin" className="w-8 sm:w-10" />
+  </button>
+</div>
 
  <div className="flex items-center w-full sm:w-96">
   <input
@@ -272,17 +283,7 @@ const MergedComponent = () => {
             </li>
           ))}
         </ul>
-        <div className="flex flex-col items-center w-full sm:w-96 gap-4">
-  <button
-    className="bg-white text-black px-4 py-2 rounded-lg border drop-shadow-lg border-gray-700 hover:bg-gray-100 flex justify-between items-center gap-2 w-full h-12 sm:h-14 text-lg sm:text-xl font-semibold"
-    onClick={() => {
-      navigate("/drop-pin");
-    }}
-  >
-    <h1 className="text-lg sm:text-xl">Set location on map</h1>
-    <img src={dropin} alt="Drop a Pin" className="w-8 sm:w-10" />
-  </button>
-</div>
+
 
 
 

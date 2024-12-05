@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import car from "../assets/CarTest.gif";
-import logo from "../assets/parking_logo.svg";
+import logo from "../assets/logo.svg";
 import arr from "../assets/getStartedArr.gif";
 import test from "../assets/test.svg";
 
@@ -65,7 +65,7 @@ const LandingPage = () => {
       {/* Main Content */}
       <main className="flex flex-col items-center justify-center flex-grow gap-3 text-center">
         <div className="motion-preset-slide-right motion-opacity-in-[50%] motion-blur-in-[2px] motion-duration-[1.13s]/opacity motion-delay-[0.75s]/blur">
-          <img src={test} alt="Illustration" className="w-[60vw] md:w-[40vw]" />
+          <img src={test} alt="Illustration" className="w-[60vw] md:w-[40vw] " />
         </div>
 
         <img
@@ -76,7 +76,7 @@ const LandingPage = () => {
         <p className="mt-3 text-[#055C9D] mx-auto motion-preset-slide-right motion-delay-1000 text-lg md:text-xl font-bold">
           Discover nearby parkings, save time, and park smartly.
         </p>
-        <div className="get-started mt-3 flex justify-center items-center gap-5 pb-4">
+        <div className="get-started mt-3 flex justify-center items-center gap-5 pb-4 motion-preset-pop">
           <button
             onClick={() => navigate("/maps")}
             className="w-52 h-16 drop-shadow-lg text-lg sm:text-xl font-semibold px-4 sm:px-5 py-2 border-2 rounded-full relative text-white transition-all overflow-hidden bg-custom-gradient shadow-sm shadow-white hover:bg-[#68BBE3] hover:shadow-[0_4px_20px_#68BBE3] hover:text-white group"
