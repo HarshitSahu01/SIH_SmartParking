@@ -63,15 +63,15 @@ const LandingPage = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex flex-col items-center justify-center flex-grow gap-3 text-center">
+      <main className="flex flex-col items-center justify-evenly flex-grow gap-3 text-center">
         <div className="motion-preset-slide-right motion-opacity-in-[50%] motion-blur-in-[2px] motion-duration-[1.13s]/opacity motion-delay-[0.75s]/blur">
-          <img src={test} alt="Illustration" className="w-[60vw] md:w-[40vw] " />
+          <img src={test} alt="Illustration" className="w-[80vw] h-auto " />
         </div>
 
         <img
           src={car}
           alt="Car animation"
-          className="motion-opacity-in-[50%] motion-duration-[1.13s]/opacity motion-delay-[0.75s]/blur rounded-full w-[50vw] sm:w-[40vw] motion-preset-shake"
+          className="motion-opacity-in-[50%] motion-duration-[1.13s]/opacity motion-delay-[0.75s]/blur rounded-full w-[65vw] sm:w-[40vw] motion-preset-shake"
         />
         <p className="mx-4 text-white mt-4 motion-preset-slide-right motion-delay-1000 text-lg md:text-xl font-bold">
           Discover nearby parkings, save time, and park smartly.

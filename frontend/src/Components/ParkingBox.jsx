@@ -65,7 +65,7 @@ const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image
     toast.dismiss();
   };
   return (
-    <div className="flex mx-2 mt-4 relative">
+    <div className="flex  mx-2 mt-8 relative drop-shadow-xl">
       {isTracking && (
         <div className="notstopbtn absolute top-0 right-0 z-[1000] bg-red-500 text-white  px-2 py-1 rounded-lg ">
           <button onClick={stopTracking}>Stop notifications</button>

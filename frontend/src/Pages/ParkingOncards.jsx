@@ -41,7 +41,7 @@ const ParkingOnCards = () => {
       style={{ zIndex: 2000 }}
     >
       {/* Header Section */}
-      <div className="panel-head bg-custom-gradient flex flex-col justify-center items-center gap-2 rounded-b-3xl p-4">
+      <div className="panel-head bg-custom-gradient flex flex-col justify-center items-center gap-2 rounded-b-3xl p-4 min-h-[16vh] min-w-[100vw] drop-shadow-xl border border-black">
         <div className="flex gap-3">
           <p className="font-bold text-xl">View All Parking Locations</p>
         </div>
