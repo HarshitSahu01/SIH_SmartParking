@@ -3,22 +3,70 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import axios from "axios";
 import marker from "../Components/icons/marker-without-bg.png";
 import userMarker from "../Components/icons/marker-user-removebg.png";
-import down from "../assets/down.png";
-import ParkingBox from "../Components/ParkingBox";
-import SearchComp from "../Pages/Search";
-const FlyToLocation = ({ lat, lng }) => {
-  const map = useMap();
-  useEffect(() => {
-    if (lat && lng) {
-      map.flyTo([lat, lng], 14, { duration: 1.5 });
-    }
-  }, [lat, lng, map]);
-  return null;
+import P from "../assets/P.png";  // Import missing image
+import clock from "../assets/clock.png";  // Import missing image
+import addressicon from "../assets/address.png";  // Import missing image
+import priceicon from "../assets/price.png";  // Import missing image
+import Car from "../assets/car.png";  // Import missing image
+import bike from "../assets/bike.png";  // Import missing image
+import axios from "axios";
+
+// ParkingBox component as provided
+const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image }) => {
+  return (
+    <div className="flex flex-col w-[80vw] sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-white shadow-md transform transition-transform duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100">
+      <img src={image} alt="Parking" className="w-full h-[220px] object-cover p-3 rounded-3xl" />
+      <div className="pt-1 px-4 pb-4">
+        <div className="flex flex-row mx-2 sm:flex-row justify-between items-start sm:items-center">
+          <div className="c11 flex flex-col gap-3">
+            <div className="c1 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
+              <img src={P} alt="P" className="w-7" />
+              <p>{name}</p>
+            </div>
+            <div className="c2 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
+              <img src={clock} alt="" className="w-7" />
+              <p>{distance}</p>
+            </div>
+            <div className="c3 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
+              <img src={addressicon} alt="" className="w-7" />
+              <p>{address}</p>
+            </div>
+          </div>
+
+          <div className="c22 flex flex-col gap-3">
+            <div className="c4 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
+              <img src={priceicon} alt="" className="w-7" />
+              <p>Rs {price}</p>
+            </div>
+            <div className="c5 flex items-center text-sm font-bold text-gray-600 gap-2">
+              <img src={Car} alt="" className="w-7" />
+              <p>{carspots} spots</p>
+            </div>
+            <div className="c6 flex items-center text-sm font-bold text-gray-600 gap-2">
+              <img src={bike} alt="" className="w-7" />
+              <p>{bikespots} spots</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
+// Custom component to fly to a location
+const FlyToLocation = ({ lat, lng }) => {
+  const map = useMap(); // Access the map instance
+  useEffect(() => {
+    if (lat && lng) {
+      map.flyTo([lat, lng], 15, { animate: true, duration: 0.5 }); // Fly to the location with animation
+    }
+  }, [lat, lng, map]); // Run this effect when lat or lng changes
+  return null; // This component does not render anything itself
+};
+
+// ParkingOnmap Component where the map and parking data is displayed
 const ParkingOnmap = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,23 +75,93 @@ const ParkingOnmap = () => {
     lat: 20.5937, // Default latitude (India)
     lng: 78.9629, // Default longitude (India)
   };
-  const [lat, setLat] = useState(initialLat);
-  const [lng, setLng] = useState(initialLng);
+  const [lat, setLat] = useState(initialLat);  // User's current latitude
+  const [lng, setLng] = useState(initialLng);  // User's current longitude
+  const [storeLat, setStoreLat] = useState(initialLat); // For store's latitude
+  const [storeLng, setStoreLng] = useState(initialLng); // For store's longitude
+
   const [address, setAddress] = useState(""); // Store user's address
   const [selectedStore, setSelectedStore] = useState(null);
-  const [storeList, setStoreList] = useState([]);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const panelRef = useRef(null);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/getCords")
-      .then((response) => {
-        setStoreList(response.data.data);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
+  // Instead of fetching from an API, using the const storeList directly.
+  const storeList = [
+    {
+      id: 1,
+      name: 'Parking Lot 1',
+      lat: 21.1458,
+      lng: 79.0882,
+      price: 70,
+      distance: '5 km',
+      carspots: 15,
+      bikespots: 5,
+      address: 'Address 1',
+      image: 'https://via.placeholder.com/300x220?text=Parking+1',
+    },
+    {
+      id: 2,
+      name: 'Parking Lot 2',
+      lat: 21.1450,
+      lng: 79.0900,
+      price: 80,
+      distance: '3 km',
+      carspots: 20,
+      bikespots: 10,
+      address: 'Address 2',
+      image: 'https://via.placeholder.com/300x220?text=Parking+2',
+    },
+    {
+      id: 3,
+      name: 'Parking Lot 3',
+      lat: 21.1400,
+      lng: 79.0850,
+      price: 90,
+      distance: '6 km',
+      carspots: 25,
+      bikespots: 8,
+      address: 'Address 3',
+      image: 'https://via.placeholder.com/300x220?text=Parking+3',
+    },
+    {
+      id: 4,
+      name: 'Parking Lot 4',
+      lat: 21.1480,
+      lng: 79.1000,
+      price: 100,
+      distance: '7 km',
+      carspots: 30,
+      bikespots: 12,
+      address: 'Address 4',
+      image: 'https://via.placeholder.com/300x220?text=Parking+4',
+    },
+    {
+      id: 5,
+      name: 'Parking Lot 5',
+      lat: 21.1500,
+      lng: 79.1100,
+      price: 110,
+      distance: '4 km',
+      carspots: 35,
+      bikespots: 15,
+      address: 'Address 5',
+      image: 'https://via.placeholder.com/300x220?text=Parking+5',
+    },
+    {
+      id: 6,
+      name: 'Parking Lot 6',
+      lat: 21.1550,
+      lng: 79.1200,
+      price: 120,
+      distance: '2 km',
+      carspots: 40,
+      bikespots: 18,
+      address: 'Address 6',
+      image: 'https://via.placeholder.com/300x220?text=Parking+6',
+    },
+  ];
 
+  // Fetch address for the current lat, lng
   useEffect(() => {
     fetchAddress(lat, lng);
   }, [lat, lng]);
@@ -59,29 +177,28 @@ const ParkingOnmap = () => {
     }
   };
 
+  // Custom icon for parking markers
   const customIcon = new L.Icon({
     iconUrl: marker,
     iconSize: [30, 40],
   });
 
+  // Custom icon for the user's current location marker
   const customIconUser = new L.Icon({
     iconUrl: userMarker,
     iconSize: [30, 40],
   });
 
-  const toggleSearchPanel = () => {
-    if (panelRef.current) {
-      panelRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-    setIsSearchExpanded((prev) => !prev);
+  // Function to handle the click on ParkingBox card and fly to the corresponding location
+  const handleCardClick = (lat, lng) => {
+    setLat(lat);
+    setLng(lng);
   };
 
   return (
     <div className="merged-component">
       <main className="relative z-0">
+        {/* Go back button */}
         <div className="back absolute top-2 left-2 bg-black text-white px-2 rounded-xl z-[2000]">
           <button
             onClick={() => {
@@ -93,92 +210,70 @@ const ParkingOnmap = () => {
             Go back
           </button>
         </div>
+
+        {/* Map container */}
         <div className="h-[100vh] w-[100vw]">
           <MapContainer
             center={[lat, lng]}
             zoom={13}
-            style={{ height: "100%", width: "100%", zIndex: "900" }}
+            style={{ height: "60%", width: "100%", zIndex: "900" }}
           >
             <TileLayer
               url="https://tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=b3a0689a59104875a48e7b0370951490"
               attribution='&copy; <a href="https://www.thunderforest.com/">Thunderforest</a>, Data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-            {storeList.map((shop, index) => (
-              <Marker
-                key={index}
-                position={[
-                  shop.geometry.coordinates[0],
-                  shop.geometry.coordinates[1],
-                ]}
-                icon={customIcon}
-                eventHandlers={{
-                  click: () => setSelectedStore(shop),
-                }}
-              >
-                <Popup>
-                  <ParkingBox />
-                </Popup>
-              </Marker>
-            ))}
-            <Marker position={[lat, lng]} icon={customIconUser}>
-              <Popup>Your Location</Popup>
-            </Marker>
+            {/* Markers for stores */}
+            {storeList && storeList.length > 0 && storeList.map((shop, index) => {
+              return (
+                <Marker position={[shop.lat, shop.lng]} icon={customIcon} key={index}>
+                  <Popup>{shop.name}</Popup>
+                </Marker>
+              );
+            })}
+
+            {/* Marker for user's current location */}
+            {/* Marker for user's current location */}
+<Marker position={[initialLat, initialLng]} icon={customIconUser}>
+  <Popup>Your Location</Popup>
+</Marker>
+
+
+            {/* Fly to the user's current location */}
             <FlyToLocation lat={lat} lng={lng} />
           </MapContainer>
         </div>
-        <div
-          ref={panelRef}
-          className={`absolute  left-0 right-0 ${
-            isSearchExpanded
-              ? "top-0  min-h-screen rounded-b-3xl bg-white "
-              : "min-h-[5vh] bottom-0 rounded-t-3xl bg-custom-gradient"
-          }  text-white drop-shadow-2xl flex flex-col items-center justify-center gap-2 transition-all duration-1000 overflow-scroll`}
-          style={{ zIndex: "2000" }}
-        >
-          <div
-            className={`panel-head min-w-screen bg-custom-gradient flex flex-col justify-center items-center gap-2 ${
-              isSearchExpanded ? " " : "rounded-b-3xl"
-            } p-4`}
-          >
-            <div className="flex gap-3">
-              <p className={` font-bold text-2xl`}>
-                Parkings Available Near You!
-              </p>
-              <button onClick={toggleSearchPanel}>
-                <img
-                  src={down}
-                  alt=""
-                  className={`transition-transform duration-500 ${
-                    isSearchExpanded ? "w-8 h-8 rotate-0" : "w-8 h-8 rotate-180"
-                  }`}
-                />
-              </button>
-            </div>
-            <p className="text-md font-medium flex justify-center items-center gap-2 text-white ">
-              <svg
-                width="33"
-                height="34"
-                viewBox="0 0 33 34"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+
+        {/* Parking Slider */}
+      <div
+  ref={panelRef}
+  className={`absolute left-0 right-0 ${isSearchExpanded ? "top-0 min-h-screen rounded-b-3xl bg-white " : "min-h-[5vh] bottom-0 rounded-t-3xl bg-transparent"} text-white drop-shadow-2xl flex flex-col items-center justify-center gap-2 transition-all duration-1000 overflow-scroll bg-blue-500`}
+  style={{ zIndex: "2000" }}
+>
+
+          {/* Parking Cards as Slider */}
+          <div className="w-full mt-4 flex overflow-x-scroll gap-24">
+            {storeList.map((store) => (
+              <div
+                key={store.id}
+                onClick={() => handleCardClick(store.lat, store.lng)}
+                className="flex flex-col w-64 cursor-pointer"
               >
-                <path
-                  d="M16.5 31.1667C16.1792 31.1667 15.9042 31.0723 15.675 30.8834C15.4458 30.6945 15.274 30.4466 15.1594 30.1396C14.724 28.8174 14.174 27.5778 13.5094 26.4209C12.8677 25.2639 11.9625 23.9063 10.7938 22.348C9.625 20.7896 8.67396 19.3021 7.94062 17.8855C7.23021 16.4688 6.875 14.757 6.875 12.75C6.875 9.98754 7.80312 7.65004 9.65937 5.73754C11.5385 3.80143 13.8188 2.83337 16.5 2.83337C19.1813 2.83337 21.45 3.80143 23.3062 5.73754C25.1854 7.65004 26.125 9.98754 26.125 12.75C26.125 14.8987 25.724 16.6931 24.9219 18.1334C24.1427 19.55 23.2375 20.9549 22.2063 22.348C20.9688 24.048 20.0292 25.4646 19.3875 26.598C18.7688 27.7077 18.2531 28.8882 17.8406 30.1396C17.726 30.4702 17.5427 30.7299 17.2906 30.9188C17.0615 31.0841 16.7979 31.1667 16.5 31.1667ZM16.5 16.2917C17.4625 16.2917 18.276 15.9493 18.9406 15.2646C19.6052 14.5799 19.9375 13.7417 19.9375 12.75C19.9375 11.7584 19.6052 10.9202 18.9406 10.2355C18.276 9.55073 17.4625 9.20837 16.5 9.20837C15.5375 9.20837 14.724 9.55073 14.0594 10.2355C13.3948 10.9202 13.0625 11.7584 13.0625 12.75C13.0625 13.7417 13.3948 14.5799 14.0594 15.2646C14.724 15.9493 15.5375 16.2917 16.5 16.2917Z"
-                  fill="#FEF7FF"
+                <ParkingBox
+                  name={store.name}
+                  price={store.price}
+                  distance={store.distance}
+                  carspots={store.carspots}
+                  bikespots={store.bikespots}
+                  address={store.address}
+                  image={store.image}
                 />
-              </svg>{" "}
-              <span className="font-semibold min-w-[82vw]">{address}</span>
-            </p>
+              </div>
+            ))}
           </div>
-          {/* {isSearchExpanded && (
-            <div className="main-panel bg-white w-[100%]">
-              <SearchComp />
-            </div>
-          )} */}
+
+          {/* Change location button */}
           <div
-            className={`changeLoc flex justify-center items-center py-1 font-bold  ${
-              isSearchExpanded ? "text-white" : "text-white"
-            }`}
+            className={`changeLoc flex justify-center items-center py-1 font-bold ${isSearchExpanded ? "text-white" : "text-white"}`}
           >
             <button
               onClick={() => {

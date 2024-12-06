@@ -101,18 +101,23 @@ const Search = () => {
           </h1>
 
           {filteredParkingData.length > 0 ? (
-            filteredParkingData.map((parking, index) => (
-              <ParkingBox
-                key={index}
-                name={parking.name}
-                price={parking.price}
-                distance={parking.distance}
-                carspots={parking.carspots}
-                bikespots={parking.bikespots}
-                address={parking.address}
-                image={parking.image}
-              />
-            ))
+            <>
+              {filteredParkingData.map((parking, index) => (
+                <ParkingBox
+                  key={index}
+                  name={parking.name}
+                  price={parking.price}
+                  distance={parking.distance}
+                  carspots={parking.carspots}
+                  bikespots={parking.bikespots}
+                  address={parking.address}
+                  image={parking.image}
+                />
+              ))}
+
+              {/* Pass filteredParkingData to RandomSlider */}
+              
+            </>
           ) : (
             <p className="text-gray-500">No parking spots match your criteria.</p>
           )}

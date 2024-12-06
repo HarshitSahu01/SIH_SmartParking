@@ -4,8 +4,8 @@ import LoadingPage from '../Components/LoadingPage'
 const testSwiper = () => {
   return (
     <div>
-        {/* <RandomSlider/> */}
-        <LoadingPage/>
+        <RandomSlider/>
+        {/* <LoadingPage/> */}
     </div>
   )
 }

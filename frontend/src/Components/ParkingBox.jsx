@@ -6,8 +6,9 @@ import P from "../assets/P.png";
 import Car from "../assets/car.png";
 import clock from "../assets/clock.png";
 import priceicon from "../assets/price.png";
-import bike from "../assets/bike.png"
-import addressicon from "../assets/address.png"
+import bike from "../assets/bike.png";
+import addressicon from "../assets/address.png";
+
 // Import worker file
 const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image }) => {
   const [showModal, setShowModal] = useState(false); 
@@ -64,6 +65,7 @@ const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image
     setIsTracking(false);
     toast.dismiss();
   };
+
   return (
     <div className="flex mx-2 mt-4 relative">
       {isTracking && (
@@ -72,7 +74,7 @@ const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image
         </div>
       )}
       <div
-        className="flex flex-col w-full sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-white shadow-md transform transition-transform duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100 "
+        className="flex flex-col w-full sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-white shadow-md transform transition-transform duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100"
         onClick={() => {
           if (isTracking) {
             setShowTrackingModal(true); // Show modal if already tracked
