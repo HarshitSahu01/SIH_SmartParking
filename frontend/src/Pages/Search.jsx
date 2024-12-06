@@ -70,21 +70,21 @@ const Search = () => {
 
   return (
     <div className="bg-transparent">
-      <div className="p-4 space-y-6 bg-transparent">
+      <div className="p-4 space-y-6 bg-transparent flex flex-col">
         <div>
           <div className="search-filter flex gap-4 mb-4">
             {/* Search Bar */}
             <input
               type="text"
               placeholder="Search by name or address"
-              className="border rounded-lg p-2 flex-grow text-black"
+              className="border-2 rounded-lg p-2 flex-grow text-black drop-shadow-md"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
 
             {/* Filter Dropdown */}
             <select
-              className="border rounded-lg p-2 text-black"
+              className="border-2 drop-shadow-sm rounded-lg p-2 text-black"
               value={filterBy}
               onChange={(e) => setFilterBy(e.target.value)}
             >
