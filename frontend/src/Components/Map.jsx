@@ -149,7 +149,7 @@ const MergedComponent = () => {
     <div className="h-screen w-screen">
       {/* Map */}
       {loading && (
-      <div className="flex justify-center items-center mt-4">
+      <div className="flex motion-preset-slide-up-right justify-center items-center mt-4">
         <LoadingSearch/>
       </div>
       )}
@@ -205,7 +205,7 @@ const MergedComponent = () => {
 
     {/* Location Confirmation Panel */}
     <div
-      className={`absolute bottom-0 left-0 right-0 transition-all duration-300 ${
+      className={`absolute bottom-0 left-0 right-0 transition-all duration-300 motion-preset-slide-up ${
         isSearchExpanded
           ? "top-0 h-full bg-custom-gradient"
           : "min-h-[28vh] rounded-t-3xl bg-custom-gradient"

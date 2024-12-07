@@ -12,7 +12,7 @@ const LandingPage = () => {
   return (
     <div className="lan-main min-h-screen flex flex-col bg-[#fff]">
       {/* Header */}
-      <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3 ">
+      <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3 motion-preset-rebound-down">
         <div className="flex items-center">
           <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-10" />
           <span className="ml-2 text-2xl sm:text-2xl font-semibold text-white tracking-tighter">
@@ -97,7 +97,7 @@ const LandingPage = () => {
       </main>
 
       {/* Footer */}
-      <footer className="w-full rounded-t-2xl text-center py-2  text-white text-xs sm:text-sm">
+      <footer className="w-full rounded-t-2xl text-center py-2  text-white text-xs sm:text-sm motion-preset-rebound-up">
         © 2024 ParkSmart ~ All rights reserved
       </footer>
     </div>

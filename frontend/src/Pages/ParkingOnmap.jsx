@@ -12,7 +12,7 @@ import priceicon from "../assets/price.png";  // Import missing image
 import Car from "../assets/car.png";  // Import missing image
 import bike from "../assets/bike.png";  // Import missing image
 import axios from "axios";
-
+import backarr from "../assets/back-arrow.png"
 // ParkingBox component as provided
 const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image }) => {
   return (
@@ -199,7 +199,7 @@ const ParkingOnmap = () => {
     <div className="merged-component">
       <main className="relative z-0">
         {/* Go back button */}
-        <div className="back absolute top-2 left-2 bg-black text-white px-2 rounded-xl z-[2000]">
+        <div className="back absolute top-2 right-2 bg-white rounded-full  text-white  z-[2000] motion-preset-slide-left">
           <button
             onClick={() => {
               navigate("/parkings-cards", {
@@ -207,7 +207,7 @@ const ParkingOnmap = () => {
               });
             }}
           >
-            Go back
+            <img src={backarr} alt="" className="w-6 h-7 mx-2 my-1"/>
           </button>
         </div>
 
@@ -220,7 +220,7 @@ const ParkingOnmap = () => {
           >
             <TileLayer
               url="https://tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=b3a0689a59104875a48e7b0370951490"
-              attribution='&copy; <a href="https://www.thunderforest.com/">Thunderforest</a>, Data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              attribution=''
             />
             {/* Markers for stores */}
             {storeList && storeList.length > 0 && storeList.map((shop, index) => {
@@ -246,12 +246,12 @@ const ParkingOnmap = () => {
         {/* Parking Slider */}
       <div
   ref={panelRef}
-  className={`absolute left-0 right-0 ${isSearchExpanded ? "top-0 min-h-screen rounded-b-3xl bg-white " : "min-h-[5vh] bottom-0 rounded-t-3xl bg-transparent"} text-white drop-shadow-2xl flex flex-col items-center justify-center gap-2 transition-all duration-1000 overflow-scroll bg-blue-500`}
+  className={`absolute left-0 right-0 motion-preset-slide-up ${isSearchExpanded ? "top-0 min-h-screen rounded-b-3xl bg-transparent  " : "min-h-[5vh] bottom-0 rounded-t-3xl bg-transparent"} text-white drop-shadow-2xl flex flex-col items-center justify-center gap transition-all duration-1000 overflow-scroll`}
   style={{ zIndex: "2000" }}
 >
 
           {/* Parking Cards as Slider */}
-          <div className="w-full mt-4 flex overflow-x-scroll gap-24">
+          <div className="w-full mt-4 flex overflow-x-scroll gap-24 bg-custom-gradient p-4 rounded-t-2xl">
             {storeList.map((store) => (
               <div
                 key={store.id}
@@ -270,10 +270,8 @@ const ParkingOnmap = () => {
               </div>
             ))}
           </div>
-
-          {/* Change location button */}
           <div
-            className={`changeLoc flex justify-center items-center py-1 font-bold ${isSearchExpanded ? "text-white" : "text-white"}`}
+            className={`changeLoc flex justify-center items-center py-1 font-bold ${isSearchExpanded ? "text-black" : "text-black"} h-full w-full bg-[#6159B7]`}
           >
             <button
               onClick={() => {
@@ -283,6 +281,8 @@ const ParkingOnmap = () => {
               ← Change Location.
             </button>
           </div>
+
+          {/* Change location button */}
         </div>
       </main>
     </div>

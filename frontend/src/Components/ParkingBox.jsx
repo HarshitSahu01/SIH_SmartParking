@@ -69,12 +69,12 @@ const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image
   return (
     <div className="flex mx-2 mt-4 relative">
       {isTracking && (
-        <div className="notstopbtn absolute top-0 right-0 z-[1000] bg-red-500 text-white  px-2 py-1 rounded-lg ">
+        <div className="notstopbtn absolute top-0 right-0 z-[1000] text-white  px-2 py-1 rounded-lg ">
           <button onClick={stopTracking}>Stop notifications</button>
         </div>
       )}
       <div
-        className="flex flex-col w-full sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-white shadow-md transform transition-transform duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100"
+        className="flex flex-col w-full sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-transparent drop-shadow-xl backdrop-blur-2xl shadow-md transform transition-transform  duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100"
         onClick={() => {
           if (isTracking) {
             setShowTrackingModal(true); // Show modal if already tracked

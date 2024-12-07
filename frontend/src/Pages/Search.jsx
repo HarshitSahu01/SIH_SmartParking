@@ -70,25 +70,25 @@ const Search = () => {
 
   return (
     <div className="bg-transparent">
-      <div className="p-4 space-y-6 bg-transparent flex flex-col">
-        <div>
+      <div className="p-4 space-y-6 bg-transparent flex flex-col ">
+        <div >
           <div className="search-filter flex gap-4 mb-4">
             {/* Search Bar */}
             <input
               type="text"
-              placeholder="Search by name or address"
-              className="border-2 rounded-lg p-2 flex-grow text-black drop-shadow-md"
+              placeholder="Search by Parking name"
+              className="border-2 border-gray-300 rounded-lg p-2 flex-grow text-black drop-shadow-sm motion-preset-slide-down-md motion-delay-300"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
 
             {/* Filter Dropdown */}
             <select
-              className="border-2 drop-shadow-sm rounded-lg p-2 text-black"
+              className="border-2 drop-shadow-sm rounded-lg p-2 text-black motion-preset-slide-down-md motion-delay-300 border-gray-300"
               value={filterBy}
               onChange={(e) => setFilterBy(e.target.value)}
             >
-              <option value="">Filter By</option>
+              <option value="">Sort By</option>
               <option value="distance">Distance</option>
               <option value="price">Price</option>
               <option value="carspots">Car Spots</option>
