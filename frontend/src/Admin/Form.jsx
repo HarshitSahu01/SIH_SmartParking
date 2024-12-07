@@ -1,13 +1,31 @@
-import React, { useState } from "react";
-import logo from "../assets/parking_logo.svg";
+import React, { useState, useEffect } from "react";
+import logo from "../assets/logo.png";
+import SmallScreenErrorComponent from "../Components/SmallScreenError";
 
 const ParkingSpaceForm = () => {
+    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 640);
     const [menuOpen, setMenuOpen] = useState(false);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setIsSmallScreen(window.innerWidth < 640);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
+    if (isSmallScreen) {
+        return <SmallScreenErrorComponent />;
+    }
+
     return (
-        <div className="min-h-screen bg-[#ADD8E6] flex flex-col">
+        <div className="min-h-screen bg-custom-gradient flex flex-col">
             {/* Header */}
-            <header className="w-full rounded-b-2xl flex justify-between items-center px-4 py-3 bg-[#003060]">
+            <header className="w-full rounded-b-2xl flex justify-between items-center px-4 py-3">
                 <div className="flex items-center">
                     <img src={logo} alt="Logo" className="w-12 h-8 md:w-16 md:h-10 rounded-full" />
                     <span className="ml-2 text-lg sm:text-2xl font-bold text-white tracking-tighter">
@@ -69,7 +87,6 @@ const ParkingSpaceForm = () => {
                             { id: "phone", label: "Phone Number", placeholder: "Enter phone number" },
                             { id: "email", label: "Email", placeholder: "Enter email" },
                             { id: "org", label: "Select Organisation", placeholder: "Organisation" },
-                            // Extend slot-based entries with JS loop.
                             { id: "parkingName", label: "Parking Space Name", placeholder: "Enter name" },
                             { id: "address", label: "Address", placeholder: "Enter address" },
                             { id: "area", label: "Area", placeholder: "Enter area" },
@@ -97,7 +114,7 @@ const ParkingSpaceForm = () => {
                         <div className="col-span-3">
                             <button
                                 type="submit"
-                                className="w-full py-2 bg-[#003060] text-white font-semibold rounded-md hover:bg-[#68BBE3] transition"
+                                className="w-full py-2 bg-custom-gradient text-white font-semibold rounded-md hover:bg-[#68BBE3] transition"
                             >
                                 Submit
                             </button>
@@ -107,7 +124,7 @@ const ParkingSpaceForm = () => {
             </main>
 
             {/* Footer */}
-            <footer className="w-full rounded-t-2xl text-center py-2 bg-[#003060] text-white text-xs sm:text-sm">
+            <footer className="w-full rounded-t-2xl text-center py-2 text-white text-xs sm:text-sm">
                 © 2024 ParkSmart ~ All rights reserved
             </footer>
         </div>

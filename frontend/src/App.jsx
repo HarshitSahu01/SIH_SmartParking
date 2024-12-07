@@ -10,6 +10,8 @@ import TestingLandingPage from './Pages/TestingLandingPage'
 import ParkingBox from './Pages/ParkingBox'
 import ParkingOnMap from './Pages/ParkingOnmap'
 import ParkingOncards from './Pages/ParkingOncards'
+import LoginPage from './admin/Login'
+import RegisterPage from './admin/Register'
 function App() {
 
   return (
@@ -25,6 +27,8 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/parkings-maps" element={<ParkingOnMap />} />
         <Route path="/parkings-cards" element={<ParkingOncards />} />
+        <Route path="/admin/login" element={<LoginPage />} />
+        <Route path="/admin/register" element={<RegisterPage />} />
     
       </Routes>
     </>

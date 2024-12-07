@@ -1,9 +1,8 @@
-import React from "react";
 import errorImage from "../assets/error-image.svg";
 
 const SmallScreenError = () => {
     return (
-        <div className="flex flex-col items-center justify-center bg-[#003060] text-center min-h-screen min-w-screen">
+        <div className="flex flex-col items-center justify-center text-center min-h-screen min-w-screen bg-custom-gradient">
             <img
                 src={errorImage}
                 alt="404 Error"
