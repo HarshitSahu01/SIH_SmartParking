@@ -12,6 +12,7 @@ import ParkingOnMap from './Pages/ParkingOnmap'
 import ParkingOncards from './Pages/ParkingOncards'
 import LoginPage from './admin/Login'
 import RegisterPage from './admin/Register'
+import From from './admin/Form'
 function App() {
 
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/parkings-cards" element={<ParkingOncards />} />
         <Route path="/admin/login" element={<LoginPage />} />
         <Route path="/admin/register" element={<RegisterPage />} />
+        <Route path="/admin/form" element={<From />} />
     
       </Routes>
     </>
