@@ -67,7 +67,7 @@ const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image
   };
 
   return (
-    <div className="flex  mx-2 mt-8 relative drop-shadow-xl">
+    <div className="flex mx-2 mt-4 relative">
       {isTracking && (
         <div className="notstopbtn absolute top-0 right-0 z-[1000] bg-red-500 text-white  px-2 py-1 rounded-lg ">
           <button onClick={stopTracking}>Stop notifications</button>
@@ -137,7 +137,7 @@ const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image
 
       {/* Initial Confirmation Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+        <div className="absolute top-0 left-0 right-0 h-full w-full  bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-[90%] sm:w-[400px]">
             <h2 className="text-xl text-black font-bold mb-4">
               Do you want to track this parking?
@@ -162,7 +162,7 @@ const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image
 
       {/* Modal for already tracked parking */}
       {showTrackingModal && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+        <div className="absolute top-0 left-0 right-0 h-full w-full  bg-gray-800 bg-opacity-75 flex items-center justify-start z-50">
           <div className="bg-white rounded-lg p-6 w-[90%] sm:w-[400px]">
             <h2 className="text-xl text-black font-bold mb-4">
               This parking is already being tracked.
