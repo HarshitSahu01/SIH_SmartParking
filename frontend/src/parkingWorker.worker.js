@@ -1,13 +1,17 @@
 let intervalId = null;
 
 self.onmessage = (event) => {
-  if (event.data.action === "startTracking") {
-    const { spotsLeft, parkingName } = event.data;
+  const { action, carspotsLeft, bikespotsLeft, parkingName } = event.data;
+
+  if (action === "startTracking") {
+    clearInterval(intervalId); // Clear any existing interval to avoid duplicates
 
     intervalId = setInterval(() => {
-      self.postMessage({ message: `Spots left for ${parkingName}: ${spotsLeft}` });
+      const message = `Spots left for ${parkingName} are:\nCar: ${carspotsLeft}\nBike: ${bikespotsLeft}`;
+      self.postMessage({ message });
     }, 10000); // Notify every 10 seconds
-  } else if (event.data.action === "stopTracking") {
-    clearInterval(intervalId);
+  } else if (action === "stopTracking") {
+    clearInterval(intervalId); // Stop the interval when tracking is stopped
+    intervalId = null; // Reset interval ID
   }
 };
