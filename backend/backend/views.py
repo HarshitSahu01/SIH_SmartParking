@@ -202,6 +202,8 @@ def get_parkings(request):
                 'name': parking.name,
                 'two_wheeler_price': parking.two_wheeler_price,
                 'four_wheeler_price': parking.four_wheeler_price,
+                'lat': parking.lat,
+                'long': parking.long,
                 'car_spots': 1,
                 'bike_spots': 1,
                 'distance': distance,
@@ -230,6 +232,8 @@ def getParkingData(request):
                 'name': parking.name,
                 'two_wheeler_price': parking.two_wheeler_price,
                 'four_wheeler_price': parking.four_wheeler_price,
+                'lat': parking.lat,
+                'long': parking.long,
                 'distance': distance,
                 'car_spots': 1,
                 'bike_spots': 1,
@@ -263,23 +267,28 @@ def login_view(request):
 def register_view(request):
     if request.method == "POST":
         data = request.POST
-        required_fields = ['username', 'email', 'password', 'full_name', 'contact', 'organization']
+        required_fields = ['username', 'email', 'password']
 
         if not validate_fields(data, required_fields):
             return JsonResponse({'message': 'Invalid data'}, status=400)
+        print('here')
 
         username = data.get('username')
         email = data.get('email')
         password = data.get('password')
-        full_name = data.get('full_name')
-        contact = data.get('contact')
-        organization = data.get('organization')
+
+        if username == '' or email == '' or password == '':
+            return JsonResponse({'message': 'Invalid data'}, status=400)
+
+        if Users.objects.filter(email=email).exists():
+            return JsonResponse({'message': 'Email already taken'}, status=400)
 
         if Users.objects.filter(username=username).exists():
             return JsonResponse({'message': 'Username already taken'}, status=400)
 
-        user = Users.objects.create_user(username=username, email=email, password=password)
-        parking_owner = ParkingOwner.objects.create(user=user, contact=contact, organization=organization)
+        user = Users(username=username, email=email, password=password)
+        user.save()
+        login(request, user)
         
         return JsonResponse({'message': 'success'}, status=200)
     return JsonResponse({'message': 'Invalid request method'}, status=405)
