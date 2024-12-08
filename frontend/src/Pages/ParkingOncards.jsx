@@ -19,16 +19,24 @@ const ParkingOnCards = () => {
   const [address, setAddress] = useState("");
 
   // Function to fetch address from coordinates
-  const fetchAddress = async (latitude, longitude) => {
+  const fetchAddress = async (latitude, longitude) => { 
     try {
       const response = await axios.get(
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
       );
-      setAddress(response.data.display_name);
+  
+      // Extract relevant address fields
+      const addressData = response.data.address;
+      const formattedAddress = `${addressData.neighbourhood}, ${addressData.city}, ${addressData.postcode}`;
+  
+      // Set the formatted address
+      setAddress(formattedAddress);
+      console.log(formattedAddress);
     } catch (error) {
       console.error("Error fetching address:", error);
     }
   };
+  
 
   // Fetch address whenever lat or lng changes
   useEffect(() => {
@@ -41,13 +49,13 @@ const ParkingOnCards = () => {
       style={{ zIndex: 2000 }}
     >
       {/* Header Section */}
-      <div className="panel-head bg-custom-gradient flex flex-col justify-center items-center gap-2 rounded-b-3xl p-4 min-h-[16vh] min-w-[100vw] drop-shadow-xl border border-black">
+      <div className="panel-head motion-preset-slide-down motion-duration-1000 bg-custom-gradient flex flex-col justify-center items-center gap-2 rounded-b-3xl p-4 min-h-[16vh] min-w-[100vw] border border-black">
         <div className="flex gap-3">
           <p className="font-bold text-xl">View All Parking Locations</p>
         </div>
         {/* Display the fetched address */}
         {address && (
-          <p className="text-white text-sm mt-2">
+          <p className="text-white text-sm mt-2 motion-preset-fade-sm">
             <strong>Address:</strong> {address}
           </p>
         )}
@@ -59,7 +67,7 @@ const ParkingOnCards = () => {
       </div>
 
       {/* Main Content */}
-      <div className="main-panel bg-white w-full p-4">
+      <div className="main-panel motion-preset-blur-up motion-duration-1000 bg-white w-full p-4">
         <Search />
       </div>
 
