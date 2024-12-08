@@ -9,8 +9,8 @@
 
 # # print('Loading model')
 # # from model.imageProcess import detect_parking_spots_from_image
-# # # def detect_parking_spots_from_image(*args, **kwargs):
-# # #     pass
+def detect_parking_spots_from_image(*args, **kwargs):
+    pass
 # # print('Model loaded')
 
 # RADIUS = 2000 # in metres
@@ -86,7 +86,11 @@ from django.http import HttpResponse
 from backend.models import *
 from geopy.distance import geodesic
 from backend.utils import *
-from django.templatetags.static import static
+import base64
+from django.http import JsonResponse
+from django.contrib.auth import authenticate, login, logout
+from django.core.exceptions import ObjectDoesNotExist
+import json
 
 RADIUS = 2000 # in metres
 
@@ -164,12 +168,6 @@ def testView(request):
     return JsonResponse({'message': 'Image processed!','empty_cars':empty_cars, 'empty_bikes':empty_bikes})
 
 
-# new views
-import base64
-from django.http import JsonResponse
-from django.contrib.auth import authenticate, login
-from django.core.exceptions import ObjectDoesNotExist
-import json
 
 # Helper function for validating fields
 def validate_fields(data, required_fields):
@@ -275,6 +273,12 @@ def register_view(request):
         return JsonResponse({'message': 'success'}, status=200)
     return JsonResponse({'message': 'Invalid request method'}, status=405)
 
+@csrf_exempt
+def logout_view(request):
+    if request.method == "POST":
+        logout(request)
+        return JsonResponse({'message': 'success'}, status=200)
+    return JsonResponse({'message': 'Invalid request method'}, status=405)
 
 # /createParking
 @csrf_exempt
