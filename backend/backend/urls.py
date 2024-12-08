@@ -18,14 +18,15 @@ from django.contrib import admin
 from django.urls import path
 from backend import views
 
-try:
-    urlpatterns = [
+urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
     path('getCords', views.getCords),
     path('searchParkings', views.searchParkings, name='searchParkings'),
     path('testView', views.testView),
     path('getSampleImages', views.getSampleImages),
+    path('getParkings', views.get_parkings),
+    path('getParkingData', views.getParkingData),
+
+    path('login', views.login_view)
 ]
-except Exception as e:
-    urlpatterns = []
