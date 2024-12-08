@@ -5,19 +5,32 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import marker from "../Components/icons/marker-without-bg.png";
 import userMarker from "../Components/icons/marker-user-removebg.png";
-import P from "../assets/P.png";  // Import missing image
-import clock from "../assets/clock.png";  // Import missing image
-import addressicon from "../assets/address.png";  // Import missing image
-import priceicon from "../assets/price.png";  // Import missing image
-import Car from "../assets/car.png";  // Import missing image
-import bike from "../assets/bike.png";  // Import missing image
+import P from "../assets/P.png"; // Import missing image
+import clock from "../assets/clock.png"; // Import missing image
+import addressicon from "../assets/address.png"; // Import missing image
+import priceicon from "../assets/price.png"; // Import missing image
+import Car from "../assets/car.png"; // Import missing image
+import bike from "../assets/bike.png"; // Import missing image
 import axios from "axios";
-import backarr from "../assets/back-arrow.png"
+import backarr from "../assets/back-arrow.png";
 // ParkingBox component as provided
-const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image }) => {
+const ParkingBox = ({
+  name,
+  carprice,
+  bikeprice,
+  distance,
+  carspots,
+  bikespots,
+  address,
+  image,
+}) => {
   return (
     <div className="flex flex-col w-[80vw] sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-white shadow-md transform transition-transform duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100">
-      <img src={image} alt="Parking" className="w-full h-[220px] object-cover p-3 rounded-3xl" />
+      <img
+         src={image ? image : P}
+        alt="Parking"
+        className="w-full h-[220px] object-cover p-3 rounded-3xl"
+      />
       <div className="pt-1 px-4 pb-4">
         <div className="flex flex-row mx-2 sm:flex-row justify-between items-start sm:items-center">
           <div className="c11 flex flex-col gap-3">
@@ -38,7 +51,8 @@ const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image
           <div className="c22 flex flex-col gap-3">
             <div className="c4 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
               <img src={priceicon} alt="" className="w-7" />
-              <p>Rs {price}</p>
+              <p>Rs {carprice}</p>
+              <p>Rs {bikeprice}</p>
             </div>
             <div className="c5 flex items-center text-sm font-bold text-gray-600 gap-2">
               <img src={Car} alt="" className="w-7" />
@@ -75,107 +89,65 @@ const ParkingOnmap = () => {
     lat: 20.5937, // Default latitude (India)
     lng: 78.9629, // Default longitude (India)
   };
-  const [lat, setLat] = useState(initialLat);  // User's current latitude
-  const [lng, setLng] = useState(initialLng);  // User's current longitude
-  const [storeLat, setStoreLat] = useState(initialLat); // For store's latitude
-  const [storeLng, setStoreLng] = useState(initialLng); // For store's longitude
+  const [lat, setLat] = useState(initialLat); // User's current latitude
+  const [lng, setLng] = useState(initialLng); // User's current longitude
+  // const [storeLat, setStoreLat] = useState(initialLat); // For store's latitude
+  // const [storeLng, setStoreLng] = useState(initialLng); // For store's longitude
 
   const [address, setAddress] = useState(""); // Store user's address
   const [selectedStore, setSelectedStore] = useState(null);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const panelRef = useRef(null);
-
-  // Instead of fetching from an API, using the const storeList directly.
-  const storeList = [
-    {
-      id: 1,
-      name: 'Parking Lot 1',
-      lat: 21.1458,
-      lng: 79.0882,
-      price: 70,
-      distance: '5 km',
-      carspots: 15,
-      bikespots: 5,
-      address: 'Address 1',
-      image: 'https://via.placeholder.com/300x220?text=Parking+1',
-    },
-    {
-      id: 2,
-      name: 'Parking Lot 2',
-      lat: 21.1450,
-      lng: 79.0900,
-      price: 80,
-      distance: '3 km',
-      carspots: 20,
-      bikespots: 10,
-      address: 'Address 2',
-      image: 'https://via.placeholder.com/300x220?text=Parking+2',
-    },
-    {
-      id: 3,
-      name: 'Parking Lot 3',
-      lat: 21.1400,
-      lng: 79.0850,
-      price: 90,
-      distance: '6 km',
-      carspots: 25,
-      bikespots: 8,
-      address: 'Address 3',
-      image: 'https://via.placeholder.com/300x220?text=Parking+3',
-    },
-    {
-      id: 4,
-      name: 'Parking Lot 4',
-      lat: 21.1480,
-      lng: 79.1000,
-      price: 100,
-      distance: '7 km',
-      carspots: 30,
-      bikespots: 12,
-      address: 'Address 4',
-      image: 'https://via.placeholder.com/300x220?text=Parking+4',
-    },
-    {
-      id: 5,
-      name: 'Parking Lot 5',
-      lat: 21.1500,
-      lng: 79.1100,
-      price: 110,
-      distance: '4 km',
-      carspots: 35,
-      bikespots: 15,
-      address: 'Address 5',
-      image: 'https://via.placeholder.com/300x220?text=Parking+5',
-    },
-    {
-      id: 6,
-      name: 'Parking Lot 6',
-      lat: 21.1550,
-      lng: 79.1200,
-      price: 120,
-      distance: '2 km',
-      carspots: 40,
-      bikespots: 18,
-      address: 'Address 6',
-      image: 'https://via.placeholder.com/300x220?text=Parking+6',
-    },
-  ];
-
-  // Fetch address for the current lat, lng
-  useEffect(() => {
-    fetchAddress(lat, lng);
-  }, [lat, lng]);
-
-  const fetchAddress = async (latitude, longitude) => {
+  const [storeList, setStoreList] = useState([]);
+  const [cityUser, setcityUser] = useState("");
+  const [stateUser, setstateUser] = useState("");
+  const [loading, setLoading] = useState(false);
+  const fetchUserAddress = async (latitude, longitude) => {
     try {
       const response = await axios.get(
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
       );
-      setAddress(response.data.display_name);
+      const addressData = response.data.address;
+      setcityUser(addressData.city);
+      setstateUser(addressData.state);
     } catch (error) {
       console.error("Error fetching address:", error);
     }
   };
+
+  // Fetch parking data whenever cityUser or stateUser changes
+  useEffect(() => {
+    if (cityUser && stateUser) {
+      setLoading(true); // Show loader before making the API call
+      axios
+        .get(
+          `http://localhost:8000/getParkings?lat=${lat}&long=${lng}&city=${cityUser}&state=${stateUser}`
+        )
+        .then((response) => {
+          setStoreList(response.data.parkings);
+        })
+        .catch((error) => console.error("Error fetching parking data:", error))
+        .finally(() => {
+          setLoading(false); // Hide loader after the API call
+        });
+    }
+  }, [lat, lng, cityUser, stateUser]);
+
+  // Fetch address whenever lat or lng changes
+  useEffect(() => {
+    fetchUserAddress(lat, lng);
+  }, [lat, lng]);
+
+  // const fetchAddress = async (latitude, longitude) => {
+  //   try {
+  //     const response = await axios.get(
+  //       `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+  //     );
+  //     setAddress(response.data.display_name);
+  //   } catch (error) {
+  //     console.error("Error fetching address:", error);
+  //   }
+  // };
 
   // Custom icon for parking markers
   const customIcon = new L.Icon({
@@ -207,7 +179,7 @@ const ParkingOnmap = () => {
               });
             }}
           >
-            <img src={backarr} alt="" className="w-6 h-7 mx-2 my-1"/>
+            <img src={backarr} alt="" className="w-6 h-7 mx-2 my-1" />
           </button>
         </div>
 
@@ -220,33 +192,59 @@ const ParkingOnmap = () => {
           >
             <TileLayer
               url="https://tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=b3a0689a59104875a48e7b0370951490"
-              attribution=''
+              attribution=""
             />
             {/* Markers for stores */}
-            {storeList && storeList.length > 0 && storeList.map((shop, index) => (
-  <Marker position={[shop.lat, shop.lng]} icon={customIcon} key={index}>
-    <Popup>
-      <div>
-        <p>{shop.name}</p>
-        <button
-          onClick={() =>
-            window.open(`https://www.google.com/maps/dir/?api=1&destination=${shop.lat},${shop.lng}`, '_blank')
-          }
-          className="bg-blue-500 text-white rounded-full px-3 py-1 mt-2 hover:bg-blue-700"
-        >
-          Navigate
-        </button>
-      </div>
-    </Popup>
-  </Marker>
-))}
+            {storeList && storeList.length > 0 ? (
+              storeList.map((shop, index) => {
+                const lat = shop.lat || 0; // Replace 0 with actual latitude logic
+                const lng = shop.long || 0; // Replace 0 with actual longitude logic
+
+                return (
+                  <Marker position={[lat, lng]} icon={customIcon} key={index}>
+                    <Popup>
+                      <div>
+                        <p>
+                          <strong>{shop.name}</strong>
+                        </p>
+                        <p>Available Car Slots: {shop.car_spots}</p>
+                        <p>Available Bike Slots: {shop.bike_spots}</p>
+                        <p>Distance: {shop.distance?.toFixed(2)} meters</p>
+                        <p>Time: {shop.time}</p>
+                        <img
+                          src={shop.image}
+                          alt={shop.name}
+                          style={{
+                            width: "100px",
+                            height: "auto",
+                            marginTop: "10px",
+                          }}
+                        />
+                        <button
+                          onClick={() =>
+                            window.open(
+                              `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`,
+                              "_blank"
+                            )
+                          }
+                          className="bg-blue-500 text-white rounded-full px-3 py-1 mt-2 hover:bg-blue-700"
+                        >
+                          Navigate
+                        </button>
+                      </div>
+                    </Popup>
+                  </Marker>
+                );
+              })
+            ) : (
+              <p>No stores available to display</p>
+            )}
 
             {/* Marker for user's current location */}
             {/* Marker for user's current location */}
-<Marker position={[initialLat, initialLng]} icon={customIconUser}>
-  <Popup>Your Location</Popup>
-</Marker>
-
+            <Marker position={[initialLat, initialLng]} icon={customIconUser}>
+              <Popup>Your Location</Popup>
+            </Marker>
 
             {/* Fly to the user's current location */}
             <FlyToLocation lat={lat} lng={lng} />
@@ -254,26 +252,37 @@ const ParkingOnmap = () => {
         </div>
 
         {/* Parking Slider */}
-      <div
-  ref={panelRef}
-  className={`absolute left-0 right-0 motion-preset-slide-up ${isSearchExpanded ? "top-0 min-h-screen rounded-b-3xl bg-transparent  " : "min-h-[5vh] bottom-0 rounded-t-3xl bg-transparent"} text-white drop-shadow-2xl flex flex-col items-center justify-center gap transition-all duration-1000 overflow-scroll`}
-  style={{ zIndex: "2000" }}
->
-
+        <div
+          ref={panelRef}
+          className={`absolute left-0 right-0 motion-preset-slide-up ${
+            isSearchExpanded
+              ? "top-0 min-h-screen rounded-b-3xl bg-transparent  "
+              : "min-h-[5vh] bottom-0 rounded-t-3xl bg-transparent"
+          } text-white drop-shadow-2xl flex flex-col items-center justify-center gap transition-all duration-1000 overflow-scroll`}
+          style={{ zIndex: "2000" }}
+        >
           {/* Parking Cards as Slider */}
+          {loading && (
+        <div className="absolute inset-0 flex justify-center  items-center bg-opacity-50 bg-gray-500 z-50">
+          <div className="spinner-border text-white animate-spin w-12 h-12 border-4 rounded-full"></div>
+          <span className="sr-only">Loading...</span>
+        </div>
+      )}
+
           <div className="w-full mt-4 flex overflow-x-scroll gap-24 bg-custom-gradient p-4 rounded-t-2xl">
-            {storeList.map((store) => (
+            {storeList.map((store,index) => (
               <div
-                key={store.id}
-                onClick={() => handleCardClick(store.lat, store.lng)}
+                key={index}
+                onClick={() => handleCardClick(store.lat, store.long)}
                 className="flex flex-col w-64 cursor-pointer"
               >
                 <ParkingBox
                   name={store.name}
-                  price={store.price}
+                  carprice={store.four_wheeler_price}
+                  bikeprice={store.two_wheeler_price}
                   distance={store.distance}
-                  carspots={store.carspots}
-                  bikespots={store.bikespots}
+                  carspots={store.car_spots}
+                  bikespots={store.bike_spots}
                   address={store.address}
                   image={store.image}
                 />
@@ -281,7 +290,9 @@ const ParkingOnmap = () => {
             ))}
           </div>
           <div
-            className={`changeLoc flex justify-center items-center py-1 font-bold ${isSearchExpanded ? "text-black" : "text-black"} h-full w-full bg-[#6159B7]`}
+            className={`changeLoc flex justify-center items-center py-1 font-bold ${
+              isSearchExpanded ? "text-black" : "text-black"
+            } h-full w-full bg-[#6159B7]`}
           >
             <button
               onClick={() => {
