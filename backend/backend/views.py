@@ -92,7 +92,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ObjectDoesNotExist
 import json
 
-RADIUS = 2000 # in metres
+RADIUS = 10000 # in metres
 
 def getSampleImages(request):
     try:
@@ -198,13 +198,16 @@ def get_parkings(request):
 
         if distance <= RADIUS:
             filtered_parkings.append({
+                'id': parking.id,
                 'name': parking.name,
                 'two_wheeler_price': parking.two_wheeler_price,
                 'four_wheeler_price': parking.four_wheeler_price,
+                'car_spots': 1,
+                'bike_spots': 1,
                 'distance': distance,
                 'time': '{:0.2f} min'.format(round(distance / 500)),
                 'address': f'{parking.address}, {parking.city}, {parking.state}',
-                'image': parking.image 
+                'image': 'static/sampleParking1.png'
             })
 
     return JsonResponse({'message': 'Success', 'parkings': filtered_parkings}, status=200)
@@ -212,20 +215,28 @@ def get_parkings(request):
 
 # /getParkingData
 @csrf_exempt
-def get_parking_data(request):
+def getParkingData(request):
     parking_id = request.GET.get('id')
+    lat = request.GET.get('lat')
+    long = request.GET.get('long')
+    user_coords = (lat, long)
+    parking_coords = (Parking.objects.get(id=parking_id).lat, Parking.objects.get(id=parking_id).long)
     
     try:
         parking = Parking.objects.get(id=parking_id)
+        distance = geodesic(parking_coords, user_coords).meters
         parking_data = {
-            "name": parking.name,
-            "price": f"{parking.two_wheeler_price}/hr",
-            "distance": "5 mins",  # Placeholder
-            "carspots": 35,        # Placeholder
-            "bikespots": 12,       # Placeholder
-            "address": f"{parking.address}, {parking.city}, {parking.state}",
-            "image": "P"           # Placeholder for image
-        }
+                'id': parking.id,
+                'name': parking.name,
+                'two_wheeler_price': parking.two_wheeler_price,
+                'four_wheeler_price': parking.four_wheeler_price,
+                'distance': distance,
+                'car_spots': 1,
+                'bike_spots': 1,
+                'time': '{:0.2f} min'.format(round(distance / 500)),
+                'address': f'{parking.address}, {parking.city}, {parking.state}',
+                'image': 'static/sampleParking1.png'
+            }
         return JsonResponse({'message': 'Success', 'parkings': parking_data}, status=200)
     except ObjectDoesNotExist:
         return JsonResponse({'message': 'Parking not found'}, status=404)
