@@ -9,6 +9,7 @@ import userMarker from "./icons/marker-user-removebg.png";
 import LoadingSearch from "./LoadingSearch";
 import dropin from "../assets/droppin.gif"
 import searchicon from "../assets/searchicon.gif"
+
 const FlyToLocation = ({ lat, lng }) => {
   const map = useMap();
   useEffect(() => {
