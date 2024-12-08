@@ -223,13 +223,23 @@ const ParkingOnmap = () => {
               attribution=''
             />
             {/* Markers for stores */}
-            {storeList && storeList.length > 0 && storeList.map((shop, index) => {
-              return (
-                <Marker position={[shop.lat, shop.lng]} icon={customIcon} key={index}>
-                  <Popup>{shop.name}</Popup>
-                </Marker>
-              );
-            })}
+            {storeList && storeList.length > 0 && storeList.map((shop, index) => (
+  <Marker position={[shop.lat, shop.lng]} icon={customIcon} key={index}>
+    <Popup>
+      <div>
+        <p>{shop.name}</p>
+        <button
+          onClick={() =>
+            window.open(`https://www.google.com/maps/dir/?api=1&destination=${shop.lat},${shop.lng}`, '_blank')
+          }
+          className="bg-blue-500 text-white rounded-full px-3 py-1 mt-2 hover:bg-blue-700"
+        >
+          Navigate
+        </button>
+      </div>
+    </Popup>
+  </Marker>
+))}
 
             {/* Marker for user's current location */}
             {/* Marker for user's current location */}
