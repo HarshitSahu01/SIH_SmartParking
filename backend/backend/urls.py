@@ -25,6 +25,7 @@ try:
     path('getCords', views.getCords),
     path('searchParkings', views.searchParkings, name='searchParkings'),
     path('testView', views.testView),
+    path('getSampleImages', views.getSampleImages),
 ]
 except Exception as e:
     urlpatterns = []
