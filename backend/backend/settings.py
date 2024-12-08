@@ -94,8 +94,8 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "defaultdb",
         "USER": "avnadmin",
-        "PASSWORD": "AVNS_3ZPSlczKfQaUIwKrJFX",
-        "HOST": "sih-project-db-sih-project.b.aivencloud.com",
+        "PASSWORD": "AVNS_YsgNZifDAQO7P99Z-Ds",
+        "HOST": "sih-project-db-sih-project.i.aivencloud.com",
         "PORT": "22448",
     }
 }
