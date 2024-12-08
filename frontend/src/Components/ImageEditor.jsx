@@ -13,7 +13,7 @@ export default function ImageEditor() {
     const [canvasImages, setCanvasImages] = useState([]);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0, factor: 0, requiredHeight: 500 });
-    const [drawMode, setDrawMode] = useState('addCar'); // Current drawmode
+    const [drawMode, setDrawMode] = useState('none'); // Current drawmode
     const [currentPoints, setCurrentPoints] = useState([]); // Points for the current rectangle being drawn
     const [spots, setSpots] = useState([]); // State to store spots for car and bike spots
     const [menuOpen, setMenuOpen] = useState(false);
@@ -278,91 +278,90 @@ export default function ImageEditor() {
                     )}
                 </header>
                 <canvas ref={canvasRef} onClick={handleCanvasClick} className='rounded-lg cursor-crosshair'></canvas>
-                <div className='text-white mt-4'>Image {currentImageIndex + 1} of {canvasImages.length}</div>
-                <div className="flex justify-center items-center gap-6 mt-4 px-3 ml-6 py-3 bg-white bg-opacity-30 rounded-full">
-    {/* Previous Button */}
-    <button onClick={prevImageFunc}>
-        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
-            <img src={prevIcon} alt="Previous" className="w-5 h-5" />
-        </div>
-        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
-            Previous Image
-        </span>
-    </button>
+                <div className='flex flex-row items-center justify-center'>
+                <div className="flex flex-row justify-center items-center gap-6 mt-4 px-3 ml-6 py-3 bg-white bg-opacity-30 rounded-full">
+                    {/* Previous Button */}
+                    <button onClick={prevImageFunc} className='mr-8'>
+                        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                            <img src={prevIcon} alt="Previous" className="w-5 h-5" />
+                        </div>
+                        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
+                            Previous Image
+                        </span>
+                    </button>
 
-    {/* Add Car Button */}
-    <button onClick={() => drawModeFunc('addCar')}>
-        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
-            <img src={carModeIcon} alt="Car Mode" className="w-5 h-5" />
-        </div>
-        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
-            Add Car Spot
-        </span>
-    </button>
+                    {/* Add Car Button */}
+                    <button
+                        onClick={() => drawModeFunc('addCar')}
+                        className={`border-4 rounded-full ${drawMode === 'addCar' ? 'border-blue-500' : 'border-transparent'}`}
+                    >
+                        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                            <img src={carModeIcon} alt="Car Mode" className="w-5 h-5" />
+                        </div>
+                        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
+                            Add Car Spot
+                        </span>
+                    </button>
 
-    {/* Add Bike Button */}
-    <button
-        onClick={() => drawModeFunc('addBike')}
-    >
-        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
-            <img src={bikeModeIcon} alt="Bike Mode" className="w-5 h-5" />
-        </div>
-        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
-            Add Bike Spot
-        </span>
-    </button>
+                    {/* Add Bike Button */}
+                    <button
+                        onClick={() => drawModeFunc('addBike')}
+                        className={`border-4 rounded-full ${drawMode === 'addBike' ? 'border-blue-500' : 'border-transparent'}`}
+                    >
+                        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                            <img src={bikeModeIcon} alt="Bike Mode" className="w-5 h-5" />
+                        </div>
+                        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
+                            Add Bike Spot
+                        </span>
+                    </button>
 
-    {/* Erase Button */}
-    <button
-        onClick={() => drawModeFunc('erase')}
-    >
-        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
-            <img src={eraseIcon} alt="Erase" className="w-5 h-5" />
-        </div>
-        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
-            Erase Spot
-        </span>
-    </button>
+                    {/* Erase Button */}
+                    <button
+                        onClick={() => drawModeFunc('erase')}
+                        className={`border-4 rounded-full ${drawMode === 'erase' ? 'border-blue-500' : 'border-transparent'}`}
+                    >
+                        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                            <img src={eraseIcon} alt="Erase" className="w-5 h-5" />
+                        </div>
+                        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
+                            Erase Spot
+                        </span>
+                    </button>
 
-    {/* Undo Button */}
-    <button
-        onClick={undoFunc}
-    >
-        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
-            <img src={undoIcon} alt="Undo" className="w-5 h-5" />
-        </div>
-        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
-            Undo Last Action
-        </span>
-    </button>
+                    {/* Undo Button */}
+                    <button onClick={undoFunc}>
+                        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                            <img src={undoIcon} alt="Undo" className="w-5 h-5" />
+                        </div>
+                        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
+                            Undo Last Action
+                        </span>
+                    </button>
 
-    {/* Erase All Button */}
-    <button
-        onClick={eraseAllFunc}
-    >
-        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
-            <img src={eraseAllIcon} alt="Erase All" className="w-5 h-5" />
-        </div>
-        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
-            Erase All
-        </span>
-    </button>
+                    {/* Erase All Button */}
+                    <button onClick={eraseAllFunc}>
+                        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                            <img src={eraseAllIcon} alt="Erase All" className="w-5 h-5" />
+                        </div>
+                        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
+                            Erase All
+                        </span>
+                    </button>
 
-    {/* Next Button */}
-    <button
-        onClick={nextImageFunc}
-    >
-        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
-            <img src={nextIcon} alt="Next" className="w-5 h-5" />
-        </div>
-        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
-            Next Image
-        </span>
-    </button>
-</div>
-
-
-            </div>
+                    {/* Next Button */}
+                    <button onClick={nextImageFunc} className='ml-8'>
+                        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                            <img src={nextIcon} alt="Next" className="w-5 h-5" />
+                        </div>
+                        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
+                            Next Image
+                        </span>
+                    </button>
+                </div>
+                <div className='ml-16 mt-6'><button className='bg-white rounded-full px-4 py-2'>Submit</button></div>
+                </div>
+            </div>                       
         </div>
     );
 }
