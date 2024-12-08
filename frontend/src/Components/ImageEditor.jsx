@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import logo from '../assets/logo.svg';
 import { use } from 'react';
 
 export default function ImageEditor() {
@@ -9,12 +10,13 @@ export default function ImageEditor() {
     const [drawMode, setDrawMode] = useState('addCar'); // Current drawmode
     const [currentPoints, setCurrentPoints] = useState([]); // Points for the current rectangle being drawn
     const [spots, setSpots] = useState([]); // State to store spots for car and bike spots
+    const [menuOpen, setMenuOpen] = useState(false);    
 
     // when the page loads, fetch images and create spots array
     useEffect(() => {
         const fetchImages = async () => {
             try {
-                const response = await fetch('http://localhost:5000/getSampleImages');
+                const response = await fetch('http://localhost:8000/getSampleImages');
                 const data = await response.json();
 
                 const loadedImages = await Promise.all(
@@ -218,9 +220,60 @@ export default function ImageEditor() {
         return <div>Loading...</div>;
     }
     return (
-        <div className='flex flex-col items-center justify-center min-h-screen'>
+        <div className='bg-custom-gradient h-[100vh]'>
+        <div className='flex flex-col items-center justify-center'>
+            <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3">
+                <div className="flex items-center">
+                    <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-10" />
+                    <span className="ml-2 text-2xl sm:text-2xl font-semibold text-white tracking-tighter">
+                        Park-N-Go
+                    </span>
+                </div>
+                <div className="cursor-pointer" onClick={() => setMenuOpen((prev) => !prev)}>
+                    <svg
+                        fill="none"
+                        viewBox="0 0 50 50"
+                        height="28"
+                        width="28"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-8 h-8 md:w-12 md:h-12"
+                    >
+                        <path
+                            className="lineTop line"
+                            strokeLinecap="round"
+                            strokeWidth="4"
+                            stroke="white"
+                            d="M6 11L44 11"
+                        ></path>
+                        <path
+                            strokeLinecap="round"
+                            strokeWidth="4"
+                            stroke="white"
+                            d="M6 24H43"
+                            className="lineMid line"
+                        ></path>
+                        <path
+                            strokeLinecap="round"
+                            strokeWidth="4"
+                            stroke="white"
+                            d="M6 37H43"
+                            className="lineBottom line"
+                        ></path>
+                    </svg>
+                </div>
+                {menuOpen && (
+                    <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg w-32 sm:w-40">
+                        <ul className="text-gray-800">
+                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                                Admin Controls
+                            </li>
+                        </ul>
+                    </div>
+                )}
+            </header>
             <canvas ref={canvasRef} onClick={handleCanvasClick} className='rounded-lg cursor-crosshair'></canvas>
-            <div>Image {currentImageIndex + 1} of {canvasImages.length}</div>
+            <div className='text-white'>Image {currentImageIndex + 1} of {canvasImages.length}</div>
+            <div className='flex flex-row gap-4'>
             <button onClick={nextImageFunc}>Next Image</button>
             <button onClick={prevImageFunc}>Prev Image</button>
             <button onClick={() => drawModeFunc('addCar')}>Car Mode</button>
@@ -228,6 +281,8 @@ export default function ImageEditor() {
             <button onClick={() => drawModeFunc('erase')}>Erase mode</button>
             <button onClick={eraseAllFunc}>Erase All</button>
             <button onClick={undoFunc}>Undo</button>
+            </div>
+        </div>
         </div>
     );
 }
