@@ -4,7 +4,7 @@ import car from "../assets/CarTest.gif";
 import logo from "../assets/logo.png";
 import arr from "../assets/getStartedArr.gif";
 import test from "../assets/test.svg";
-
+import { Link } from "react-router-dom";
 const LandingPage = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -54,8 +54,11 @@ const LandingPage = () => {
         {menuOpen && (
           <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg w-32 sm:w-40">
             <ul className="text-gray-800">
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+            <Link href="/admin/login">
+            
                 Admin Controls
+              </Link>
               </li>
             </ul>
           </div>
