@@ -91,6 +91,7 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ObjectDoesNotExist
 import json
+import stripe
 
 RADIUS = 10000 # in metres
 
@@ -375,3 +376,18 @@ def create_parking_spots(request):
         return JsonResponse({'message': 'success'}, status=200)
     
     return JsonResponse({'message': 'Invalid request method'}, status=405)
+stripe.api_key = "sk_test_51QU4k4I2jnvFyR8Fo6gBUHPAOTOvyX2xRPg2nWukjLq6xiFgjlfDBzv76kPXMb6oV3EPfp0Vall2DPu1CLxqEKjv003VKc00zv"
+
+def create_payment_intent(request):
+    try:
+        # Create a PaymentIntent with the order amount and currency
+        intent = stripe.PaymentIntent.create(
+            amount=5000,  # Amount in cents (e.g., $50.00)
+            currency='usd',
+            automatic_payment_methods={
+                'enabled': True,
+            },
+        )
+        return JsonResponse({'clientSecret': intent['client_secret']})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)

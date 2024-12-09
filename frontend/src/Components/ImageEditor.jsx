@@ -277,10 +277,13 @@ export default function ImageEditor() {
                         </div>
                     )}
                 </header>
+                <div className='flex flex-col items-center justify-center text-white mb-2'>
+                    <h1 className='text-xl font-semibold'>Please select the Parking Spaces</h1>
+                </div>
                 <canvas ref={canvasRef} onClick={handleCanvasClick} className='rounded-lg cursor-crosshair'></canvas>
                 <div className='flex flex-row items-center justify-center'>
                 <div className="flex flex-row justify-center items-center gap-6 mt-4 px-3 ml-6 py-3 bg-white bg-opacity-30 rounded-full">
-                    {/* Previous Button */}
+                    
                     <button onClick={prevImageFunc} className='mr-8'>
                         <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
                             <img src={prevIcon} alt="Previous" className="w-5 h-5" />
@@ -290,7 +293,6 @@ export default function ImageEditor() {
                         </span>
                     </button>
 
-                    {/* Add Car Button */}
                     <button
                         onClick={() => drawModeFunc('addCar')}
                         className={`border-4 rounded-full ${drawMode === 'addCar' ? 'border-blue-500' : 'border-transparent'}`}
@@ -303,7 +305,6 @@ export default function ImageEditor() {
                         </span>
                     </button>
 
-                    {/* Add Bike Button */}
                     <button
                         onClick={() => drawModeFunc('addBike')}
                         className={`border-4 rounded-full ${drawMode === 'addBike' ? 'border-blue-500' : 'border-transparent'}`}
@@ -316,7 +317,6 @@ export default function ImageEditor() {
                         </span>
                     </button>
 
-                    {/* Erase Button */}
                     <button
                         onClick={() => drawModeFunc('erase')}
                         className={`border-4 rounded-full ${drawMode === 'erase' ? 'border-blue-500' : 'border-transparent'}`}
@@ -329,7 +329,6 @@ export default function ImageEditor() {
                         </span>
                     </button>
 
-                    {/* Undo Button */}
                     <button onClick={undoFunc}>
                         <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
                             <img src={undoIcon} alt="Undo" className="w-5 h-5" />
@@ -339,7 +338,6 @@ export default function ImageEditor() {
                         </span>
                     </button>
 
-                    {/* Erase All Button */}
                     <button onClick={eraseAllFunc}>
                         <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
                             <img src={eraseAllIcon} alt="Erase All" className="w-5 h-5" />
@@ -349,7 +347,6 @@ export default function ImageEditor() {
                         </span>
                     </button>
 
-                    {/* Next Button */}
                     <button onClick={nextImageFunc} className='ml-8'>
                         <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
                             <img src={nextIcon} alt="Next" className="w-5 h-5" />
@@ -359,7 +356,7 @@ export default function ImageEditor() {
                         </span>
                     </button>
                 </div>
-                <div className='ml-16 mt-6'><button className='bg-white rounded-full px-4 py-2'>Submit</button></div>
+                <div className='ml-8 mt-6'><button className='bg-white rounded-full px-4 py-2'>Submit</button></div>
                 </div>
             </div>                       
         </div>
