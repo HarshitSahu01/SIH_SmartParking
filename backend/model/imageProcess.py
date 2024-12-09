@@ -109,15 +109,19 @@ def detect_parking_spots_from_image(image_path, spots_binary, class_file='coco.t
 
     return free_cars, free_bikes
 
+import json 
 
 # Example usage
 if __name__ == "__main__":
     image_path = 'image.png'  # Input image file
-    car_spots_file = 'cars.txt'  # Car parking areas file
-    bike_spots_file = 'image.txt'  # Motorcycle parking areas file
+    spots_file = 'image.txt'  # JSON file containing parking spot information
+
+    # Load the spots data
+    with open(spots_file, 'r') as file:
+        spots = json.load(file)
 
     try:
-        empty_cars, empty_bikes = detect_parking_spots_from_image(image_path, car_spots_file, bike_spots_file)
+        empty_cars, empty_bikes = detect_parking_spots_from_image(image_path, json.dumps(spots))
         print(f"Free car spots: {empty_cars}, Free bike spots: {empty_bikes}")
     except ValueError as e:
         print(f"Error: {e}")
