@@ -13,10 +13,9 @@ import ParkingOncards from './Pages/ParkingOncards'
 import LoginPage from './admin/Login'
 import RegisterPage from './admin/Register'
 import From from './admin/Form'
-import PaymentForm from './Pages/PaymentForm'
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-const stripePromise = loadStripe('pk_test_51QU4k4I2jnvFyR8FLq9hxcshENbbGqcCIiW2Zr9qUjaS18fc1XKiY7ZbB6nDNmuGKDdUxama8JgzJ3xdwYSpDml500F6IxePo6');
+import Test from './Admin/Test'
+
+
 function App() {
 
   return (
@@ -35,17 +34,11 @@ function App() {
         <Route path="/admin/login" element={<LoginPage />} />
         <Route path="/admin/register" element={<RegisterPage />} />
         <Route path="/admin/form" element={<From />} />
-        <Route
-          path="/pay"
-          element={
-            <Elements stripe={stripePromise}>
-              <PaymentForm />
-            </Elements>
-          }
-        />
+        <Route path="/admin/test" element={<Test />} />
+    
       </Routes>
     </>
   )
 }
+import Test from './Admin/Test'
 
-export default App

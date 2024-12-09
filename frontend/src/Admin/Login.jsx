@@ -6,6 +6,9 @@ import SmallScreenErrorComponent from "../Components/SmallScreenError";
 const LoginPage = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 640);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,10 +27,36 @@ const LoginPage = () => {
     return <SmallScreenErrorComponent />;
   }
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    navigate("/statistics");
+
+    if (!username || !password) {
+      setErrorMessage("Please fill in all fields.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:8000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.message);  // Display the success message (optional)
+        navigate("/admin/form");  // Redirect on successful login
+      } else {
+        setErrorMessage(data.message || "Login failed. Please try again.");
+      }
+    } catch (error) {
+      setErrorMessage("An error occurred. Please try again.");
+    }
   };
+
 
   return (
     <div className="min-h-screen bg-custom-gradient flex flex-col">
@@ -82,12 +111,13 @@ const LoginPage = () => {
         )}
       </header>
 
-
-
       {/* Main Content */}
       <main className="flex-grow flex flex-col items-center justify-center">
         <div className="w-11/12 max-w-sm bg-white p-6 rounded-lg shadow-lg">
           <h1 className="text-xl font-semibold text-center text-gray-700">Login</h1>
+          {errorMessage && (
+            <p className="mt-2 text-center text-red-600">{errorMessage}</p>
+          )}
           <form className="mt-6" onSubmit={handleLogin}>
             <div className="mb-4">
               <label
@@ -99,6 +129,8 @@ const LoginPage = () => {
               <input
                 type="text"
                 id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-[#68BBE3] focus:outline-none"
                 placeholder="Username"
               />
@@ -113,6 +145,8 @@ const LoginPage = () => {
               <input
                 type="password"
                 id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-[#68BBE3] focus:outline-none"
                 placeholder="Password"
               />
