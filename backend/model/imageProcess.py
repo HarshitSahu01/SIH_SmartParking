@@ -9,7 +9,7 @@ import pickle
 model = YOLO('yolov8s.pt')
 
 # def detect_parking_spots_from_image(image_path, car_spots_file, bike_spots_file, class_file='coco.txt'):
-def detect_parking_spots_from_image(image_path, spots, class_file='coco.txt', window=False):
+def detect_parking_spots_from_image(image_path, spots_binary, class_file='coco.txt'):
     """
     Detects empty car and motorcycle parking spots from an image and displays the result.
 
@@ -32,6 +32,7 @@ def detect_parking_spots_from_image(image_path, spots, class_file='coco.txt', wi
     # with open(bike_spots_file, "r") as file:
     #     bike_parking_areas = ast.literal_eval(file.read())
     
+    spots = pickle.loads(spots_binary)
     car_parking_areas = spots['car']
     bike_parking_areas = spots['bike']
 
@@ -88,24 +89,23 @@ def detect_parking_spots_from_image(image_path, spots, class_file='coco.txt', wi
     free_bikes = sum(1 for occupied in occupied_bikes if occupied == 0)
 
     # Render image with markings
-    if window:
-        for idx, area in enumerate(scaled_car_areas):
-            color = (0, 0, 255) if occupied_cars[idx] else (0, 255, 0)
-            cv2.polylines(image, [np.array(area, np.int32)], True, color, 2)
-            cv2.putText(image, f"C{idx + 1}", tuple(area[0]), cv2.FONT_HERSHEY_COMPLEX, 0.5, color, 1)
+    for idx, area in enumerate(scaled_car_areas):
+        color = (0, 0, 255) if occupied_cars[idx] else (0, 255, 0)
+        cv2.polylines(image, [np.array(area, np.int32)], True, color, 2)
+        cv2.putText(image, f"C{idx + 1}", tuple(area[0]), cv2.FONT_HERSHEY_COMPLEX, 0.5, color, 1)
 
-        for idx, area in enumerate(scaled_bike_areas):
-            color = (255, 0, 0) if occupied_bikes[idx] else (0, 255, 0)
-            cv2.polylines(image, [np.array(area, np.int32)], True, color, 2)
-            cv2.putText(image, f"B{idx + 1}", tuple(area[0]), cv2.FONT_HERSHEY_COMPLEX, 0.5, color, 1)
+    for idx, area in enumerate(scaled_bike_areas):
+        color = (255, 0, 0) if occupied_bikes[idx] else (0, 255, 0)
+        cv2.polylines(image, [np.array(area, np.int32)], True, color, 2)
+        cv2.putText(image, f"B{idx + 1}", tuple(area[0]), cv2.FONT_HERSHEY_COMPLEX, 0.5, color, 1)
 
-        cv2.putText(image, f"Free Cars: {free_cars}, Free Bikes: {free_bikes}", (23, 30),
-                    cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2)
+    cv2.putText(image, f"Free Cars: {free_cars}, Free Bikes: {free_bikes}", (23, 30),
+                cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2)
 
-        # Display the output image
-        cv2.imshow("Detected Parking Spots", image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+    # Display the output image
+    # cv2.imshow("Detected Parking Spots", image)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
     return free_cars, free_bikes
 
@@ -114,7 +114,6 @@ import json
 # Example usage
 if __name__ == "__main__":
     image_path = 'image.png'  # Input image file
-<<<<<<< HEAD
     spots_file = 'image.txt'  # JSON file containing parking spot information
 
     # Load the spots data
@@ -123,19 +122,6 @@ if __name__ == "__main__":
 
     try:
         empty_cars, empty_bikes = detect_parking_spots_from_image(image_path, json.dumps(spots))
-=======
-    # car_spots_file = 'cars.txt'  # Car parking areas file
-    # bike_spots_file = 'image.txt'  # Motorcycle parking areas file
-
-    spots = {
-        'car':[],
-        'bike':[[[349, 249], [365, 169], [296, 173], [283, 246]], [[555, 245], [551, 157], [615, 153], [623, 249]], [[417, 249], [429, 158], [367, 153], [349, 261]], [[640, 687], [638, 534], [726, 535], [740, 682]], [[108, 678], [142, 540], [226, 538], [194, 678]], [[8, 676], [34, 517], [129, 527], [100, 684]]]
-    }
-
-    try:
-        # empty_cars, empty_bikes = detect_parking_spots_from_image(image_path, car_spots_file, bike_spots_file)
-        empty_cars, empty_bikes = detect_parking_spots_from_image(image_path, spots, window=True)
->>>>>>> 3bed74230fc2cef787d08b7e40cca65653e022b9
         print(f"Free car spots: {empty_cars}, Free bike spots: {empty_bikes}")
     except ValueError as e:
         print(f"Error: {e}")
