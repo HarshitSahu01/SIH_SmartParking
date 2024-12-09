@@ -27,7 +27,7 @@ const ParkingBox = ({
   return (
     <div className="flex flex-col w-[80vw] sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-white shadow-md transform transition-transform duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100">
       <img
-         src={image ? image : P}
+        src={image ? image : P}
         alt="Parking"
         className="w-full h-[220px] object-cover p-3 rounded-3xl"
       />
@@ -171,7 +171,7 @@ const ParkingOnmap = () => {
     <div className="merged-component">
       <main className="relative z-0">
         {/* Go back button */}
-        <div className="back absolute top-2 right-2 bg-white rounded-full  text-white  z-[2000] motion-preset-slide-left">
+        <div className="back absolute top-2 right-2 bg-white rounded-full  text-white  z-[2000] motion-preset-slide-left motion-delay-300">
           <button
             onClick={() => {
               navigate("/parkings-cards", {
@@ -263,34 +263,38 @@ const ParkingOnmap = () => {
         >
           {/* Parking Cards as Slider */}
           {loading && (
-        <div className="absolute inset-0 flex justify-center  items-center bg-opacity-50 bg-gray-500 z-50">
-          <div className="spinner-border text-white animate-spin w-12 h-12 border-4 rounded-full"></div>
-          <span className="sr-only">Loading...</span>
-        </div>
-      )}
+            <div className="absolute inset-0 flex justify-center  items-center bg-opacity-50 bg-gray-500 z-50">
+              <div className="spinner-border text-white animate-spin w-12 h-12 border-4 rounded-full"></div>
+              <span className="sr-only">Loading...</span>
+            </div>
+          )}
 
-          <div className="w-full mt-4 flex overflow-x-scroll gap-24 bg-custom-gradient p-4 rounded-t-2xl">
-            {storeList.map((store,index) => (
-              <div
-                key={index}
-                onClick={() => handleCardClick(store.lat, store.long)}
-                className="flex flex-col w-64 cursor-pointer"
-              >
-                <ParkingBox
-                  name={store.name}
-                  carprice={store.four_wheeler_price}
-                  bikeprice={store.two_wheeler_price}
-                  distance={store.distance}
-                  carspots={store.car_spots}
-                  bikespots={store.bike_spots}
-                  address={store.address}
-                  image={store.image}
-                />
-              </div>
-            ))}
+          <div className="w-full min-h-[40vh] mt-4 flex justify-center items-center overflow-x-scroll gap-24 bg-custom-gradient p-4 rounded-t-2xl">
+            {storeList.length > 0 ? (
+              storeList.map((store, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleCardClick(store.lat, store.long)}
+                  className="flex flex-col w-64 cursor-pointer"
+                >
+                  <ParkingBox
+                    name={store.name}
+                    carprice={store.four_wheeler_price}
+                    bikeprice={store.two_wheeler_price}
+                    distance={store.distance}
+                    carspots={store.car_spots}
+                    bikespots={store.bike_spots}
+                    address={store.address}
+                    image={store.image}
+                  />
+                </div>
+              ))
+            ) : (
+              <div className="text-center text-white flex justify-center items-center text-2xl">No Parking spaces to show.</div>
+            )}
           </div>
           <div
-            className={`changeLoc flex justify-center items-center py-1 font-bold ${
+            className={`changeLoc flex justify-center items-center py-1 font-bold border-t-2 border-[#6159B7] ${
               isSearchExpanded ? "text-black" : "text-black"
             } h-full w-full bg-[#6159B7]`}
           >

@@ -107,7 +107,7 @@ const Search = ({ lat, lng, cityUser, stateUser }) => {
               ))}
             </>
           ) : (
-            <p className="text-gray-500">No parking spots match your criteria.</p>
+            <p className="text-gray-500 flex justify-center items-center">No parking spots match your criteria .</p>
           )}
         </div>
       </div>
