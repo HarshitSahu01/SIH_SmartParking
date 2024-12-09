@@ -114,7 +114,7 @@ def detect_parking_spots_from_image(image_path, spots, class_file='coco.txt', wi
 if __name__ == "__main__":
     image_path = 'image.png'  # Input image file
     # car_spots_file = 'cars.txt'  # Car parking areas file
-    # bike_spots_file = 'image.txt'  # Motorcycle parking areas file
+    # bike_spots_file = 'image.txt'  # Motorcycle parking areas file 
 
     spots = {
         'car':[],

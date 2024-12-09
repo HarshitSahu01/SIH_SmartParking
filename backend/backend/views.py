@@ -249,7 +249,6 @@ def getParkingData(request):
 
 
 # /login
-@csrf_exempt
 def login_view(request):
     if request.method == "POST":
         try:
@@ -298,17 +297,16 @@ def register_view(request):
         if Users.objects.filter(username=username).exists():
             return JsonResponse({'message': 'Username already taken'}, status=400)
 
-        user = Users(username=username, email=email, password=password)
+        user = Users.objects.create_user(username=username, email=email, password=password)
         user.save()
         login(request, user)
         
         return JsonResponse({'message': 'success'}, status=200)
     return JsonResponse({'message': 'Invalid request method'}, status=405)
 
-@csrf_exempt
 def logout_view(request):
     if request.method == "POST":
-        logout(request)
+        logout(request) 
         return JsonResponse({'message': 'success'}, status=200)
     return JsonResponse({'message': 'Invalid request method'}, status=405)
 

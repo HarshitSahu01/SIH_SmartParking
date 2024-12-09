@@ -27,8 +27,9 @@ urlpatterns = [
     path('getSampleImages', views.getSampleImages),
     path('getParkings', views.get_parkings),
     path('getParkingData', views.getParkingData),
-    path('register', views.register_view),
     path('ping', views.ping),
 
-    path('login', views.login_view)
+    path('register', views.register_view),
+    path('login', views.login_view),
+    path('logout', views.logout_view),
 ]
