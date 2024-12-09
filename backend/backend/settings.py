@@ -26,19 +26,19 @@ SECRET_KEY = 'django-insecure-=a)ot!*mwkv7j#zqgq*r+k(p^#h$)t1cq18ie&2u7hh%*@xl9$
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'http://localhost:5173',
-    'localhost',
+    'localhost',  # Add this to support requests from 'localhost'
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
+    'http://localhost:5173',  # Your React frontend origin
 ]
+
+CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:5173',
+    'http://localhost:5173',  # Your React frontend origin for CSRF protection
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
 
 AUTH_USER_MODEL = 'backend.Users'
 
@@ -65,7 +65,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
