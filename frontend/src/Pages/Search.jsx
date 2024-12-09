@@ -1,77 +1,67 @@
 import React, { useState, useEffect } from "react";
 import ParkingBox from "../Components/ParkingBox";
 import P from "../assets/P.png";
+import axios from "axios";
 
-const Search = () => {
+const Search = ({ lat, lng, cityUser, stateUser }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterBy, setFilterBy] = useState("");
+  const [parkingdata, setParkingData] = useState([]);
+  
+  useEffect(() => {
+    if (cityUser && stateUser) {
+      axios
+        .get(
+          `http://localhost:8000/getParkings?lat=${lat}&long=${lng}&city=${cityUser}&state=${stateUser}`
+        )
+        .then((response) => {
+          setParkingData(response.data.parkings); // Use response.data directly with axios
+        })
+        .catch((error) => console.error("Error fetching parking data:", error));
+    }
+  }, [lat, lng, cityUser, stateUser]);
 
-  // Sample data for parking spots
-  const parkingData = [
-    {
-      name: "Abdul Parking Boom",
-      price: "30/hr",
-      distance: "5 mins",
-      carspots: 35,
-      bikespots: 12,
-      address: "Lapataganj, Ganj, Ga",
-      image: P,
-    },
-    {
-      name: "Ram Parking Not Boom",
-      price: "29/hr",
-      distance: "7 mins",
-      carspots: 30,
-      bikespots: 15,
-      address: "PappuPapa, Papa, Pa",
-      image: P,
-    },
-    {
-      name: "Bheem Parking Not Chutki",
-      price: "15/hr",
-      distance: "17 mins",
-      carspots: 50,
-      bikespots: 32,
-      address: "DholuBholu, DhoBho, LuLu",
-      image: P,
-    },
-  ];
-
-  const [filteredParkingData, setFilteredParkingData] = useState(parkingData);
+  const [filteredParkingData, setFilteredParkingData] = useState(parkingdata);
 
   // Filter and sort parking data
   useEffect(() => {
-    const filteredData = parkingData
-      .filter((parking) => {
+    let filteredData = parkingdata;
+
+    // Apply search filter if there is a search term
+    if (searchTerm) {
+      filteredData = filteredData.filter((parking) => {
         const matchesSearch =
           parking.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           parking.address.toLowerCase().includes(searchTerm.toLowerCase());
         return matchesSearch;
-      })
-      .sort((a, b) => {
-        if (!filterBy) return 0; // No sorting if no filter selected
-
-        switch (filterBy) {
-          case "distance":
-            return parseInt(a.distance) - parseInt(b.distance); // Sorting by distance (ascending)
-          case "price":
-            return parseInt(a.price) - parseInt(b.price); // Sorting by price (ascending)
-          case "carspots":
-            return parseInt(b.carspots) - parseInt(a.carspots); // Sorting by carspots (descending)
-          case "bikespots":
-            return parseInt(b.bikespots) - parseInt(a.bikespots); // Sorting by bikespots (descending)
-          default:
-            return 0;
-        }
       });
+    }
+
+    // Apply sorting based on filterBy selection
+    filteredData = filteredData.sort((a, b) => {
+      if (!filterBy) return 0; // No sorting if no filter selected
+
+      switch (filterBy) {
+        case "distance":
+          return parseInt(a.distance) - parseInt(b.distance); // Sorting by distance (ascending)
+        case "price":
+          return parseInt(a.price) - parseInt(b.price); // Sorting by price (ascending)
+        case "carspots":
+          return parseInt(b.carspots) - parseInt(a.carspots); // Sorting by carspots (descending)
+        case "bikespots":
+          return parseInt(b.bikespots) - parseInt(a.bikespots); // Sorting by bikespots (descending)
+        default:
+          return 0;
+      }
+    });
 
     setFilteredParkingData(filteredData);
-  }, [searchTerm, filterBy]);
+  }, [searchTerm, filterBy, parkingdata]);
 
   return (
     <div className="bg-transparent">
       <div className="p-4 space-y-6 bg-transparent flex flex-col ">
-        <div >
+        <div>
           <div className="search-filter flex gap-4 mb-4">
             {/* Search Bar */}
             <input
@@ -106,20 +96,18 @@ const Search = () => {
                 <ParkingBox
                   key={index}
                   name={parking.name}
-                  price={parking.price}
+                  carprice={parking.four_wheeler_price}
+                  bikeprice={parking.two_wheeler_price}
                   distance={parking.distance}
-                  carspots={parking.carspots}
-                  bikespots={parking.bikespots}
+                  carspots={parking.car_spots}
+                  bikespots={parking.bike_spots}
                   address={parking.address}
                   image={parking.image}
                 />
               ))}
-
-              {/* Pass filteredParkingData to RandomSlider */}
-              
             </>
           ) : (
-            <p className="text-gray-500">No parking spots match your criteria.</p>
+            <p className="text-gray-500 flex justify-center items-center">No parking spots match your criteria .</p>
           )}
         </div>
       </div>

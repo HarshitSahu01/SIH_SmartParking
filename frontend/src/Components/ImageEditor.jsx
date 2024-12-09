@@ -1,14 +1,22 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { use } from 'react';
+import logo from '../assets/logo.svg';
+import nextIcon from '../assets/next.svg';
+import prevIcon from '../assets/prev.svg';
+import carModeIcon from '../assets/car.svg';
+import bikeModeIcon from '../assets/bike.svg';
+import eraseIcon from '../assets/erase.svg';
+import undoIcon from '../assets/undo.svg';
+import eraseAllIcon from '../assets/eraseAll.svg';
 
 export default function ImageEditor() {
     const canvasRef = useRef(null);
     const [canvasImages, setCanvasImages] = useState([]);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0, factor: 0, requiredHeight: 500 });
-    const [drawMode, setDrawMode] = useState('addCar'); // Current drawmode
+    const [drawMode, setDrawMode] = useState('none'); // Current drawmode
     const [currentPoints, setCurrentPoints] = useState([]); // Points for the current rectangle being drawn
     const [spots, setSpots] = useState([]); // State to store spots for car and bike spots
+    const [menuOpen, setMenuOpen] = useState(false);
 
     // when the page loads, fetch images and create spots array
     useEffect(() => {
@@ -42,7 +50,7 @@ export default function ImageEditor() {
             setCurrentPoints([]);
             redrawCanvas();
         }
-    }, [canvasImages, currentImageIndex, spots, drawMode]); 
+    }, [canvasImages, currentImageIndex, spots, drawMode]);
 
     const handleCanvasClick = (e) => {
         const canvas = canvasRef.current;
@@ -92,7 +100,7 @@ export default function ImageEditor() {
             drawRectangle(ctx, spot, index + 1, 'car');
         });
         spots[currentImageIndex]?.bike_spots.forEach((spot, index) => {
-            drawRectangle(ctx, spot, index + 1, 'bike'); 
+            drawRectangle(ctx, spot, index + 1, 'bike');
         });
     }
 
@@ -106,7 +114,7 @@ export default function ImageEditor() {
 
         newPoints.forEach((point, index) => {
             ctx.beginPath();
-            ctx.arc(point[0], point[1], 5, 0, Math.PI * 2); 
+            ctx.arc(point[0], point[1], 5, 0, Math.PI * 2);
             ctx.fill();
 
             if (index > 0) {
@@ -130,7 +138,7 @@ export default function ImageEditor() {
                 if (drawMode === 'addCar') {
                     updatedSpots[currentImageIndex] = {
                         ...updatedSpots[currentImageIndex],
-                        car_spots: [...updatedSpots[currentImageIndex].car_spots, newPoints], 
+                        car_spots: [...updatedSpots[currentImageIndex].car_spots, newPoints],
                     };
                 } else if (drawMode === 'addBike') {
                     updatedSpots[currentImageIndex] = {
@@ -218,16 +226,142 @@ export default function ImageEditor() {
         return <div>Loading...</div>;
     }
     return (
-        <div className='flex flex-col items-center justify-center min-h-screen'>
-            <canvas ref={canvasRef} onClick={handleCanvasClick} className='rounded-lg cursor-crosshair'></canvas>
-            <div>Image {currentImageIndex + 1} of {canvasImages.length}</div>
-            <button onClick={nextImageFunc}>Next Image</button>
-            <button onClick={prevImageFunc}>Prev Image</button>
-            <button onClick={() => drawModeFunc('addCar')}>Car Mode</button>
-            <button onClick={() => drawModeFunc('addBike')}>Bike Mode</button>
-            <button onClick={() => drawModeFunc('erase')}>Erase mode</button>
-            <button onClick={eraseAllFunc}>Erase All</button>
-            <button onClick={undoFunc}>Undo</button>
+        <div className='bg-custom-gradient h-[100vh]'>
+            <div className='flex flex-col items-center justify-center'>
+                <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3">
+                    <div className="flex items-center">
+                        <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-10" />
+                        <span className="ml-2 text-2xl sm:text-2xl font-semibold text-white tracking-tighter">
+                            Park-N-Go
+                        </span>
+                    </div>
+                    <div className="cursor-pointer" onClick={() => setMenuOpen((prev) => !prev)}>
+                        <svg
+                            fill="none"
+                            viewBox="0 0 50 50"
+                            height="28"
+                            width="28"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-8 h-8 md:w-12 md:h-12"
+                        >
+                            <path
+                                className="lineTop line"
+                                strokeLinecap="round"
+                                strokeWidth="4"
+                                stroke="white"
+                                d="M6 11L44 11"
+                            ></path>
+                            <path
+                                strokeLinecap="round"
+                                strokeWidth="4"
+                                stroke="white"
+                                d="M6 24H43"
+                                className="lineMid line"
+                            ></path>
+                            <path
+                                strokeLinecap="round"
+                                strokeWidth="4"
+                                stroke="white"
+                                d="M6 37H43"
+                                className="lineBottom line"
+                            ></path>
+                        </svg>
+                    </div>
+                    {menuOpen && (
+                        <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg w-32 sm:w-40">
+                            <ul className="text-gray-800">
+                                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                                    Admin Controls
+                                </li>
+                            </ul>
+                        </div>
+                    )}
+                </header>
+                <canvas ref={canvasRef} onClick={handleCanvasClick} className='rounded-lg cursor-crosshair'></canvas>
+                <div className='flex flex-row items-center justify-center'>
+                <div className="flex flex-row justify-center items-center gap-6 mt-4 px-3 ml-6 py-3 bg-white bg-opacity-30 rounded-full">
+                    {/* Previous Button */}
+                    <button onClick={prevImageFunc} className='mr-8'>
+                        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                            <img src={prevIcon} alt="Previous" className="w-5 h-5" />
+                        </div>
+                        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
+                            Previous Image
+                        </span>
+                    </button>
+
+                    {/* Add Car Button */}
+                    <button
+                        onClick={() => drawModeFunc('addCar')}
+                        className={`border-4 rounded-full ${drawMode === 'addCar' ? 'border-blue-500' : 'border-transparent'}`}
+                    >
+                        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                            <img src={carModeIcon} alt="Car Mode" className="w-5 h-5" />
+                        </div>
+                        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
+                            Add Car Spot
+                        </span>
+                    </button>
+
+                    {/* Add Bike Button */}
+                    <button
+                        onClick={() => drawModeFunc('addBike')}
+                        className={`border-4 rounded-full ${drawMode === 'addBike' ? 'border-blue-500' : 'border-transparent'}`}
+                    >
+                        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                            <img src={bikeModeIcon} alt="Bike Mode" className="w-5 h-5" />
+                        </div>
+                        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
+                            Add Bike Spot
+                        </span>
+                    </button>
+
+                    {/* Erase Button */}
+                    <button
+                        onClick={() => drawModeFunc('erase')}
+                        className={`border-4 rounded-full ${drawMode === 'erase' ? 'border-blue-500' : 'border-transparent'}`}
+                    >
+                        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                            <img src={eraseIcon} alt="Erase" className="w-5 h-5" />
+                        </div>
+                        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
+                            Erase Spot
+                        </span>
+                    </button>
+
+                    {/* Undo Button */}
+                    <button onClick={undoFunc}>
+                        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                            <img src={undoIcon} alt="Undo" className="w-5 h-5" />
+                        </div>
+                        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
+                            Undo Last Action
+                        </span>
+                    </button>
+
+                    {/* Erase All Button */}
+                    <button onClick={eraseAllFunc}>
+                        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                            <img src={eraseAllIcon} alt="Erase All" className="w-5 h-5" />
+                        </div>
+                        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
+                            Erase All
+                        </span>
+                    </button>
+
+                    {/* Next Button */}
+                    <button onClick={nextImageFunc} className='ml-8'>
+                        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                            <img src={nextIcon} alt="Next" className="w-5 h-5" />
+                        </div>
+                        <span className="absolute bottom-full mb-1 hidden text-xs text-gray-700 bg-white px-2 py-1 rounded shadow-sm group-hover:block">
+                            Next Image
+                        </span>
+                    </button>
+                </div>
+                <div className='ml-16 mt-6'><button className='bg-white rounded-full px-4 py-2'>Submit</button></div>
+                </div>
+            </div>                       
         </div>
     );
 }

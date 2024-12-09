@@ -10,16 +10,28 @@ import bike from "../assets/bike.png";
 import addressicon from "../assets/address.png";
 
 // Import worker file
-const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image }) => {
-  const [showModal, setShowModal] = useState(false); 
+const ParkingBox = ({
+  name,
+  carprice,
+  bikeprice,
+  distance,
+  carspots,
+  bikespots,
+  address,
+  image,
+}) => {
+  const [showModal, setShowModal] = useState(false);
   const [showTrackingModal, setShowTrackingModal] = useState(false);
   const [carspotsLeft, setCarSpotsLeft] = useState(carspots); // Correct initialization
   const [bikespotsLeft, setBikeSpotsLeft] = useState(bikespots); // Correct initialization
   const [isTracking, setIsTracking] = useState(false);
   const [worker, setWorker] = useState(null);
+  const [loading, setLoading] = useState(false); // Loader state
 
   useEffect(() => {
-    const newWorker = new Worker(new URL("../parkingWorker.worker.js", import.meta.url));
+    const newWorker = new Worker(
+      new URL("../parkingWorker.worker.js", import.meta.url)
+    );
     setWorker(newWorker);
 
     return () => {
@@ -44,7 +56,9 @@ const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image
     }
   }, [worker]);
 
+  // Start tracking function with loading state
   const startTracking = () => {
+    setLoading(true); // Show loader before starting
     if (worker) {
       worker.postMessage({
         action: "startTracking",
@@ -56,8 +70,10 @@ const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image
     setIsTracking(true);
     setShowModal(false);
     setShowTrackingModal(false);
+    setLoading(false); // Hide loader after tracking starts
   };
 
+  // Stop tracking function
   const stopTracking = () => {
     if (worker) {
       worker.postMessage({ action: "stopTracking" });
@@ -69,12 +85,22 @@ const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image
   return (
     <div className="flex mx-2 mt-4 relative">
       {isTracking && (
-        <div className="notstopbtn absolute top-0 right-0 z-[1000] text-white  px-2 py-1 rounded-lg ">
+        <div className="notstopbtn absolute top-0 right-0 z-[1000] text-white  px-2 py-1 rounded-lg bg-red-500">
           <button onClick={stopTracking}>Stop notifications</button>
         </div>
       )}
+
+      {/* Show loader if data is being fetched */}
+      {loading && (
+        <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-opacity-50 bg-gray-500 z-50">
+          <div className="spinner-border text-white" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      )}
+
       <div
-        className="flex flex-col w-full sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-transparent drop-shadow-xl backdrop-blur-2xl shadow-md transform transition-transform  duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100"
+        className="flex flex-col w-full sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-transparent drop-shadow-xl backdrop-blur-2xl shadow-md transform transition-transform duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100"
         onClick={() => {
           if (isTracking) {
             setShowTrackingModal(true); // Show modal if already tracked
@@ -84,7 +110,7 @@ const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image
         }} // Show the modal when clicked
       >
         <img
-          src={image}
+          src={image ? image : P}
           alt="Parking"
           className="w-full h-[220px] object-cover p-3 rounded-3xl"
         />
@@ -92,19 +118,24 @@ const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image
           <div className="flex flex-row mx-2 sm:flex-row justify-between items-start sm:items-center">
             <div className="c11 flex flex-col gap-3">
               <div className="c1 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
-              <div className="icon1">
-                  <img src={P} alt="P" className="w-7" />
-              </div>
+                <div className="icon1">
+                  <img
+                    src={P}
+                    alt="P"
+
+                    className="w-7"
+                  />
+                </div>
                 <p>{name}</p>
               </div>
               <div className="c2 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
-              <div className="icon2">
+                <div className="icon2">
                   <img src={clock} alt="" className="w-7" />
                 </div>
                 <p>{distance}</p>
               </div>
               <div className="c3 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
-              <div className="icon3">
+                <div className="icon3">
                   <img src={addressicon} alt="" className="w-7" />
                 </div>
                 <p>{address}</p>
@@ -113,19 +144,20 @@ const ParkingBox = ({ name, price, distance, carspots, bikespots, address, image
 
             <div className="c22 flex flex-col gap-3">
               <div className="c4 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
-              <div className="icon4">
+                <div className="icon4">
                   <img src={priceicon} alt="" className="w-7" />
                 </div>
-                <p>Rs {price}</p>
+                <p>Rs {carprice}</p>
+                <p>Rs {bikeprice}</p>
               </div>
               <div className="c5 flex items-center text-sm font-bold text-gray-600 gap-2">
-              <div className="icon5">
+                <div className="icon5">
                   <img src={Car} alt="" className="w-7" />
                 </div>
                 <p>{carspotsLeft} spots</p>
               </div>
               <div className="c6 flex items-center text-sm font-bold text-gray-600 gap-2">
-              <div className="icon6">
+                <div className="icon6">
                   <img src={bike} alt="" className="w-7" />
                 </div>
                 <p>{bikespotsLeft} spots</p>

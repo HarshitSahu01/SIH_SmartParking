@@ -10,7 +10,7 @@ const LandingPage = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="lan-main min-h-screen flex flex-col bg-[#fff]">
+    <div className="lan-main min-h-screen flex flex-col bg-[#fff] font-body">
       {/* Header */}
       <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3 motion-preset-rebound-down">
         <div className="flex items-center">

@@ -167,6 +167,8 @@ def testView(request):
         print(f"Error: {e}")
     return JsonResponse({'message': 'Image processed!','empty_cars':empty_cars, 'empty_bikes':empty_bikes})
 
+def ping(request):
+    return JsonResponse({'message': 'pong', 'id':request.user.id})
 
 
 # Helper function for validating fields
@@ -202,6 +204,8 @@ def get_parkings(request):
                 'name': parking.name,
                 'two_wheeler_price': parking.two_wheeler_price,
                 'four_wheeler_price': parking.four_wheeler_price,
+                'lat': parking.lat,
+                'long': parking.long,
                 'car_spots': 1,
                 'bike_spots': 1,
                 'distance': distance,
@@ -230,6 +234,8 @@ def getParkingData(request):
                 'name': parking.name,
                 'two_wheeler_price': parking.two_wheeler_price,
                 'four_wheeler_price': parking.four_wheeler_price,
+                'lat': parking.lat,
+                'long': parking.long,
                 'distance': distance,
                 'car_spots': 1,
                 'bike_spots': 1,
@@ -246,8 +252,16 @@ def getParkingData(request):
 @csrf_exempt
 def login_view(request):
     if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            return JsonResponse({'message': 'Invalid JSON data'}, status=400)
+
+        username = data.get('username')
+        password = data.get('password')
+
+        if not username or not password:
+            return JsonResponse({'message': 'Username and password are required'}, status=400)
 
         user = authenticate(request, username=username, password=password)
         if user is not None:
@@ -255,6 +269,7 @@ def login_view(request):
             return JsonResponse({'message': 'success'}, status=200)
         else:
             return JsonResponse({'message': 'Invalid username or password'}, status=400)
+
     return JsonResponse({'message': 'Invalid request method'}, status=405)
 
 
@@ -262,24 +277,30 @@ def login_view(request):
 @csrf_exempt
 def register_view(request):
     if request.method == "POST":
-        data = request.POST
-        required_fields = ['username', 'email', 'password', 'full_name', 'contact', 'organization']
+        data = json.loads(request.body)
+        required_fields = ['username', 'email', 'password']
 
+        # print(request.body)
         if not validate_fields(data, required_fields):
             return JsonResponse({'message': 'Invalid data'}, status=400)
-
+        # print('here')
+        print(data.get('username'))
         username = data.get('username')
         email = data.get('email')
         password = data.get('password')
-        full_name = data.get('full_name')
-        contact = data.get('contact')
-        organization = data.get('organization')
+
+        if username == '' or email == '' or password == '':
+            return JsonResponse({'message': 'Invalid data'}, status=400)
+
+        if Users.objects.filter(email=email).exists():
+            return JsonResponse({'message': 'Email already taken'}, status=400)
 
         if Users.objects.filter(username=username).exists():
             return JsonResponse({'message': 'Username already taken'}, status=400)
 
-        user = Users.objects.create_user(username=username, email=email, password=password)
-        parking_owner = ParkingOwner.objects.create(user=user, contact=contact, organization=organization)
+        user = Users(username=username, email=email, password=password)
+        user.save()
+        login(request, user)
         
         return JsonResponse({'message': 'success'}, status=200)
     return JsonResponse({'message': 'Invalid request method'}, status=405)

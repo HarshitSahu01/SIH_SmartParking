@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -51,10 +52,29 @@ const RegisterPage = () => {
     e.preventDefault();
 
     if (validateForm()) {
+
       // Proceed with registration logic
-      navigate("/form");
+      axios.post("http://localhost:8000/register", formData, { headers: { 'Content-Type': 'application/json' } })
+        .then((res) => {
+          if (res.data && res.data.message) {
+            alert(res.data.message);  // Accessing the response message
+          } else {
+            alert("Registration successful, but no message received.");
+          }
+          if (res.data.success) {
+            navigate("/admin/form");  // Redirect only on successful registration
+          }
+        })
+        .catch((err) => {
+          if (err.response && err.response.data && err.response.data.message) {
+            alert(err.response.data.message);  // Handling error message from the backend
+          } else {
+            alert("An error occurred. Please try again.");
+          }
+        });
+        navigate('/admin/form');
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-custom-gradient flex flex-col">
@@ -122,11 +142,11 @@ const RegisterPage = () => {
               <input
                 type="text"
                 id="username"
+                name="username"
                 value={formData.username}
                 onChange={handleInputChange}
-                className={`w-full mt-1 px-4 py-2 border ${
-                  formErrors.username ? "border-red-500" : "border-gray-300"
-                } rounded-md focus:ring focus:ring-[#68BBE3] focus:outline-none`}
+                className={`w-full mt-1 px-4 py-2 border ${formErrors.username ? "border-red-500" : "border-gray-300"
+                  } rounded-md focus:ring focus:ring-[#68BBE3] focus:outline-none`}
                 placeholder="Username"
               />
               {formErrors.username && (
@@ -142,11 +162,11 @@ const RegisterPage = () => {
               <input
                 type="email"
                 id="email"
+                name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className={`w-full mt-1 px-4 py-2 border ${
-                  formErrors.email ? "border-red-500" : "border-gray-300"
-                } rounded-md focus:ring focus:ring-[#68BBE3] focus:outline-none`}
+                className={`w-full mt-1 px-4 py-2 border ${formErrors.email ? "border-red-500" : "border-gray-300"
+                  } rounded-md focus:ring focus:ring-[#68BBE3] focus:outline-none`}
                 placeholder="Email"
               />
               {formErrors.email && (
@@ -162,11 +182,11 @@ const RegisterPage = () => {
               <input
                 type="password"
                 id="password"
+                name="password"
                 value={formData.password}
                 onChange={handleInputChange}
-                className={`w-full mt-1 px-4 py-2 border ${
-                  formErrors.password ? "border-red-500" : "border-gray-300"
-                } rounded-md focus:ring focus:ring-[#68BBE3] focus:outline-none`}
+                className={`w-full mt-1 px-4 py-2 border ${formErrors.password ? "border-red-500" : "border-gray-300"
+                  } rounded-md focus:ring focus:ring-[#68BBE3] focus:outline-none`}
                 placeholder="Password"
               />
               {formErrors.password && (
