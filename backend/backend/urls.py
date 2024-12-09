@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from backend import views
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +29,6 @@ urlpatterns = [
     path('getParkings', views.get_parkings),
     path('getParkingData', views.getParkingData),
     path('register', views.register_view),
-
+      path('create-payment-intent/', views.create_payment_intent, name='create_payment_intent'),
     path('login', views.login_view)
 ]
