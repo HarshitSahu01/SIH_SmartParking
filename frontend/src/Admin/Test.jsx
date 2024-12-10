@@ -19,7 +19,7 @@ export default function Test() {
             },
             withCredentials: true  // Include cookies (sessionid)
         }).then((response) => {
-            console.log(response)
+            console.log(response.data)
         }).catch((error) => {
             console.log(error.response)
         })
@@ -34,7 +34,7 @@ export default function Test() {
             },
             withCredentials: true  // Include cookies (sessionid)
         }).then((response) => {
-            console.log(response)
+            console.log(response.data)
         }).catch((error) => {
             console.log(error.response)
         })
@@ -49,7 +49,7 @@ export default function Test() {
             },
             withCredentials: true  // Include cookies (sessionid)
         }).then((response) => {
-            console.log(response)
+            console.log(response.data)
         }).catch((error) => {
             console.log(error.response)
         })

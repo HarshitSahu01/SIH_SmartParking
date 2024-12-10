@@ -22,7 +22,7 @@ export default function ImageEditor() {
     useEffect(() => {
         const fetchImages = async () => {
             try {
-                const response = await fetch('http://localhost:8000/getSampleImages');
+                const response = await fetch('https://localhost:8000/getSampleImages');
                 const data = await response.json();
 
                 const loadedImages = await Promise.all(
