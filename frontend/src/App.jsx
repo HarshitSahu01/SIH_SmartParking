@@ -10,11 +10,12 @@ import TestingLandingPage from './Pages/TestingLandingPage';
 import ParkingBox from './Pages/ParkingBox';
 import ParkingOnMap from './Pages/ParkingOnmap';
 import ParkingOncards from './Pages/ParkingOncards';
-import LoginPage from './admin/Login';
-import RegisterPage from './admin/Register';
-import From from './admin/Form';
+import LoginPage from './Admin/Login';
+import RegisterPage from './Admin/Register';
+import From from './Admin/Form';
 import Test from './Admin/Test';  // Keep this import only once
 import ContactPage from './Pages/ContactPage';
+import Dashboard from './Admin/Dashboard';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/admin/form" element={<From />} />
         <Route path="/admin/test" element={<Test />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/admin/dashboard" element={<Dashboard />} />
       </Routes>
     </>
   );
