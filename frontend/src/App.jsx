@@ -14,6 +14,7 @@ import LoginPage from './admin/Login'
 import RegisterPage from './admin/Register'
 import From from './admin/Form'
 import Test from './Admin/Test'
+import Users from './Pages/Userpage'
 
 
 function App() {
@@ -35,10 +36,11 @@ function App() {
         <Route path="/admin/register" element={<RegisterPage />} />
         <Route path="/admin/form" element={<From />} />
         <Route path="/admin/test" element={<Test />} />
+        <Route path="/users" element={<Users />} />
     
       </Routes>
     </>
   )
 }
-import Test from './Admin/Test'
+export default App;
 
