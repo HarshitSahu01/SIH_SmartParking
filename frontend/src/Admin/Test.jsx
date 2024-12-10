@@ -1,11 +1,8 @@
 import React from 'react'
 import axios from 'axios'
-import { getCookie } from '../assets/scripts/utils'
+import { getCSRFToken } from '../assets/scripts/utils'
 
 export default function Test() {
-    const getCSRFToken = () => {
-        return getCookie('csrftoken')
-    }
 
     // Login function
     const login = () => {

@@ -237,7 +237,7 @@ def logout_view(request):
         return JsonResponse({'message': 'success'}, status=200)
     return JsonResponse({'message': 'Invalid request method'}, status=405)
 
-def is_authenticated(request):
+def isAuthenticated(request):
     if request.user.is_authenticated:
         return JsonResponse({'message': 'success'}, status=200)
     return JsonResponse({'message': 'failure'}, status=400)
