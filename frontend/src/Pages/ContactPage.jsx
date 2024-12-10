@@ -37,7 +37,7 @@ const ContactPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-5 flex flex-col space-y-5">
+    <div className="min-h-screen bg-custom-gradient p-5 flex flex-col space-y-5">
       {/* Header Section */}
       <header className="text-center text-white">
         <h1 className="text-2xl font-bold mb-2">Contact & Assistance</h1>
