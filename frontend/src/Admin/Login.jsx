@@ -14,11 +14,20 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:8000/ping', {}, {
+    axios.get('http://localhost:8000/ping', {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCSRFToken()
+      },
       withCredentials: true
     }).then((response) => {
       if (response.data.id != null) {
+        alert('User already logged in!')
         navigate('/admin/dashboard');
+      }
+      else {
+        console.log('Not logged in');
+        console.log(response.data);
       }
     }).catch((error) => {
       console.log(error.response);

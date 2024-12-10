@@ -60,7 +60,7 @@ export default function Test() {
             <br />
             <button onClick={ping}>Click to ping</button>
             <br />
-            {getCookie('csrftoken')}
+            {getCSRFToken()}
         </div>
     )
 }
