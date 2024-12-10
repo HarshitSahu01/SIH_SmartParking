@@ -1,78 +1,110 @@
-import React from 'react';
+import React from "react";
 
 const ContactPage = () => {
+  const emergencyContacts = [
+    { name: "Police", number: "100", icon: "🚓" },
+    { name: "Ambulance", number: "102", icon: "🚑" },
+    { name: "Fire Brigade", number: "101", icon: "🔥" },
+    { name: "Women Helpline", number: "1091", icon: "👩" },
+    { name: "Highway Helpline", number: "1033", icon: "🛣" },
+  ];
+
+  const usefulLinks = [
+    {
+      name: "Traffic Rules and Guidelines",
+      url: "https://morth.nic.in",
+    },
+    {
+      name: "National Highway Authority of India",
+      url: "https://nhai.gov.in",
+    },
+    {
+      name: "MyGov Official Website",
+      url: "https://www.mygov.in",
+    },
+    {
+      name: "Road Safety Awareness",
+      url: "https://roadsafety.nic.in",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-custom-gradient flex items-center justify-center">
-      <div className="max-w-4xl mx-auto py-10 px-5 md:px-8 lg:px-16">
-      <h1 className="text-4xl font-bold text-center text-white mb-6">
-
-          Contact & Assistance
-        </h1>
-
-        <p className="text-lg text-white-700 mb-4 text-center">
-          To get assistance with road accidents, driving issues, or parking help in India, MyGov and associated platforms provide the following resources:
+    <div className="min-h-screen bg-custom-gradient p-5 flex flex-col space-y-5">
+      {/* Header Section */}
+      <header className="text-center text-white">
+        <h1 className="text-2xl font-bold mb-2">Contact & Assistance</h1>
+        <p className="text-sm">
+          Get immediate help for emergencies on the road. Stay safe!
         </p>
+      </header>
 
-        <div className="bg-white shadow-lg rounded-lg p-6 mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-2">
-            Emergency Helpline Numbers
-          </h2>
-          <ul className="list-disc pl-6 text-gray-700">
-            <li><strong>112</strong>: For immediate emergency services (police, ambulance, or fire).</li>
-            <li><strong>108</strong>: Dedicated to emergency ambulance services in many states.</li>
-          </ul>
+      {/* Emergency Contacts Section */}
+      <section className="bg-white rounded-xl shadow-md p-5">
+        <h2 className="text-lg font-bold mb-4 text-gray-800">Emergency Numbers</h2>
+        <div className="space-y-3">
+          {emergencyContacts.map((contact) => (
+            <div
+              key={contact.name}
+              className="flex items-center justify-between bg-gray-100 p-3 rounded-md shadow-sm"
+            >
+              <div className="flex items-center space-x-3">
+                <span className="text-2xl">{contact.icon}</span>
+                <div>
+                  <p className="font-medium text-gray-700">{contact.name}</p>
+                  <p className="text-sm text-gray-500">Available 24/7</p>
+                </div>
+              </div>
+              <a
+                href={`tel:${contact.number}`}
+
+                className="bg-purple-500 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-purple-600"
+              >
+                Call {contact.number}
+              </a>
+            </div>
+          ))}
         </div>
+      </section>
 
-        <div className="bg-white shadow-lg rounded-lg p-6 mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-2">
-            Accident and Road Safety Resources
-          </h2>
-          <p className="text-gray-700">
-            MyGov's <strong>Road Safety Hackathon</strong> initiative emphasizes emergency tools and applications for accident help, including quick ambulance coordination and financial aid for victims.
-          </p>
-        </div>
-
-        <div className="bg-white shadow-lg rounded-lg p-6 mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-2">
-            Parking Assistance and Traffic Management
-          </h2>
-          <p className="text-gray-700">
-            MyGov highlights tech innovations for smoother parking and driving experiences. Solutions may include navigation apps, parking space locators, or real-time traffic updates.
-          </p>
-        </div>
-
-        <div className="bg-white shadow-lg rounded-lg p-6 mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-2">
-            Additional Support
-          </h2>
-          <ul className="list-disc pl-6 text-gray-700">
-            <li>
-              For vehicle or road-related complaints, connect with the Ministry of Road Transport and Highways (MoRTH). Visit their grievance redressal portal at:
-              <a 
-                href="https://parivahan.gov.in" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-blue-600 underline ml-1">
-                MoRTH Grievance System
-              </a>.
+      {/* Useful Links Section */}
+      <section className="bg-white rounded-xl shadow-md p-5">
+        <h2 className="text-lg font-bold mb-4 text-gray-800">Useful Links</h2>
+        <ul className="space-y-3">
+          {usefulLinks.map((link) => (
+            <li key={link.name} className="flex items-center space-x-3">
+              <img
+                src="https://via.placeholder.com/50"
+                alt="Link Icon"
+                className="w-10 h-10 rounded-full shadow-sm"
+              />
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-600 font-medium hover:underline"
+              >
+                {link.name}
+              </a>
             </li>
-            <li>
-              State-specific traffic police websites often have hotlines and tools for resolving local issues.
-            </li>
-          </ul>
-        </div>
+          ))}
+        </ul>
+      </section>
 
-        <p className="text-center text-gray-700">
-          For further details or direct participation in relevant initiatives, visit:
-          <a 
-            href="https://www.mygov.in" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="text-blue-600 underline ml-1">
+      {/* Footer Section */}
+      <footer className="text-center text-white text-sm mt-auto">
+        <p>&copy; {new Date().getFullYear()} Parking Assistance. All rights reserved.</p>
+        <p>
+          Powered by{" "}
+          <a
+            href="https://www.mygov.in"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-bold underline"
+          >
             MyGov
-          </a>.
+          </a>
         </p>
-      </div>
+      </footer>
     </div>
   );
 };
