@@ -6,7 +6,7 @@ const ContactPage = () => {
     { name: "Ambulance", number: "102", icon: "🚑" },
     { name: "Fire Brigade", number: "101", icon: "🔥" },
     { name: "Women Helpline", number: "1091", icon: "👩" },
-    { name: "Highway Helpline", number: "1033", icon: "🛣️" },
+    { name: "Highway Helpline", number: "1033", icon: "🛣" },
   ];
 
   const usefulLinks = [
@@ -56,6 +56,7 @@ const ContactPage = () => {
               </div>
               <a
                 href={`tel:${contact.number}`}
+
                 className="bg-purple-500 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-purple-600"
               >
                 Call {contact.number}

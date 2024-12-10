@@ -169,7 +169,7 @@ const ParkingBox = ({
 
       {/* Initial Confirmation Modal */}
       {showModal && (
-        <div className="absolute top-0 left-0 right-0 h-full w-full  bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+        <div className="absolute top-0 left-0 right-0 h-full w-full  bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 rounded-2xl">
           <div className="bg-white rounded-lg p-6 w-[90%] sm:w-[400px]">
             <h2 className="text-xl text-black font-bold mb-4">
               Do you want to track this parking?
