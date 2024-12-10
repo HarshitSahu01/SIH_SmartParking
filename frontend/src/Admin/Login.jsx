@@ -14,11 +14,12 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:8000/isAuthenticated', {}, {
+    axios.get('http://localhost:8000/ping', {}, {
       withCredentials: true
     }).then((response) => {
-      console.log(response.data)
-      navigate('/admin/dashboard')
+      if (response.data.id != null) {
+        navigate('/admin/dashboard');
+      }
     }).catch((error) => {
       console.log(error.response);
     })
