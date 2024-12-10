@@ -1,35 +1,43 @@
 import React from "react";
+import trafficRulesImage from "../assets/1.jpg";
+import nhaiImage from "../assets/2.png";
+import myGovImage from "../assets/3.png";
+import four from "../assets/41.png";
 
 const ContactPage = () => {
   const emergencyContacts = [
     { name: "Police", number: "100", icon: "🚓" },
-    { name: "Ambulance", number: "102", icon: "🚑" },
+    { name: "Ambulance", number: "108", icon: "🚑" },
     { name: "Fire Brigade", number: "101", icon: "🔥" },
     { name: "Women Helpline", number: "1091", icon: "👩" },
-    { name: "Highway Helpline", number: "1033", icon: "🛣" },
+    { name: "Highway Helpline", number: "1033", icon: "🛣️" },
   ];
 
   const usefulLinks = [
     {
       name: "Traffic Rules and Guidelines",
       url: "https://morth.nic.in",
+      image: trafficRulesImage,
     },
     {
       name: "National Highway Authority of India",
       url: "https://nhai.gov.in",
+      image: nhaiImage,
     },
     {
       name: "MyGov Official Website",
       url: "https://www.mygov.in",
+      image: myGovImage,
     },
     {
-      name: "Road Safety Awareness",
-      url: "https://roadsafety.nic.in",
+      name: "National Road Safety",
+      url: "https://secure.mygov.in/campaigns/national-road-safety/",
+      image: four,
     },
   ];
 
   return (
-    <div className="min-h-screen bg-custom-gradient p-5 flex flex-col space-y-5">
+    <div className="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-5 flex flex-col space-y-5">
       {/* Header Section */}
       <header className="text-center text-white">
         <h1 className="text-2xl font-bold mb-2">Contact & Assistance</h1>
@@ -56,7 +64,6 @@ const ContactPage = () => {
               </div>
               <a
                 href={`tel:${contact.number}`}
-
                 className="bg-purple-500 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-purple-600"
               >
                 Call {contact.number}
@@ -73,9 +80,9 @@ const ContactPage = () => {
           {usefulLinks.map((link) => (
             <li key={link.name} className="flex items-center space-x-3">
               <img
-                src="https://via.placeholder.com/50"
-                alt="Link Icon"
-                className="w-10 h-10 rounded-full shadow-sm"
+                src={link.image}
+                alt={link.name}
+                className="w-12 h-12 rounded-full shadow-sm"
               />
               <a
                 href={link.url}
@@ -92,9 +99,9 @@ const ContactPage = () => {
 
       {/* Footer Section */}
       <footer className="text-center text-white text-sm mt-auto">
-        <p>&copy; {new Date().getFullYear()} Parking Assistance. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Park-N-Go. All rights reserved.</p>
         <p>
-          Powered by{" "}
+         
           <a
             href="https://www.mygov.in"
             target="_blank"
