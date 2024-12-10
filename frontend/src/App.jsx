@@ -40,5 +40,6 @@ function App() {
     </>
   )
 }
-import Test from './Admin/Test'
+
+export default App;
 
