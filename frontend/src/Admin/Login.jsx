@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
+import axios from "axios";
+import { getCSRFToken } from "../assets/scripts/utils";
 import SmallScreenErrorComponent from "../Components/SmallScreenError";
 
 const LoginPage = () => {
@@ -12,20 +14,26 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 640);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    axios.get('http://localhost:8000/isAuthenticated', {}, {
+      withCredentials: true
+    }).then((response) => {
+      console.log(response.data)
+      navigate('/admin/dashboard')
+    }).catch((error) => {
+      console.log(error.response);
+    })
   }, []);
 
   if (isSmallScreen) {
     return <SmallScreenErrorComponent />;
   }
+
+
+  const handleResize = () => {
+    setIsSmallScreen(window.innerWidth < 640);
+  };
+
+  window.addEventListener("resize", handleResize);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -35,26 +43,25 @@ const LoginPage = () => {
       return;
     }
 
-    try {
-      const response = await fetch("http://localhost:8000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
 
-      const data = await response.json();
+    axios.post('http://localhost:8000/login', {
+      username: username,
+      password: password
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCSRFToken(),  // Include CSRF token
+      },
+      withCredentials: true  // Include cookies (sessionid)
+    }).then((response) => {
+      console.log('here')
+      console.log(response.data)
+      navigate('/admin/dashboard')
+    }).catch((error) => {
+      alert(error.response);
+      console.log(error.response)
+    })
 
-      if (response.ok) {
-        alert(data.message);  // Display the success message (optional)
-        navigate("/admin/form");  // Redirect on successful login
-      } else {
-        setErrorMessage(data.message || "Login failed. Please try again.");
-      }
-    } catch (error) {
-      setErrorMessage("An error occurred. Please try again.");
-    }
   };
 
 
