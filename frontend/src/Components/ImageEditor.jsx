@@ -185,6 +185,9 @@ export default function ImageEditor() {
         return inside;
     };
 
+    const dump = () => {
+        console.log(JSON.stringify(spots[0]));
+    }
 
     const nextImageFunc = () => setCurrentImageIndex((prevIndex) => (prevIndex + 1) % canvasImages.length);
     const prevImageFunc = () => setCurrentImageIndex((prevIndex) => (prevIndex - 1 + canvasImages.length) % canvasImages.length);
@@ -356,7 +359,7 @@ export default function ImageEditor() {
                         </span>
                     </button>
                 </div>
-                <div className='ml-8 mt-6'><button className='bg-white rounded-full px-4 py-2'>Submit</button></div>
+                <div className='ml-8 mt-6'><button className='bg-white rounded-full px-4 py-2' onClick={dump}>Submit</button></div>
                 </div>
             </div>                       
         </div>

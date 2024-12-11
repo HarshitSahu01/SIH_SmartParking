@@ -13,7 +13,7 @@ export default function Dashboard() {
     }).then((response) => {
       alert('log out done')
       console.log(response.data)
-      navigate('/admin/login')
+      navigate('/admin/login')  
     }).catch((error) => {
       console.log(error.response)
     })
