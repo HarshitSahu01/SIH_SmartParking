@@ -187,7 +187,27 @@ export default function ImageEditor() {
 
     const dump = () => {
         for(let i=0; i<spots.length; i++) {
-            console.log(JSON.stringify(spots[i]));
+            let xfactor = canvasImages[i].width / imageDimensions.requiredHeight;
+            let yfactor = canvasImages[i].height / imageDimensions.requiredHeight;
+            let spot_copy = {car_spots: [], bike_spots: []};
+            for(let j=0; j<spots[i].car_spots.length; j++) {
+                let spot = spots[i].car_spots[j];
+                let new_spot = [];
+                for(let k=0; k<spot.length; k++) {
+                    new_spot.push([spot[k][0]*xfactor, spot[k][1]*yfactor]);
+                }
+                spot_copy.car_spots.push(new_spot);
+            }
+            for(let j=0; j<spots[i].bike_spots.length; j++) {
+                let spot = spots[i].bike_spots[j];
+                let new_spot = [];
+                for(let k=0; k<spot.length; k++) {
+                    new_spot.push([spot[k][0]*xfactor, spot[k][1]*yfactor]);
+                }
+                spot_copy.bike_spots.push(new_spot);
+            }
+
+            console.log(JSON.stringify(spot_copy));
         }
     }
 
