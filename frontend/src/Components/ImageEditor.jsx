@@ -7,7 +7,7 @@ import bikeModeIcon from '../assets/bike.svg';
 import eraseIcon from '../assets/erase.svg';
 import undoIcon from '../assets/undo.svg';
 import eraseAllIcon from '../assets/eraseAll.svg';
-import { BACKEND, backendUrl } from '../assets/scripts/utils';
+import { backendUrl } from '../assets/scripts/utils';
 
 export default function ImageEditor() {
     const canvasRef = useRef(null);
@@ -23,7 +23,7 @@ export default function ImageEditor() {
     useEffect(() => {
         const fetchImages = async () => {
             try {
-                // const BACKEND = 'http://'+location.hostname+':8000';
+                // const backendUrl = 'http://'+location.hostname+':8000';
                 const response = await fetch(`${backendUrl()}/getSampleImages`);
                 const data = await response.json();
 

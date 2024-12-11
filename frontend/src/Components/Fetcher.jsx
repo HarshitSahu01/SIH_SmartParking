@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import { BACKEND } from '../assets/scripts/utils';
+import { backendUrl } from '../assets/scripts/utils';
 
 export default function Fetcher() {
 
   useEffect(() => {
-    axios.post(`${BACKEND}/searchParkings`, {
+    axios.post(`${backendUrl()}/searchParkings`, {
       lat: 21.1939,
       long: 79.104,
       city: 'Nagpur',

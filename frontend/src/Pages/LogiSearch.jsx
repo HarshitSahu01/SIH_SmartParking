@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import  LogiBox from "../Components/LogiBox";
 import P from "../assets/P.png";
 import axios from "axios";
-import { BACKEND } from '../assets/scripts/utils'
+import { backendUrl } from '../assets/scripts/utils'
 
 const LogiSearch = ({ lat, lng, cityUser, stateUser }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,7 +13,7 @@ const LogiSearch = ({ lat, lng, cityUser, stateUser }) => {
     if (cityUser && stateUser) {
       axios
         .get(
-          `${BACKEND}/getParkings?lat=${lat}&long=${lng}&city=${cityUser}&state=${stateUser}`
+          `${backendUrl()}/getParkings?lat=${lat}&long=${lng}&city=${cityUser}&state=${stateUser}`
         )
         .then((response) => {
           setParkingData(response.data.parkings); // Use response.data directly with axios

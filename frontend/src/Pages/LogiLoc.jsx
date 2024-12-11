@@ -11,7 +11,7 @@ import P from "../assets/P.png";
 import clock from "../assets/clock.png";
 import addressicon from "../assets/address.png";
 import line from "../assets/distance.png";
-import { BACKEND } from '../assets/scripts/utils'
+import { backendUrl } from '../assets/scripts/utils'
 // ParkingBox component as provided
 const LogiBox = ({ 
     name,
@@ -24,7 +24,7 @@ const LogiBox = ({
       <div className="flex flex-col w-[80vw] sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-white shadow-md transform transition-transform duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100">
         <img
           // src={image ? image : P}
-          src="http://localhost:8000/static/sampleParking3.png"
+          src={`${backendUrl()}/static/sampleParking3.png`}
           alt="Parking"
           className="w-full h-[220px] object-cover p-3 rounded-3xl"
         />
@@ -102,7 +102,7 @@ const LogiLoc = () => {
       setLoading(true); // Show loader before making the API call
       axios
         .get(
-          `${BACKEND}/getParkings?lat=${lat}&long=${lng}&city=${cityUser}&state=${stateUser}`
+          `${backendUrl()}/getParkings?lat=${lat}&long=${lng}&city=${cityUser}&state=${stateUser}`
         )
         .then((response) => {
           setStoreList(response.data.parkings);

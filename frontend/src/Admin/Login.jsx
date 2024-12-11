@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import axios from "axios";
-import { getCSRFToken, BACKEND } from "../assets/scripts/utils";
+import { getCSRFToken, backendUrl } from "../assets/scripts/utils";
 import SmallScreenErrorComponent from "../Components/SmallScreenError";
 
 const LoginPage = () => {
@@ -14,7 +14,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`${BACKEND}/ping`, {
+    axios.get(`${backendUrl()}/ping`, {
       headers: {
         'Content-Type': 'application/json',
         'X-CSRFToken': getCSRFToken()
@@ -54,7 +54,7 @@ const LoginPage = () => {
     }
 
 
-    axios.post(`${BACKEND}/login`, {
+    axios.post(`${backendUrl()}/login`, {
       username: username,
       password: password
     }, {
