@@ -9,6 +9,7 @@ import userMarker from "./icons/marker-user-removebg.png";
 import LoadingSearch from "./LoadingSearch";
 import dropin from "../assets/droppin.gif"
 import searchicon from "../assets/searchicon.gif"
+import backarr from "../assets/back-arrow.png"
 
 const FlyToLocation = ({ lat, lng }) => {
   const map = useMap();
@@ -146,6 +147,17 @@ const MergedComponent = () => {
   return (
     <div className="merged-component">
   <main className="relative">
+  <div className="back absolute top-2 right-2 bg-white rounded-full  text-white  z-[2000] motion-preset-slide-left motion-delay-300">
+          <button
+            onClick={() => {
+              navigate("/asa", {
+                state: { lat, lng }, // Properly wrap `state` inside an object
+              });
+            }}
+          >
+            <img src={backarr} alt="" className="w-6 h-7 mx-2 my-1" />
+          </button>
+        </div>
 
     <div className="h-screen w-screen">
       {/* Map */}

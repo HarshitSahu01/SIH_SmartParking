@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import pin from "../assets/dropPin.png"
+import backarr from "../assets/back-arrow.png"
 // Custom Marker Icon
 const customIcon = new L.Icon({
   iconUrl:pin, // URL to marker icon
@@ -40,6 +41,15 @@ const Pin = () => {
 
   return (
     <div className="relative">
+        <div className="back absolute top-2 right-2 bg-white rounded-full  text-white  z-[2000] motion-preset-slide-left motion-delay-300">
+          <button
+            onClick={() => {
+              navigate("/logistics");
+            }}
+          >
+            <img src={backarr} alt="" className="w-6 h-7 mx-2 my-1" />
+          </button>
+        </div>
       <div className="panel flex flex-col justify-center items-center absolute bottom-0 left-0 right-0 bg-custom-gradient rounded-t-2xl z-[2000] h-36 gap-4">
       <h1 className="text-xl font-semibold">
         {/* {pin
@@ -58,7 +68,7 @@ const Pin = () => {
       </button>
       </div>
       <MapContainer
-        center={[20.5937, 78.9629]} // Default center (India)
+        center={[21.1458, 79.0882]} // Default center (India)
         zoom={5}
         style={{ height: "100vh", width: "100vw" }}
       >
