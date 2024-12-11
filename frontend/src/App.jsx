@@ -19,7 +19,9 @@ import Dashboard from './Admin/Dashboard';
 import Transport from './Pages/Transport';
 import LogisticsMap from './Pages/LogisticsMap';
 import LogiCard from './Pages/LogiCard';
-import AsaWhat from './Pages/AsaWhat';
+import LogiLoc from './Pages/LogiLoc';
+import DropLogi from './Pages/DropLogi'
+import Asa from './Pages/AsaWhat'
 function App() {
   return (
     <>
@@ -43,7 +45,9 @@ function App() {
         <Route path ="/transport" element = {<Transport/>}/>
         <Route path ="/logistics" element = {<LogisticsMap/>}/>
         <Route path ="/logicard" element = {<LogiCard/>}/>
-        <Route path ="/asa" element = {<AsaWhat/>}/>
+        <Route path ="/logimap" element = {<LogiLoc/>}/>
+        <Route path ="/droplogi" element = {<DropLogi/>}/>
+        <Route path ="/asa" element = {<Asa/>}/>
       </Routes>
     </>
   );

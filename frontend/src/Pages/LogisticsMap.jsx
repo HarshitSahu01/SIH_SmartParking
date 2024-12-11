@@ -248,7 +248,7 @@ const LogisticsMap = () => {
   <button
     className="bg-white text-black px-4 py-2 rounded-lg border drop-shadow-lg border-gray-700 hover:bg-gray-100 flex justify-between items-center gap-2 w-full h-12 sm:h-14 text-lg sm:text-xl font-semibold"
     onClick={() => {
-      navigate("/drop-pin");
+      navigate("/droplogi");
     }}
   >
     <h1 className="text-lg sm:text-xl pl-6">Set location on map</h1>

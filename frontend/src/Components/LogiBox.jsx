@@ -40,7 +40,7 @@ const LogiBox = ({
                 </div>
                 <p>{address}</p>
               </div>
-              <div className="flex justify-between items-center gap-20">
+              <div className="flex justify-between items-center ">
                 <div className="c2 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
                   <div className="icon2">
                     <img src={line} alt="" className="w-7" />

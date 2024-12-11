@@ -85,7 +85,7 @@ const LogiCards = () => {
           </div>
         )}
         <div className="goback">
-          <Link to="/parkings-maps" state={{ lat, lng }} className="flex justify-center gap-2 items-center text-md text-white">
+          <Link to="/logimap" state={{ lat, lng }} className="flex justify-center gap-2 items-center text-md text-white">
            <img src={MapIcon} className="w-6 h-6" alt="" /> See on map
           </Link>
         </div>
@@ -101,7 +101,7 @@ const LogiCards = () => {
       <div className="changeLoc flex justify-center items-center py-2 font-bold text-gray-600">
         <button
           onClick={() => {
-            navigate("/maps"); // Replace this with your navigation logic
+            navigate("/logistics"); // Replace this with your navigation logic
           }}
         >
           ← Change Location
