@@ -186,7 +186,9 @@ export default function ImageEditor() {
     };
 
     const dump = () => {
-        console.log(JSON.stringify(spots[0]));
+        for(let i=0; i<spots.length; i++) {
+            console.log(JSON.stringify(spots[i]));
+        }
     }
 
     const nextImageFunc = () => setCurrentImageIndex((prevIndex) => (prevIndex + 1) % canvasImages.length);
