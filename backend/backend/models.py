@@ -12,8 +12,8 @@ class ParkingOwner(models.Model):
 
 class Parking(models.Model):
     owner = models.ForeignKey(ParkingOwner, on_delete=models.CASCADE)  
-    name = models.CharField(max_length=100)
-    total_slots = models.PositiveIntegerField() 
+    name = models.CharField(max_length=100, null=True)
+    total_slots = models.PositiveIntegerField(null=True)
     address = models.CharField(max_length=200)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
@@ -26,6 +26,7 @@ class Parking(models.Model):
     two_wheeler_price = models.DecimalField(max_digits=6, decimal_places=2) 
     four_wheeler_price = models.DecimalField(max_digits=6, decimal_places=2)
     image = models.ImageField(upload_to='parking_images/', null=True, blank=True)
+    is_logistic = models.BooleanField(default=False)
 
 class Camera(models.Model):
     parking = models.ForeignKey(Parking, on_delete=models.CASCADE)
