@@ -78,55 +78,58 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen bg-custom-gradient flex flex-col">
       {/* Header */}
-      <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3 ">
-        <div className="flex items-center">
-          <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-10" />
-          <span className="ml-2 text-2xl sm:text-2xl font-semibold text-white tracking-tighter">
-            Park-N-Go
-          </span>
-        </div>
-        <div className="cursor-pointer" onClick={() => setMenuOpen((prev) => !prev)}>
-          <svg
-            fill="none"
-            viewBox="0 0 50 50"
-            height="28"
-            width="28"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-8 h-8 md:w-12 md:h-12"
-          >
-            <path
-              className="lineTop line"
-              strokeLinecap="round"
-              strokeWidth="4"
-              stroke="white"
-              d="M6 11L44 11"
-            ></path>
-            <path
-              strokeLinecap="round"
-              strokeWidth="4"
-              stroke="white"
-              d="M6 24H43"
-              className="lineMid line"
-            ></path>
-            <path
-              strokeLinecap="round"
-              strokeWidth="4"
-              stroke="white"
-              d="M6 37H43"
-              className="lineBottom line"
-            ></path>
-          </svg>
-        </div>
-        {menuOpen && (
-          <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg w-32 sm:w-40">
-            <ul className="text-gray-800">
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                Admin Controls
-              </li>
-            </ul>
-          </div>
-        )}
-      </header>
+      <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3">
+            <div className="flex items-center">
+                <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-10" />
+                <span className="ml-2 text-2xl sm:text-2xl font-semibold text-white tracking-tighter">
+                    Park-N-Go
+                </span>
+            </div>
+            <div className="cursor-pointer" onClick={() => setMenuOpen((prev) => !prev)}>
+                <svg
+                    fill="none"
+                    viewBox="0 0 50 50"
+                    height="28"
+                    width="28"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-8 h-8 md:w-12 md:h-12"
+                >
+                    <path
+                        className="lineTop line"
+                        strokeLinecap="round"
+                        strokeWidth="4"
+                        stroke="white"
+                        d="M6 11L44 11"
+                    ></path>
+                    <path
+                        strokeLinecap="round"
+                        strokeWidth="4"
+                        stroke="white"
+                        d="M6 24H43"
+                        className="lineMid line"
+                    ></path>
+                    <path
+                        strokeLinecap="round"
+                        strokeWidth="4"
+                        stroke="white"
+                        d="M6 37H43"
+                        className="lineBottom line"
+                    ></path>
+                </svg>
+            </div>
+            {menuOpen && (
+                <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg w-32 sm:w-40">
+                    <ul className="text-gray-800">
+                        <li
+                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                            onClick={() => navigate('/admin/login')}
+                        >
+                            Admin Controls
+                        </li>
+                    </ul>
+                </div>
+            )}
+        </header>
 
       {/* Main Content */}
       <main className="flex-grow flex flex-col items-center justify-center">
