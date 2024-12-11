@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import imageSrc from '../assets/sampleParking.png';
 
-const BoxConfirmCanvas = ({ quadrilaterals }) => {
+const BoxConfirmCanvas = ({ spots }) => {
   const canvasRef = useRef(null);
 
-  console.log(quadrilaterals)
+  console.log(spots);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -22,7 +22,8 @@ const BoxConfirmCanvas = ({ quadrilaterals }) => {
       ctx.font = '16px Arial';
       ctx.fillStyle = 'blue';
 
-      quadrilaterals.forEach((quad, index) => {
+      spots.forEach((spot, index) => {
+        const quad = spot.coordinates;
         ctx.beginPath();
         ctx.moveTo(quad[0][0], quad[0][1]);
         for (let i = 1; i < quad.length; i++) {
@@ -30,7 +31,7 @@ const BoxConfirmCanvas = ({ quadrilaterals }) => {
         }
         ctx.closePath();
         ctx.stroke();
-        ctx.fillText(`Q${index + 1}`, quad[0][0] + 5, quad[0][1] - 5);
+        ctx.fillText(`Spot ${index + 1}`, quad[0][0] + 5, quad[0][1] - 5);
       });
     };
 
@@ -50,9 +51,9 @@ const BoxConfirmCanvas = ({ quadrilaterals }) => {
       const clickX = event.clientX - rect.left;
       const clickY = event.clientY - rect.top;
 
-      quadrilaterals.forEach((quad, index) => {
-        if (isPointInPolygon(clickX, clickY, quad)) {
-          alert(`You clicked on Quadrilateral ${index + 1}`);
+      spots.forEach((spot, index) => {
+        if (isPointInPolygon(clickX, clickY, spot.coordinates)) {
+          alert(`You clicked on Spot ${index + 1}`);
         }
       });
     };
@@ -61,7 +62,7 @@ const BoxConfirmCanvas = ({ quadrilaterals }) => {
     return () => {
       canvas.removeEventListener('click', handleClick);
     };
-  }, [imageSrc, quadrilaterals]);
+  }, [imageSrc, spots]);
 
   return <canvas ref={canvasRef} style={{ border: '1px solid black' }}></canvas>;
 };

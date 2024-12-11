@@ -137,7 +137,7 @@ def get_parkings(request):
                 'distance': distance,
                 'time': '{:0.2f} min'.format(round(distance / 500)),
                 'address': f'{parking.address}, {parking.city}, {parking.state}',
-                'image': 'static/sampleParking1.png'
+                'image': parking.image.url
             })
 
     return JsonResponse({'message': 'Success', 'parkings': filtered_parkings}, status=200)
@@ -167,7 +167,7 @@ def getParkingData(request):
                 'bike_spots': 1,
                 'time': '{:0.2f} min'.format(round(distance / 500)),
                 'address': f'{parking.address}, {parking.city}, {parking.state}',
-                'image': 'static/sampleParking1.png'
+                'image': parking.image.url
             }
         return JsonResponse({'message': 'Success', 'parkings': parking_data}, status=200)
     except ObjectDoesNotExist:
