@@ -16,7 +16,9 @@ import From from './Admin/Form';
 import Test from './Admin/Test';  // Keep this import only once
 import ContactPage from './Pages/ContactPage';
 import Dashboard from './Admin/Dashboard';
-
+import Transport from './Pages/Transport';
+import LogisticsMap from './Pages/LogisticsMap';
+import LogiCard from './Pages/LogiCard';
 function App() {
   return (
     <>
@@ -37,6 +39,9 @@ function App() {
         <Route path="/admin/test" element={<Test />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route path ="/transport" element = {<Transport/>}/>
+        <Route path ="/logistics" element = {<LogisticsMap/>}/>
+        <Route path ="/logicard" element = {<LogiCard/>}/>
       </Routes>
     </>
   );
