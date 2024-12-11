@@ -23,7 +23,8 @@ const LogiBox = ({
     return (
       <div className="flex flex-col w-[80vw] sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-white shadow-md transform transition-transform duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100">
         <img
-          src={image ? image : P}
+          // src={image ? image : P}
+          src="http://localhost:8000/static/sampleParking3.png"
           alt="Parking"
           className="w-full h-[220px] object-cover p-3 rounded-3xl"
         />
@@ -192,7 +193,8 @@ const LogiLoc = () => {
                         <p>Distance: {shop.distance?.toFixed(2)} meters</p>
                         <p>Time: {shop.time}</p>
                         <img
-                          src={shop.image}
+                          src="http://localhost:8000/static/sampleParking3.png"
+                          // src={shop.image}
                           alt={shop.name}
                           style={{
                             width: "100px",
@@ -249,7 +251,7 @@ const LogiLoc = () => {
             </div>
           )}
 
-          <div className="w-full min-h-[40vh] mt-4 flex justify-center items-center overflow-x-scroll gap-24 bg-custom-gradient p-4 rounded-t-2xl">
+          <div className="w-full min-h-[40vh] mt-4 flex justify-start items-center overflow-x-scroll gap-24 bg-custom-gradient p-4 rounded-t-2xl">
             {storeList.length > 0 ? (
               storeList.map((store, index) => (
                 <div

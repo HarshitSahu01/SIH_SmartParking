@@ -97,7 +97,7 @@ const LogiSearch = ({ lat, lng, cityUser, stateUser }) => {
                 <LogiBox 
                 key={index}
                 name={parking.name}
-                distance={parking.distance}
+                distance={((parseFloat(parking.distance))/1000).toFixed(1)}
                 expected={parking.expected}
                 address={parking.address}
                 image={parking.image}
