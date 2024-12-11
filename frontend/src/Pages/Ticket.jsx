@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import QRCode from 'qrcode.react'; // Install using `npm install qrcode.react`
+import { QRCodeCanvas } from "qrcode.react";
 
 function TicketGenerator() {
   const [userName, setUserName] = useState('');
@@ -28,8 +28,8 @@ function TicketGenerator() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">Generate Your Parking Ticket</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-custom-gradient p-6">
+      <h1 className="text-2xl tracking-tight font-bold text-white mb-4">Generate Your Parking Ticket</h1>
 
       <div className="flex flex-col items-center bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
         <input
@@ -46,9 +46,14 @@ function TicketGenerator() {
           className="mb-4 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Select a time slot</option>
+          <option value="12:00 PM - 1:00 PM">12:00 PM - 1:00 PM</option>
+          <option value="1:00 PM - 2:00 PM">1:00 PM - 2:00 PM</option>
           <option value="2:00 PM - 3:00 PM">2:00 PM - 3:00 PM</option>
           <option value="3:00 PM - 4:00 PM">3:00 PM - 4:00 PM</option>
           <option value="4:00 PM - 5:00 PM">4:00 PM - 5:00 PM</option>
+          <option value="5:00 PM - 6:00 PM">5:00 PM - 6:00 PM</option>
+          <option value="6:00 PM - 7:00 PM">7:00 PM - 8:00 PM</option>
+          <option value="7:00 PM - 8:00 PM">8:00 PM - 9:00 PM</option>
         </select>
 
         <button
@@ -59,13 +64,13 @@ function TicketGenerator() {
         </button>
 
         {ticket && (
-          <div className="mt-6 bg-gray-50 shadow-md p-4 rounded-lg text-center">
+          <div className="mt-6 bg-gray-50 shadow-md p-4 rounded-lg text-center flex flex-col justify-center items-center">
             <h2 className="text-lg font-bold text-gray-800 mb-2">Parking Ticket</h2>
             <p className="text-gray-700">Name: {ticket.name}</p>
             <p className="text-gray-700">Date: {ticket.date}</p>
             <p className="text-gray-700">Time Slot: {ticket.slot}</p>
             <div className="mt-4">
-              <QRCode value={String(ticket.qrCode)} size={150} />
+            <QRCodeCanvas value={String(ticket.qrCode)} size={150} />
             </div>
             <p className="mt-2 text-gray-600">Ticket ID: {ticket.qrCode}</p>
           </div>

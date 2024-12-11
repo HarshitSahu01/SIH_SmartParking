@@ -22,6 +22,7 @@ import LogiCard from './Pages/LogiCard';
 import LogiLoc from './Pages/LogiLoc';
 import DropLogi from './Pages/DropLogi'
 import Asa from './Pages/AsaWhat'
+import Ticket from './Pages/Ticket'
 function App() {
   return (
     <>
@@ -48,6 +49,7 @@ function App() {
         <Route path ="/logimap" element = {<LogiLoc/>}/>
         <Route path ="/droplogi" element = {<DropLogi/>}/>
         <Route path ="/asa" element = {<Asa/>}/>
+        <Route path ="/ticket" element = {<Ticket/>}/>
       </Routes>
     </>
   );
