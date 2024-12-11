@@ -13,6 +13,7 @@ import Car from "../assets/car.png"; // Import missing image
 import bike from "../assets/bike.png"; // Import missing image
 import axios from "axios";
 import backarr from "../assets/back-arrow.png";
+import { BACKEND } from "../assets/scripts/utils";
 // ParkingBox component as provided
 const ParkingBox = ({
   name,
@@ -121,7 +122,7 @@ const ParkingOnmap = () => {
       setLoading(true); // Show loader before making the API call
       axios
         .get(
-          `http://localhost:8000/getParkings?lat=${lat}&long=${lng}&city=${cityUser}&state=${stateUser}`
+          `${BACKEND}/getParkings?lat=${lat}&long=${lng}&city=${cityUser}&state=${stateUser}`
         )
         .then((response) => {
           setStoreList(response.data.parkings);
@@ -285,7 +286,7 @@ const ParkingOnmap = () => {
                     carspots={store.car_spots}
                     bikespots={store.bike_spots}
                     address={store.address}
-                    image={'http://localhost:8000'+store.image}
+                    image={`${BACKEND}`+store.image}
                   />
                 </div>
               ))

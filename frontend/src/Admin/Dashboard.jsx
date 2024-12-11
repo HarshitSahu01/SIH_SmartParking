@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
-import { getCSRFToken } from '../assets/scripts/utils'
+import { getCSRFToken, BACKEND } from '../assets/scripts/utils'
 
 export default function Dashboard() {
   const logout = () => {
-    axios.post('http://localhost:8000/logout',{}, {
+    axios.post(`${BACKEND}/logout`,{}, {
       headers: {
         'Content-Type': 'application/json',
         'X-CSRFToken': getCSRFToken()

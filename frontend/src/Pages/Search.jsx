@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ParkingBox from "../Components/ParkingBox";
 import P from "../assets/P.png";
 import axios from "axios";
+import { BACKEND } from '../assets/scripts/utils'
 
 const Search = ({ lat, lng, cityUser, stateUser }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -12,7 +13,7 @@ const Search = ({ lat, lng, cityUser, stateUser }) => {
     if (cityUser && stateUser) {
       axios
         .get(
-          `http://localhost:8000/getParkings?lat=${lat}&long=${lng}&city=${cityUser}&state=${stateUser}`
+          `${BACKEND}/getParkings?lat=${lat}&long=${lng}&city=${cityUser}&state=${stateUser}`
         )
         .then((response) => {
           setParkingData(response.data.parkings); // Use response.data directly with axios
@@ -103,7 +104,7 @@ const Search = ({ lat, lng, cityUser, stateUser }) => {
                   bikespots={parking.bike_spots}
                   time={parking.time}
                   address={parking.address}
-                  image={'http://localhost:8000'+parking.image}
+                  image={`${BACKEND}`+parking.image}
                 />
               ))}
             </>
