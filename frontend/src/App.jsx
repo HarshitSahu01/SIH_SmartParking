@@ -19,6 +19,7 @@ import Dashboard from './Admin/Dashboard';
 import Transport from './Pages/Transport';
 import LogisticsMap from './Pages/LogisticsMap';
 import LogiCard from './Pages/LogiCard';
+import AsaWhat from './Pages/AsaWhat';
 function App() {
   return (
     <>
@@ -42,6 +43,7 @@ function App() {
         <Route path ="/transport" element = {<Transport/>}/>
         <Route path ="/logistics" element = {<LogisticsMap/>}/>
         <Route path ="/logicard" element = {<LogiCard/>}/>
+        <Route path ="/asa" element = {<AsaWhat/>}/>
       </Routes>
     </>
   );
