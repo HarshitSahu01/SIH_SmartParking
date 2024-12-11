@@ -19,6 +19,8 @@ import Dashboard from './Admin/Dashboard';
 import Transport from './Pages/Transport';
 import LogisticsMap from './Pages/LogisticsMap';
 import LogiCard from './Pages/LogiCard';
+import LogiLoc from './Pages/LogiLoc';
+import DropLogi from './Pages/DropLogi'
 function App() {
   return (
     <>
@@ -42,6 +44,8 @@ function App() {
         <Route path ="/transport" element = {<Transport/>}/>
         <Route path ="/logistics" element = {<LogisticsMap/>}/>
         <Route path ="/logicard" element = {<LogiCard/>}/>
+        <Route path ="/logimap" element = {<LogiLoc/>}/>
+        <Route path ="/droplogi" element = {<DropLogi/>}/>
       </Routes>
     </>
   );
