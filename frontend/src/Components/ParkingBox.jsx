@@ -165,6 +165,9 @@ const ParkingBox = ({
             </div>
           </div>
         </div>
+        <div className="down mx-3 my-3 flex justify-end">
+          <button className="p-2 bg-green-400 font-medium rounded-xl">Book Your Slot</button>
+        </div>
       </div>
 
       {/* Initial Confirmation Modal */}
