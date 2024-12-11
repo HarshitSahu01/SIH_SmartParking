@@ -40,7 +40,7 @@ const MergedComponent = () => {
   const [isSearchExpanded, setIsSearchExpanded] = useState(false); // State for full-screen panel
   const [loading, setloading] = useState(false)
   // useEffect(() => {
-  //   fetch("http://localhost:8000/getCords")
+  //   fetch(`${BACKEND}/getCords`)
   //     .then((response) => response.json())
   //     .then((data) => {
   //       setStoreList(data.data);

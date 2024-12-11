@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os   
+import socket
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,12 +28,13 @@ SECRET_KEY = 'django-insecure-=a)ot!*mwkv7j#zqgq*r+k(p^#h$)t1cq18ie&2u7hh%*@xl9$
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost',  # Add this to support requests from 'localhost'
+    '*',  # Add this to support requests from 'localhost'
 ]
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',  # Your React frontend origin
 ]
+
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -40,9 +42,23 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5173',  # Your React frontend origin for CSRF protection
 ]
 
-
 AUTH_USER_MODEL = 'backend.Users'
 
+def get_host_ip():
+    try:
+        # Connect to an external host to retrieve the IP address
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        # Doesn't need to actually connect, just used to get the IP of the current machine
+        s.connect(('8.8.8.8', 80))  # Google's DNS server IP
+        ip_address = s.getsockname()[0]
+        s.close()
+        CORS_ALLOWED_ORIGINS.append(f'http://{ip_address}:5173')
+        CSRF_TRUSTED_ORIGINS.append(f'http://{ip_address}:5173')
+        print('Exposed to local network:', ip_address)
+    except Exception as e:
+        return f"Unable to get IP address: {e}"
+
+get_host_ip()
 
 # Application definition
 

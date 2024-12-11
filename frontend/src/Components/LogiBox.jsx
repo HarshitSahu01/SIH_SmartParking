@@ -17,7 +17,8 @@ const LogiBox = ({
         className="flex flex-col w-full sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-transparent drop-shadow-xl backdrop-blur-2xl shadow-md transform transition-transform duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100"
       >
         <img
-          src={image ? image : P}
+          // src={image ? image : P}
+          src="http://localhost:8000/static/sampleParking3.png"
           alt="Parking"
           className="w-full h-[220px] object-cover p-3 rounded-3xl"
         />

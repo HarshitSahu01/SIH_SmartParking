@@ -16,3 +16,7 @@ export function getCookie(name) {
 export function getCSRFToken () {
   return getCookie('csrftoken')
 }
+
+export const BACKEND = 'http://localhost:8000'  // Backend URL
+
+export const backendUrl = () => `http://${location.hostname}:8000`

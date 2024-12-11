@@ -1,12 +1,12 @@
 import React from 'react'
 import axios from 'axios'
-import { getCSRFToken } from '../assets/scripts/utils'
+import { getCSRFToken, backendUrl } from '../assets/scripts/utils'
 
 export default function Test() {
 
     // Login function
     const login = () => {
-        axios.post('http://localhost:8000/login', {
+        axios.post(`${backendUrl()}/login`, {
             username: 'user2',
             password: 'password'
         }, {
@@ -24,7 +24,7 @@ export default function Test() {
 
     // Logout function
     const logout = () => {
-        axios.post('http://localhost:8000/logout', {}, {  // Empty body
+        axios.post(`${backendUrl()}/logout`, {}, {  // Empty body
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCSRFToken(),  // Include CSRF token
@@ -39,7 +39,7 @@ export default function Test() {
 
     // Ping function to check session status
     const ping = () => {
-        axios.get('http://localhost:8000/ping', {
+        axios.get(`${backendUrl()}/ping`, {
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCSRFToken(),  // Include CSRF token

@@ -17,6 +17,7 @@ const ParkingBox = ({
   carspots,
   bikespots,
   time,
+  time,
   address,
   image,
 }) => {
@@ -110,6 +111,7 @@ const ParkingBox = ({
                   <img src={P} alt="P" className="w-7" />
                 </div>
 
+
                 <p>{name}</p>
               </div>
               <div className="c3 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
@@ -118,6 +120,8 @@ const ParkingBox = ({
                 </div>
                 <p>{address}</p>
               </div>
+
+
             </div>
 
             <div className="c22 flex flex-col gap-3">
@@ -131,6 +135,7 @@ const ParkingBox = ({
                 <div className="icon2">
                   <img src={line} alt="" className="w-7" />
                 </div>
+                <p>{distance} km</p>
                 <p>{distance} km</p>
               </div>
             </div>
@@ -164,8 +169,14 @@ const ParkingBox = ({
                 </div>
                 <p>Rs {bikeprice}</p>
               </div>
+              <div className="c4 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2 mt-4">
+                <div className="icon4">
+                  <img src={priceicon} alt="" className="w-7" />
+                </div>
+                <p>Rs {bikeprice}</p>
+              </div>
             </div>
-          </div>
+            </div>
         </div>
         <div className="down mx-3 my-3 flex justify-end">
           <button className="p-2 bg-green-400 font-medium rounded-xl">

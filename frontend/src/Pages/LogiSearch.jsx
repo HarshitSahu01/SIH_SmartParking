@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import  LogiBox from "../Components/LogiBox";
 import P from "../assets/P.png";
 import axios from "axios";
+import { backendUrl } from '../assets/scripts/utils'
 
 const LogiSearch = ({ lat, lng, cityUser, stateUser }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -12,7 +13,7 @@ const LogiSearch = ({ lat, lng, cityUser, stateUser }) => {
     if (cityUser && stateUser) {
       axios
         .get(
-          `http://localhost:8000/getParkings?lat=${lat}&long=${lng}&city=${cityUser}&state=${stateUser}`
+          `${backendUrl()}/getParkings?lat=${lat}&long=${lng}&city=${cityUser}&state=${stateUser}`
         )
         .then((response) => {
           setParkingData(response.data.parkings); // Use response.data directly with axios
@@ -96,7 +97,7 @@ const LogiSearch = ({ lat, lng, cityUser, stateUser }) => {
                 <LogiBox 
                 key={index}
                 name={parking.name}
-                distance={parking.distance}
+                distance={((parseFloat(parking.distance))/1000).toFixed(1)}
                 expected={parking.expected}
                 address={parking.address}
                 image={parking.image}
