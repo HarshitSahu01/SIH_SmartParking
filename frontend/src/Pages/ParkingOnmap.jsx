@@ -285,7 +285,7 @@ const ParkingOnmap = () => {
                     carspots={store.car_spots}
                     bikespots={store.bike_spots}
                     address={store.address}
-                    image={store.image}
+                    image={'http://localhost:8000'+store.image}
                   />
                 </div>
               ))
