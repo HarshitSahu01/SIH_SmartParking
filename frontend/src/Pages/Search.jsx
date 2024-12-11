@@ -98,9 +98,10 @@ const Search = ({ lat, lng, cityUser, stateUser }) => {
                   name={parking.name}
                   carprice={parking.four_wheeler_price}
                   bikeprice={parking.two_wheeler_price}
-                  distance={parking.distance}
+                  distance={((parseFloat(parking.distance))/1000).toFixed(1)}
                   carspots={parking.car_spots}
                   bikespots={parking.bike_spots}
+                  time={parking.time}
                   address={parking.address}
                   image={'http://localhost:8000'+parking.image}
                 />

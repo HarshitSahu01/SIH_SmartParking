@@ -202,8 +202,8 @@ const ParkingOnmap = () => {
 
                 return (
                   <Marker position={[lat, lng]} icon={customIcon} key={index}>
-                    <Popup>
-                      <div>
+                    <Popup className="motion-preset-slide-up-lg">
+                      <div className="">
                         <p>
                           <strong>{shop.name}</strong>
                         </p>
@@ -212,7 +212,7 @@ const ParkingOnmap = () => {
                         <p>Distance: {shop.distance?.toFixed(2)} meters</p>
                         <p>Time: {shop.time}</p>
                         <img
-                          src={shop.image}
+                          src={'http://localhost:8000'+shop.image}
                           alt={shop.name}
                           style={{
                             width: "100px",
@@ -269,19 +269,19 @@ const ParkingOnmap = () => {
             </div>
           )}
 
-          <div className="w-full min-h-[40vh] mt-4 flex justify-center items-center overflow-x-scroll gap-24 bg-custom-gradient p-4 rounded-t-2xl">
+          <div className="w-[100vw] min-h-[40vh] mt-4 flex justify-start items-center overflow-x-scroll gap-0 bg-custom-gradient p-4 rounded-t-2xl scroll-smooth">
             {storeList.length > 0 ? (
               storeList.map((store, index) => (
                 <div
                   key={index}
                   onClick={() => handleCardClick(store.lat, store.long)}
-                  className="flex flex-col w-64 cursor-pointer"
+                  className="flex flex-col w-64 mr-24 cursor-pointer"
                 >
                   <ParkingBox
                     name={store.name}
                     carprice={store.four_wheeler_price}
                     bikeprice={store.two_wheeler_price}
-                    distance={store.distance}
+                    distance={(store.distance)}
                     carspots={store.car_spots}
                     bikespots={store.bike_spots}
                     address={store.address}
