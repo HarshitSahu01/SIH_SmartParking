@@ -102,7 +102,7 @@ const Search = ({ lat, lng, cityUser, stateUser }) => {
                   carspots={parking.car_spots}
                   bikespots={parking.bike_spots}
                   address={parking.address}
-                  image={parking.image}
+                  image={'http://localhost:8000'+parking.image}
                 />
               ))}
             </>
