@@ -3,6 +3,7 @@ import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { BACKEND } from "../assets/scripts/utils";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -54,7 +55,7 @@ const RegisterPage = () => {
     if (validateForm()) {
 
       // Proceed with registration logic
-      axios.post("http://localhost:8000/register", formData, { headers: { 'Content-Type': 'application/json' } })
+      axios.post(`${BACKEND}/register`, formData, { headers: { 'Content-Type': 'application/json' } })
         .then((res) => {
           if (res.data && res.data.message) {
             alert(res.data.message);  // Accessing the response message

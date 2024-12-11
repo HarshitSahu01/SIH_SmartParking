@@ -11,6 +11,7 @@ import P from "../assets/P.png";
 import clock from "../assets/clock.png";
 import addressicon from "../assets/address.png";
 import line from "../assets/distance.png";
+import { BACKEND } from '../assets/scripts/utils'
 // ParkingBox component as provided
 const LogiBox = ({ 
     name,
@@ -100,7 +101,7 @@ const LogiLoc = () => {
       setLoading(true); // Show loader before making the API call
       axios
         .get(
-          `http://localhost:8000/getParkings?lat=${lat}&long=${lng}&city=${cityUser}&state=${stateUser}`
+          `${BACKEND}/getParkings?lat=${lat}&long=${lng}&city=${cityUser}&state=${stateUser}`
         )
         .then((response) => {
           setStoreList(response.data.parkings);
