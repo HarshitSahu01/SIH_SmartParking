@@ -101,6 +101,7 @@ const Search = ({ lat, lng, cityUser, stateUser }) => {
                   distance={parking.distance}
                   carspots={parking.car_spots}
                   bikespots={parking.bike_spots}
+                  time={parking.time}
                   address={parking.address}
                   image={'http://localhost:8000'+parking.image}
                 />
