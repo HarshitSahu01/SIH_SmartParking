@@ -14,6 +14,7 @@ import json
 import requests
 from io import BytesIO
 from PIL import Image
+from django.middleware.csrf import get_token
 
 print('Loading model')
 # # from model.imageProcess import detect_parking_spots_from_image
@@ -22,6 +23,10 @@ def detect_parking_spots_from_image(*args, **kwargs):
 # # print('Model loaded')
 
 RADIUS = 2000 # in metres
+
+def csrf_token_view(request):
+    csrf_token = get_token(request)
+    return JsonResponse({'csrfToken': csrf_token})
 
 def getSampleImages(request):
     try:
@@ -351,4 +356,27 @@ def create_parking_spots(request):
     
     return JsonResponse({'message': 'Invalid request method'}, status=405)
 
+def request_parking(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        parking_id = data.get('parking_id')
+        vehicle_num = data.get('vehicle_num')
+        slot_timing = data.get('slot_timing')
+        user = request.user
 
+        try:
+            parking = Parking.objects.get(id=parking_id)
+            booking = Booking.objects.create(user=user, parking=parking, vehicle_num=vehicle_num, slot_timing=slot_timing)
+            booking.save()
+            return JsonResponse({'message': 'success'}, status=200)
+        except ObjectDoesNotExist:
+            return JsonResponse({'message': 'Parking not found'}, status=404)
+
+    return JsonResponse({'message': 'Invalid request method'}, status=405)
+
+def get_bookings(request):
+    if request.method == "GET":
+        user = request.user
+        bookings = Booking.objects.filter(user=user)
+        return JsonResponse({'message': 'success', 'bookings': [booking.serialize() for booking in bookings]}, status=200)
+    return JsonResponse({'message': 'Invalid request method'}, status=405)
