@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { QRCodeCanvas } from 'qrcode.react';
+import axios from 'axios';
+import { backendUrl, getCSRFToken } from '../assets/scripts/utils';
 
 function TicketGenerator() {
   const location = useLocation();
@@ -24,7 +26,25 @@ function TicketGenerator() {
   const handleClick = () => {
     console.log(id)
     console.log('Button clicked!');
-    setIsClicked(true); // Disable the button after clicking
+
+    axios.post(`${backendUrl()}/requestBooking`, {
+      parking_id: id,
+      vehicle_type: vehicleType,
+      vehicle_num: vehicleNo,
+      slot_timing: timeSlot,
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCSRFToken(),
+      },
+      withCredentials: true,
+    }).then((response) => {
+      alert(response.data.message)
+    }).catch((error) => {
+      alert(error.response.data)
+    });
+
+    setIsClicked(true); 
   };
 
   // Update the price whenever the time slot or vehicle type changes
