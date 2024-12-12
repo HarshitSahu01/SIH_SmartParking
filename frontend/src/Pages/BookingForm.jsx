@@ -6,7 +6,7 @@ function TicketGenerator() {
   const location = useLocation();
   const navigate = useNavigate(); // initialize useNavigate hook
 
-  const { carPrice, bikePrice, parkingName } = location.state || {};
+  const { id, carPrice, bikePrice, parkingName } = location.state || {};
   console.log(carPrice);
   const [isClicked, setIsClicked] = useState(false);
   const [userName, setUserName] = useState('');
@@ -130,7 +130,8 @@ function TicketGenerator() {
 
         {ticket && !payComp && (
           <div className="mt-6 bg-gray-50 shadow-md p-4 rounded-lg text-center flex flex-col justify-center items-center motion-preset-slide-up">
-            <h2 className="text-lg font-bold text-gray-800 mb-2">Parking Ticket</h2>
+            <h2 className="text-lg font-bold text-gray-800 mb-2">Parking Ticket of {parkingName}</h2>
+            <h2 className="text-lg font-bold text-gray-800 mb-2"> {id}</h2>
             <p className="text-gray-700">Name: {ticket.name}</p>
             <p className="text-gray-700">Vehicle No: {ticket.vehicleNo}</p>
             <p className="text-gray-700">Date: {ticket.date}</p>
