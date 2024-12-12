@@ -21,6 +21,7 @@ import LogisticsMap from './Pages/LogisticsMap';
 import LogiCard from './Pages/LogiCard';
 import LogiLoc from './Pages/LogiLoc';
 import DropLogi from './Pages/DropLogi'
+import { useEffect } from 'react';
 import Asa from './Pages/AsaWhat'
 import Ticket from './Pages/Ticket'
 function App() {

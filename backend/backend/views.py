@@ -151,7 +151,7 @@ def getParkingData(request):
     long = request.GET.get('long')
     user_coords = (lat, long)
     parking_coords = (Parking.objects.get(id=parking_id).lat, Parking.objects.get(id=parking_id).long)
-    
+
     try:
         parking = Parking.objects.get(id=parking_id)
         distance = geodesic(parking_coords, user_coords).meters
@@ -203,7 +203,7 @@ def login_view(request):
 def register_view(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        required_fields = ['username', 'email', 'password']
+        required_fields = ['username', 'email', 'password', 'contact', 'organization']
 
         # print(request.body)
         if not validate_fields(data, required_fields):
@@ -213,6 +213,8 @@ def register_view(request):
         username = data.get('username')
         email = data.get('email')
         password = data.get('password')
+        contact = data.get('contact')
+        organization = data.get('organization')
 
         if username == '' or email == '' or password == '':
             return JsonResponse({'message': 'Invalid data'}, status=400)
@@ -226,6 +228,8 @@ def register_view(request):
         user = Users.objects.create_user(username=username, email=email, password=password)
         user.save()
         login(request, user)
+        parking_owner = ParkingOwner.objects.create(user=user, contact=contact, organization=organization)
+        parking_owner.save()
         
         return JsonResponse({'message': 'success'}, status=200)
     return JsonResponse({'message': 'Invalid request method'}, status=405)
