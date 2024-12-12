@@ -17,7 +17,7 @@ export function setCSRFToken(token) {
   document.cookie = `csrftoken=${token}; path=/; secure; samesite=strict`;
 }
 
-export async function getCSRFToken() {
+export async function fetchCSRFToken() {
   let csrfToken = getCookie('csrftoken');
   
   if (!csrfToken) {
