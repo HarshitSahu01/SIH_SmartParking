@@ -39,11 +39,11 @@ class Booking(models.Model):
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
     parking = models.ForeignKey(Parking, on_delete=models.CASCADE)
     vehicle_num = models.CharField(max_length=20)
-    checkin_time = models.DateTimeField()
-    checkout_time = models.DateTimeField()
-    slot_timing = models.DateTimeField(null=True)
+    checkin_time = models.CharField(null=True)
+    checkout_time = models.CharField(null=True)
+    slot_timing = models.CharField(null=True)
     is_checked_out = models.BooleanField(default=False)
-    amount = models.DecimalField(max_digits=6, decimal_places=2)
+    amount = models.DecimalField(max_digits=6, decimal_places=2, null=True)
     is_paid = models.BooleanField(default=False)
     status = models.CharField(max_length=20, default='pending')    # pending, confirmed, cancelled, completed
 
