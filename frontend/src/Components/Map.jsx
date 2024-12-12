@@ -129,6 +129,9 @@ const MergedComponent = () => {
   };
 
   const handleGetCurrentLocation = () => {
+    if(isSearchExpanded){
+      setIsSearchExpanded(false);
+    }
     setloading(true);
     navigator.geolocation.getCurrentPosition(
       (position) => {
