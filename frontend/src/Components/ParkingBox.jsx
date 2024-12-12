@@ -19,6 +19,7 @@ const ParkingBox = ({
   time,
   address,
   image,
+
 }) => {
   const [carspotsLeft, setCarSpotsLeft] = useState(carspots);
   const [bikespotsLeft, setBikeSpotsLeft] = useState(bikespots);
