@@ -25,6 +25,7 @@ import { useEffect } from 'react';
 import Asa from './Pages/AsaWhat'
 import Ticket from './Pages/Ticket'
 import BoxConfirmCanvas from './Components/BoxConfirmCanvas';
+import AdminDrop from "./Pages/AdminDrop";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
         <Route path ="/asa" element = {<Asa/>}/>
         <Route path ="/ticket" element = {<Ticket/>}/>
         <Route path='/test123' element={<BoxConfirmCanvas />} />
+        <Route path='/admindrop' element={<AdminDrop />} />
       </Routes>
     </>
   );
