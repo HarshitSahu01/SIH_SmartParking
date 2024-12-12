@@ -4,6 +4,8 @@ import imageSrc from '../assets/sampleParking.png';
 const BoxConfirmCanvas = ({ spots }) => {
   const canvasRef = useRef(null);
 
+  spots = 
+
   console.log(spots);
 
   useEffect(() => {

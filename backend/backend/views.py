@@ -11,6 +11,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ObjectDoesNotExist
 import base64
 import json
+import requests
+from io import BytesIO
+from PIL import Image
 
 print('Loading model')
 # # from model.imageProcess import detect_parking_spots_from_image
@@ -18,7 +21,7 @@ def detect_parking_spots_from_image(*args, **kwargs):
     pass
 # # print('Model loaded')
 
-RADIUS = 10000 # in metres
+RADIUS = 2000 # in metres
 
 def getSampleImages(request):
     try:
@@ -106,7 +109,7 @@ def validate_fields(data, required_fields):
 
 # /getParkings
 @csrf_exempt
-def get_parkings(request):
+def getParkings(request):
     lat = request.GET.get('lat')
     long = request.GET.get('long')
     city = request.GET.get('city')
@@ -145,7 +148,7 @@ def get_parkings(request):
 
 # /getParkingData
 @csrf_exempt
-def getParkingData(request):
+def getParking(request):
     parking_id = request.GET.get('id')
     lat = request.GET.get('lat')
     long = request.GET.get('long')
@@ -199,7 +202,6 @@ def login_view(request):
 
 
 # /register
-@csrf_exempt
 def register_view(request):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -246,11 +248,16 @@ def isAuthenticated(request):
     return JsonResponse({'message': 'failure'}, status=400)
 
 # /createParking
-@csrf_exempt
+@require_parking_owner
 def create_parking(request):
     if request.method == "POST":
-        data = request.POST
-        required_fields = ['name', 'address', 'city', 'district', 'state', 'pincode', 'is_smart', 'two_wheeler_price', 'four_wheeler_price']
+        data = json.loads(request.body)
+
+        parking = Parking.objects.filter(owner=ParkingOwner.objects.get(user=request.user))
+        if parking.exists():
+            return JsonResponse({'message': 'Parking already exists'}, status=400)
+
+        required_fields = ['name', 'address', 'city', 'state', 'pincode', 'is_smart', 'two_wheeler_price', 'four_wheeler_price', 'contact', 'image', 'lat', 'long', 'slots']
 
         if not validate_fields(data, required_fields):
             return JsonResponse({'message': 'Invalid data'}, status=400)
@@ -259,13 +266,23 @@ def create_parking(request):
             owner=ParkingOwner.objects.get(user=request.user),
             name=data.get('name'),
             address=data.get('address'),
+            total_slots=data.get('slots'),
             city=data.get('city'),
             state=data.get('state'),
             pincode=data.get('pincode'),
+            lat=float(data.get('lat')),
+            long=float(data.get('long')),
             is_smart=data.get('is_smart') == 'True',
             two_wheeler_price=float(data.get('two_wheeler_price')),
             four_wheeler_price=float(data.get('four_wheeler_price'))
         )
+        parking.save()
+
+        if parking.is_smart:
+            camera_urls = data.get('camera_urls')
+            for i, url in enumerate(camera_urls):
+                camera = Camera.objects.create(parking=parking, camera_num=i, url=url)
+                camera.save()
         
         return JsonResponse({'message': 'success'}, status=200)
     return JsonResponse({'message': 'Invalid request method'}, status=405)
@@ -290,19 +307,42 @@ def fetch_parking_image(request):
             return JsonResponse({'message': 'Parking not found'}, status=404)
 
     return JsonResponse({'message': 'Invalid request method'}, status=405)
+  
 
-
-# /createParkingSpots
-@csrf_exempt
+@require_parking_owner
 def create_parking_spots(request):
+    if request.method == "GET":
+        parkingOwner = ParkingOwner.objects.get(user=request.user)
+        parking = Parking.objects.get(owner=parkingOwner)
+        if not parking.is_smart:
+            return JsonResponse({'message': 'Parking is not smart'}, status=400)
+        
+        cameras = Camera.objects.filter(parking=parking)
+        encoded_images = []
+
+        for camera in cameras:
+            response = requests.get(camera.url)
+            image = Image.open(BytesIO(response.content))
+            buffered = BytesIO()
+            image.save(buffered, format="JPEG")
+            encoded_image = base64.b64encode(buffered.getvalue()).decode('utf-8')
+            encoded_images.append(encoded_image)
+        
+        response = {
+            'message': 'success',
+            'images': encoded_images
+        }
+
+
+        spots = camera.spots
+        return JsonResponse({'message': 'success', 'spots': spots}, status=200)
     if request.method == "POST":
         data = json.loads(request.body)
-
-        for spot_data in data:
+        for i, spot_data in enumerate(data):
             try:
-                camera = Camera.objects.get(id=spot_data['camera_id'])
-                camera.car_spots = spot_data.get('car_spots', [])
-                camera.bike_spots = spot_data.get('bike_spots', [])
+                parking = Parking.objects.get(owner=ParkingOwner.objects.get(user=request.user))
+                camera = Camera.objects.get(parking=parking, camera_num=i)
+                camera.spots = spot_data['spots']
                 camera.save()
             except ObjectDoesNotExist:
                 return JsonResponse({'message': 'Invalid camera ID'}, status=404)
@@ -312,16 +352,3 @@ def create_parking_spots(request):
     return JsonResponse({'message': 'Invalid request method'}, status=405)
 
 
-
-    try:
-        # Create a PaymentIntent with the order amount and currency
-        intent = stripe.PaymentIntent.create(
-            amount=5000,  # Amount in cents (e.g., $50.00)
-            currency='usd',
-            automatic_payment_methods={
-                'enabled': True,
-            },
-        )
-        return JsonResponse({'clientSecret': intent['client_secret']})
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=400)

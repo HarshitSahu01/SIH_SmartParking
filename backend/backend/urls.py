@@ -27,8 +27,8 @@ urlpatterns = [
     path('searchParkings', views.searchParkings, name='searchParkings'),
     path('testView', views.testView),
     path('getSampleImages', views.getSampleImages),
-    path('getParkings', views.get_parkings),
-    path('getParkingData', views.getParkingData),
+    path('getParkings', views.getParkings),
+    path('getParking', views.getParking),
     path('ping', views.ping),
 
     path('register', views.register_view),
