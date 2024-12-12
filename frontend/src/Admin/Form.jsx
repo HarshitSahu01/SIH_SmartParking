@@ -50,6 +50,18 @@ const ParkingSpaceForm = () => {
         setCameraUrls(updatedUrls);
     };
 
+    
+    const handleForm = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+        console.log(data);
+    };
+
+
     if (isSmallScreen) {
         return <SmallScreenErrorComponent />;
     }
@@ -115,20 +127,20 @@ const ParkingSpaceForm = () => {
                     <h1 className="text-xl font-semibold text-center text-gray-700 mb-6">
                         Parking Space Details
                     </h1>
-                    <form className="grid grid-cols-3 gap-6">
+                    <form className="grid grid-cols-3 gap-6" onSubmit={handleForm}>
                         {[
                             { id: "firstName", label: "First Name", placeholder: "Enter first name" },
                             { id: "lastName", label: "Last Name", placeholder: "Enter last name" },
                             { id: "email", label: "Email", placeholder: "Enter email" },
-                            { id: "phone", label: "Phone Number", placeholder: "Enter phone number" },
-                            { id: "parkingName", label: "Parking Space Name", placeholder: "Enter name" },
+                            { id: "contact", label: "Phone Number", placeholder: "Enter phone number" },
+                            { id: "name", label: "Parking Space Name", placeholder: "Enter name" },
                             { id: "address", label: "Address", placeholder: "Enter address" },
-                            { id: "area", label: "Area", placeholder: "Enter area" },
                             { id: "city", label: "City", placeholder: "Enter city" },
                             { id: "state", label: "State", placeholder: "Enter state" },
+                            { id: "pincode", label: "Pincode", placeholder: "Enter pincode" },
                             { id: "slots", label: "Slots Provided", placeholder: "Enter slots provided" },
-                            { id: "cost2w", label: "Cost of 2 Wheeler", placeholder: "Enter cost" },
-                            { id: "cost4w", label: "Cost of 4 Wheeler", placeholder: "Enter cost" },
+                            { id: "two_wheeler_parking", label: "Cost of 2 Wheeler", placeholder: "Enter cost" },
+                            { id: "four_wheeler_parking", label: "Cost of 4 Wheeler", placeholder: "Enter cost" },
                         ].map((field) => (
                             <div key={field.id} className="col-span-1">
                                 <label
@@ -140,6 +152,7 @@ const ParkingSpaceForm = () => {
                                 <input
                                     type="text"
                                     id={field.id}
+                                    name={field.id}
                                     className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#68BBE3] focus:outline-none"
                                     placeholder={field.placeholder}
                                 />
