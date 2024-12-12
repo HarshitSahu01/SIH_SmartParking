@@ -8,7 +8,7 @@ import clock from "../assets/clock.png";
 import priceicon from "../assets/price.png";
 import bike from "../assets/bike.png";
 import addressicon from "../assets/address.png";
-import line from "../assets/distance.png"
+import line from "../assets/distance.png";
 // Import worker file
 const ParkingBox = ({
   name,
@@ -120,12 +120,7 @@ const ParkingBox = ({
             <div className="c11 flex flex-col gap-3">
               <div className="c1 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
                 <div className="icon1">
-                  <img
-                    src={P}
-                    alt="P"
-
-                    className="w-7"
-                  />
+                  <img src={P} alt="P" className="w-7" />
                 </div>
 
                 <p>{name}</p>
@@ -136,13 +131,9 @@ const ParkingBox = ({
                 </div>
                 <p>{address}</p>
               </div>
-
-
             </div>
 
             <div className="c22 flex flex-col gap-3">
-
-
               <div className="c2 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
                 <div className="icon2">
                   <img src={clock} alt="" className="w-7" />
@@ -157,16 +148,15 @@ const ParkingBox = ({
               </div>
             </div>
           </div>
-            <div className="c33 flex flex-row gap-28 mt-4 mx-2">
+          <div className="c33 flex flex-row gap-28 mt-4 mx-2">
             <div className="r1 flex flex-col">
-
-            <div className="c5 flex items-center text-sm font-bold text-gray-600 gap-2">
+              <div className="c5 flex items-center text-sm font-bold text-gray-600 gap-2">
                 <div className="icon5">
                   <img src={Car} alt="" className="w-7" />
                 </div>
                 <p>{carspotsLeft} spots</p>
               </div>
-            <div className="c4 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2 mt-4">
+              <div className="c4 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2 mt-4">
                 <div className="icon4">
                   <img src={priceicon} alt="" className="w-7" />
                 </div>
@@ -175,7 +165,6 @@ const ParkingBox = ({
             </div>
 
             <div className="r2 flex flex-col ">
-
               <div className="c6 flex items-center text-sm font-bold text-gray-600 gap-2">
                 <div className="icon6">
                   <img src={bike} alt="" className="w-7" />
@@ -189,10 +178,12 @@ const ParkingBox = ({
                 <p>Rs {bikeprice}</p>
               </div>
             </div>
-            </div>
+          </div>
         </div>
         <div className="down mx-3 my-3 flex justify-end">
-          <button className="p-2 bg-green-400 font-medium rounded-xl">Book Your Slot</button>
+          <button className="p-2 bg-green-400 font-medium rounded-xl">
+            Book Your Slot
+          </button>
         </div>
       </div>
 

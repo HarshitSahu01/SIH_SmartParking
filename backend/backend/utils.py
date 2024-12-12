@@ -1,6 +1,6 @@
 import base64
 from django.contrib.staticfiles import finders
-import os 
+
 
 def image_to_base64(image_path):
     path = 'static/'+image_path
