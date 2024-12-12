@@ -83,9 +83,9 @@ const Dashboard = () => {
 
   return (
         <div className='bg-custom-gradient min-h-screen relative flex flex-col'>
-          <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3">
-            <div className="flex items-center">
-              <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-10" />
+          <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3 motion-preset-slide-down-md motion-delay-300">
+            <div className="flex justify-center items-center">
+              <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-16" /> 
               <span className="ml-2 text-2xl sm:text-2xl font-semibold text-white tracking-tighter">
                 Park-N-Go
               </span>
@@ -135,12 +135,12 @@ const Dashboard = () => {
               </div>
             )}
           </header>
-          <h1 className="text-center text-3xl font-bold text-white my-6">Dashboard</h1>
-          <div className="px-6 w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+          <h1 className="text-center text-3xl font-bold text-white my-6 ">Dashboard</h1>
+          <div className="px-6 w-full mx-auto grid grid-cols-1 h-full md:grid-cols-2 gap-6">
             {/* First Column */}
             <div className="space-y-6">
               {/* Current Status */}
-              <div className="bg-white bg-opacity-60 rounded-lg shadow-lg">
+              <div className="bg-white bg-opacity-60 rounded-lg shadow-lg motion-preset-slide-right motion-duration-700">
                 <div className="text-center text-lg font-semibold text-white bg-purple-800 rounded-t-lg py-2">Current status</div>
                 <div className="relative w-11/12 mx-auto h-6 bg-gray-200 rounded-full mt-3">
                   <div
@@ -155,7 +155,7 @@ const Dashboard = () => {
               </div>
 
               {/* Parking Details */}
-              <div className="bg-white bg-opacity-60 rounded-lg shadow-lg">
+              <div className="bg-white bg-opacity-60 rounded-lg shadow-lg motion-preset-slide-right motion-duration-700">
                 <div className="text-center text-lg font-semibold text-white bg-purple-800 rounded-t-lg py-2">Parking Details</div>
                 <div className="px-4 py-4 space-y-4">
                   <div>
@@ -187,7 +187,7 @@ const Dashboard = () => {
             </div>
 
             {/* Second Column */}
-            <div className="bg-white bg-opacity-60 rounded-lg shadow-lg">
+            <div className="bg-white bg-opacity-60 rounded-lg shadow-lg motion-preset-slide-left motion-duration-700">
               <div className="text-center text-lg font-semibold text-white bg-purple-800 rounded-t-lg py-2">Bookings</div>
               <div className="px-4 py-4 space-y-4">
                 {/* New Requests */}
@@ -237,6 +237,9 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
+          <footer className="w-full rounded-t-2xl text-center py-2  text-white text-xs sm:text-sm motion-preset-rebound-up">
+        © 2024 Park-N-Go ~ All rights reserved
+      </footer>
         </div>
       );
     };

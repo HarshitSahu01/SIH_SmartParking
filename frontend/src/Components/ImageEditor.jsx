@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 import nextIcon from '../assets/next.svg';
 import prevIcon from '../assets/prev.svg';
 import carModeIcon from '../assets/car.svg';
@@ -8,7 +8,7 @@ import eraseIcon from '../assets/erase.svg';
 import undoIcon from '../assets/undo.svg';
 import eraseAllIcon from '../assets/eraseAll.svg';
 import { backendUrl } from '../assets/scripts/utils';
-
+import loading from "../Components/ImageEditor.jsx"
 export default function ImageEditor() {
     const canvasRef = useRef(null);
     const [canvasImages, setCanvasImages] = useState([]);
@@ -250,14 +250,14 @@ export default function ImageEditor() {
     */
 
     if (canvasImages.length === 0) {
-        return <div>Loading...</div>;
+        return <loading/>;
     }
     return (
         <div className='bg-custom-gradient h-[100vh]'>
             <div className='flex flex-col items-center justify-center'>
-                <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3">
+                <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3 motion-preset-slide-down motion-delay-300">
                     <div className="flex items-center">
-                        <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-10" />
+                        <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-16" />
                         <span className="ml-2 text-2xl sm:text-2xl font-semibold text-white tracking-tighter">
                             Park-N-Go
                         </span>
@@ -304,11 +304,11 @@ export default function ImageEditor() {
                         </div>
                     )}
                 </header>
-                <div className='flex flex-col items-center justify-center text-white mb-2'>
+                <div className='flex flex-col motion-preset-slide-down-md items-center justify-center text-white mb-2'>
                     <h1 className='text-xl font-semibold'>Please select the Parking Spaces</h1>
                 </div>
-                <canvas ref={canvasRef} onClick={handleCanvasClick} className='rounded-lg cursor-crosshair'></canvas>
-                <div className='flex flex-row items-center justify-center'>
+                <canvas ref={canvasRef} onClick={handleCanvasClick} className='rounded-lg cursor-crosshair motion-preset-expand'></canvas>
+                <div className='flex flex-row items-center justify-center motion-preset-slide-up-md motion-delay-300'>
                 <div className="flex flex-row justify-center items-center gap-6 mt-4 px-3 ml-6 py-3 bg-white bg-opacity-30 rounded-full">
                     
                     <button onClick={prevImageFunc} className='mr-8'>

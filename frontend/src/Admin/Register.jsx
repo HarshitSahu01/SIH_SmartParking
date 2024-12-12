@@ -86,7 +86,7 @@ const RegisterPage = () => {
   return (
     <div className="min-h-screen bg-custom-gradient flex flex-col">
       {/* Header */}
-      <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3">
+      <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3 motion-preset-slide-down-md motion-delay-200">
         <div className="flex items-center">
           <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-10" />
           <span className="ml-2 text-2xl sm:text-2xl font-semibold text-white tracking-tighter">
@@ -140,7 +140,7 @@ const RegisterPage = () => {
       </header>
 
       <main className="flex-grow flex flex-col items-center justify-center">
-        <div className="w-11/12 max-w-sm bg-white p-6 rounded-lg shadow-lg">
+        <div className="w-11/12 max-w-sm bg-white p-6 rounded-lg shadow-lg motion-preset-expand">
           <h1 className="text-xl font-semibold text-center text-gray-700">Register</h1>
           <form className="mt-6" onSubmit={handleRegister}>
 
