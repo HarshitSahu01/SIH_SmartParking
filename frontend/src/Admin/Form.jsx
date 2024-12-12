@@ -4,22 +4,60 @@ import SmallScreenErrorComponent from "../Components/SmallScreenError";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { getCSRFToken, backendUrl } from "../assets/scripts/utils";
-
+import adminDrop from "../Pages/AdminDrop"
+import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import pinic from "../assets/dropPin.png"
+import backarr from "../assets/back-arrow.png"
+ 
 const ParkingSpaceForm = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
     // Destructure lat and lng from the location state
-    const { lat, lng } = location.state || { lat: null, lng: null }
+    // const { lat, lng } = location.state || { lat: null, lng: null }
     const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 640);
     const [menuOpen, setMenuOpen] = useState(false);
     const [numCameras, setNumCameras] = useState(0);
     const [cameraUrls, setCameraUrls] = useState([]);
+    const [isdrop, setIsdrop] = useState(false)
+    const [pin, setPin] = useState(null);
+    const [lat, setlat] = useState(0)
+    const [lng, setlng] = useState(0)
+    const MapClickHandler = () => {
+        const map = useMapEvents({
+            click(e) {
+                const { lat, lng } = e.latlng;
 
-    const handleClick = () => {
-        navigate('/admindrop');
+                // Update pin state and fly to the clicked location
+                setPin({ lat, lng });
+                map.flyTo([lat, lng], 14, { duration: 1.5 });
+            },
+        });
+        return null;
     };
 
+    // Handle confirm button click
+    const handleConfirmLocation = () => {
+        if (pin) {
+            setIsdrop(false)
+            setlat(pin.lat) // Navigate with state
+            setlng(pin.lng) // Navigate with state
+            console.log(lat, lng)
+        } else {
+            alert("Please drop a pin to select your location first!");
+        }
+    };
+    // State to store a single pin
+    const handleClick = () => {
+        setIsdrop(true);
+    };
+    const customIcon = new L.Icon({
+        iconUrl: pinic, // URL to marker icon
+        iconSize: [40, 41], // Size of the icon
+        iconAnchor: [12, 41], // Point of the icon which will correspond to marker's location
+    });
     useEffect(() => {
         console.log(lat, lng);
         const handleResize = () => {
@@ -97,9 +135,9 @@ const ParkingSpaceForm = () => {
     return (
         <div className="min-h-screen bg-custom-gradient flex flex-col">
             {/* Header */}
-            <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3">
+            <header className="w-full min-h-[10vh] rounded-b-2xl flex justify-between items-center px-4 py-3">
                 <div className="flex items-center">
-                    <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-10" />
+                    <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-16" />
                     <span className="ml-2 text-2xl sm:text-2xl font-semibold text-white tracking-tighter">
                         Park-N-Go
                     </span>
@@ -150,7 +188,62 @@ const ParkingSpaceForm = () => {
                 )}
             </header>
             {/* Main Content */}
-            <main className="flex-grow flex items-center justify-center">
+            <main className="flex-grow flex items-center justify-center relative">
+                {isdrop&&
+                <div className="drop-container absolute top-14 h-[65vh] flex justify-center items-center max-w-[80vw] left-36 ri z-[1000]">
+                    <div className="relative">
+                        <div className="back absolute top-2 right-2 bg-white rounded-full  text-white  z-[2000] motion-preset-slide-left motion-delay-300">
+                            <button
+                                onClick={() => {
+                                    setIsdrop(false);
+                                }}
+                            >
+                                <img src={backarr} alt="" className="w-6 h-7 mx-2 my-1" />
+                            </button>
+                        </div>
+                        <div className="panel flex flex-col justify-center items-center absolute bottom-0 left-0 right-0 bg-custom-gradient rounded-t-2xl z-[2000] h-36 gap-4">
+                            <h1 className="text-xl font-semibold">
+                                {/* {pin
+                              ? `Dropped Pin Coordinates: Latitude ${pin.lat.toFixed(
+                                  4
+                                )}, Longitude ${pin.lng.toFixed(4)}`
+                              : ""} */}
+                                Tap on the map to drop a pin
+
+                            </h1>
+                            <button
+                                onClick={handleConfirmLocation}
+                                className="py-3 px-5 bg-black/80 text-white drop-shadow-2xl  rounded-3xl"
+                            >
+                                Confirm My Location
+                            </button>
+                        </div>
+                        <MapContainer
+                            center={[21.1458, 79.0882]} // Default center (India)
+                            zoom={5}
+                            style={{ height: "100vh", width: "100vw" }}
+                        >
+                            {/* Tile Layer from OpenStreetMap */}
+                            <TileLayer
+                                url="https://tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=b3a0689a59104875a48e7b0370951490"
+                                attribution=''
+                            />
+
+                            {/* Add click handler to the map */}
+                            <MapClickHandler />
+
+                            {/* Render a single pin */}
+                            {pin && (
+                                <Marker
+                                    position={[pin.lat, pin.lng]}
+                                    icon={customIcon} // Custom icon for the marker
+                                />
+                            )}
+                        </MapContainer>
+                    </div>
+
+                </div>
+}
                 <div className="w-11/12 max-w-4xl bg-white p-8 rounded-lg shadow-lg">
                     <h1 className="text-xl font-semibold text-center text-gray-700 mb-6">
                         Parking Space Details
@@ -246,6 +339,9 @@ const ParkingSpaceForm = () => {
                             <button
                                 type="submit"
                                 className="w-full py-2 bg-custom-gradient text-white font-semibold rounded-md hover:bg-[#68BBE3] transition"
+                                onClick={()=>{
+                                    navigate("/admin/imageEditor")
+                                }}
                             >
                                 Submit
                             </button>

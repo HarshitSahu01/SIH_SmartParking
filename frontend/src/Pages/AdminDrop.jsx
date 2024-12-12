@@ -33,7 +33,9 @@ const Pin = () => {
   // Handle confirm button click
   const handleConfirmLocation = () => {
     if (pin) {
-      navigate("/admin/form", { state: { lat: pin.lat, lng: pin.lng } }); // Navigate with state
+      setIsdrop(false)
+      setlat(pin.lat) // Navigate with state
+      setlng(pin.lng) // Navigate with state
     } else {
       alert("Please drop a pin to select your location first!");
     }
@@ -44,7 +46,7 @@ const Pin = () => {
         <div className="back absolute top-2 right-2 bg-white rounded-full  text-white  z-[2000] motion-preset-slide-left motion-delay-300">
           <button
             onClick={() => {
-              navigate("/maps");
+             setIsdrop(false);
             }}
           >
             <img src={backarr} alt="" className="w-6 h-7 mx-2 my-1" />
