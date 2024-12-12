@@ -96,6 +96,7 @@ const Search = ({ lat, lng, cityUser, stateUser }) => {
               {filteredParkingData.map((parking, index) => (
                 <ParkingBox
                   key={index}
+                  id={parking.id}
                   name={parking.name}
                   carprice={parking.four_wheeler_price}
                   bikeprice={parking.two_wheeler_price}

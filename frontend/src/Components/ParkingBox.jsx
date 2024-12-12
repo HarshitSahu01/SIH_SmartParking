@@ -29,7 +29,9 @@ const ParkingBox = ({
   const [showTrackingModal, setShowTrackingModal] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
+    console.log(id, "in parkingbox")
     if (isTracking) {
+
       const interval = setInterval(() => {
         checkSpotsAndNotify();
       }, 10000); // Check every 10 seconds
@@ -177,6 +179,7 @@ const ParkingBox = ({
       <div className="absolute bottom-2 right-0 z-[1000] text-white px-2 py-1 rounded-lg bg-custom-gradient">
         <button
           onClick={() => {
+            console.log(id)
             navigate("/book-form", {
               state: {
                 id: id,
