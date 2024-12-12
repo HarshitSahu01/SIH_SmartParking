@@ -4,7 +4,10 @@ import imageSrc from '../assets/sampleParking.png';
 const BoxConfirmCanvas = ({ spots }) => {
   const canvasRef = useRef(null);
 
-  spots = 
+  spots = {
+        "car_spots": [[[204.285, 205.998], [304.6536018676758, 209.334], [300.98160186767575, 328.596], [205.50960186767577, 323.592]]],
+        "bike_spots": [[[384.2136018676758, 208.5], [476.0136018676758, 206.832], [476.0136018676758, 322.758], [381.7656018676758, 324.426]]]
+    }
 
   console.log(spots);
 

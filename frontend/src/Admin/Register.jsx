@@ -3,13 +3,15 @@ import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { backendUrl } from "../assets/scripts/utils";
+import { backendUrl, getCSRFToken } from "../assets/scripts/utils";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
+    contact: "",
+    organization: "",
   });
   const [formErrors, setFormErrors] = useState({});
   const [menuOpen, setMenuOpen] = useState(false);
@@ -51,20 +53,25 @@ const RegisterPage = () => {
 
   const handleRegister = (e) => {
     e.preventDefault();
+    console.log(formData)
 
     if (validateForm()) {
-
       // Proceed with registration logic
-      axios.post(`${backendUrl()}/register`, formData, { headers: { 'Content-Type': 'application/json' } })
+      axios.post(`${backendUrl()}/register`, formData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCSRFToken(),
+          },
+          withCredentials: true  // Ensure cookies are sent with the request
+        })
         .then((res) => {
-          if (res.data && res.data.message) {
+          if (res.data) {
             alert(res.data.message);  // Accessing the response message
           } else {
             alert("Registration successful, but no message received.");
           }
-          if (res.data.success) {
-            navigate("/admin/form");  // Redirect only on successful registration
-          }
+            navigate("/admin/form");  
         })
         .catch((err) => {
           if (err.response && err.response.data && err.response.data.message) {
@@ -73,7 +80,6 @@ const RegisterPage = () => {
             alert("An error occurred. Please try again.");
           }
         });
-        navigate('/admin/form');
     }
   }
 
@@ -81,57 +87,57 @@ const RegisterPage = () => {
     <div className="min-h-screen bg-custom-gradient flex flex-col">
       {/* Header */}
       <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3">
-            <div className="flex items-center">
-                <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-10" />
-                <span className="ml-2 text-2xl sm:text-2xl font-semibold text-white tracking-tighter">
-                    Park-N-Go
-                </span>
-            </div>
-            <div className="cursor-pointer" onClick={() => setMenuOpen((prev) => !prev)}>
-                <svg
-                    fill="none"
-                    viewBox="0 0 50 50"
-                    height="28"
-                    width="28"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-8 h-8 md:w-12 md:h-12"
-                >
-                    <path
-                        className="lineTop line"
-                        strokeLinecap="round"
-                        strokeWidth="4"
-                        stroke="white"
-                        d="M6 11L44 11"
-                    ></path>
-                    <path
-                        strokeLinecap="round"
-                        strokeWidth="4"
-                        stroke="white"
-                        d="M6 24H43"
-                        className="lineMid line"
-                    ></path>
-                    <path
-                        strokeLinecap="round"
-                        strokeWidth="4"
-                        stroke="white"
-                        d="M6 37H43"
-                        className="lineBottom line"
-                    ></path>
-                </svg>
-            </div>
-            {menuOpen && (
-                <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg w-32 sm:w-40">
-                    <ul className="text-gray-800">
-                        <li
-                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                            onClick={() => navigate('/admin/login')}
-                        >
-                            Admin Controls
-                        </li>
-                    </ul>
-                </div>
-            )}
-        </header>
+        <div className="flex items-center">
+          <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-10" />
+          <span className="ml-2 text-2xl sm:text-2xl font-semibold text-white tracking-tighter">
+            Park-N-Go
+          </span>
+        </div>
+        <div className="cursor-pointer" onClick={() => setMenuOpen((prev) => !prev)}>
+          <svg
+            fill="none"
+            viewBox="0 0 50 50"
+            height="28"
+            width="28"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-8 h-8 md:w-12 md:h-12"
+          >
+            <path
+              className="lineTop line"
+              strokeLinecap="round"
+              strokeWidth="4"
+              stroke="white"
+              d="M6 11L44 11"
+            ></path>
+            <path
+              strokeLinecap="round"
+              strokeWidth="4"
+              stroke="white"
+              d="M6 24H43"
+              className="lineMid line"
+            ></path>
+            <path
+              strokeLinecap="round"
+              strokeWidth="4"
+              stroke="white"
+              d="M6 37H43"
+              className="lineBottom line"
+            ></path>
+          </svg>
+        </div>
+        {menuOpen && (
+          <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg w-32 sm:w-40">
+            <ul className="text-gray-800">
+              <li
+                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                onClick={() => navigate('/admin/login')}
+              >
+                Admin Controls
+              </li>
+            </ul>
+          </div>
+        )}
+      </header>
 
       <main className="flex-grow flex flex-col items-center justify-center">
         <div className="w-11/12 max-w-sm bg-white p-6 rounded-lg shadow-lg">
@@ -194,23 +200,23 @@ const RegisterPage = () => {
                 <p className="text-sm text-red-500 mt-1">{formErrors.email}</p>
               )}
             </div>
-            
+
             <div className="mb-4">
-              <label htmlFor="organisation" className="block text-sm font-medium text-gray-700">
-                Organisation
+              <label htmlFor="organization" className="block text-sm font-medium text-gray-700">
+                Organization
               </label>
               <input
-                type="organisation"
-                id="organisation"
-                name="organisation"
-                value={formData.organisation}
+                type="organization"
+                id="organization"
+                name="organization"
+                value={formData.organization}
                 onChange={handleInputChange}
-                className={`w-full mt-1 px-4 py-2 border ${formErrors.organisation ? "border-red-500" : "border-gray-300"
+                className={`w-full mt-1 px-4 py-2 border ${formErrors.organization ? "border-red-500" : "border-gray-300"
                   } rounded-md focus:ring focus:ring-[#68BBE3] focus:outline-none`}
-                placeholder="Organisation"
+                placeholder="Organization"
               />
-              {formErrors.organisation && (
-                <p className="text-sm text-red-500 mt-1">{formErrors.organisation}</p>
+              {formErrors.organization && (
+                <p className="text-sm text-red-500 mt-1">{formErrors.organization}</p>
               )}
             </div>
 

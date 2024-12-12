@@ -207,7 +207,6 @@ def register_view(request):
         data = json.loads(request.body)
         required_fields = ['username', 'email', 'password', 'contact', 'organization']
 
-        # print(request.body)
         if not validate_fields(data, required_fields):
             return JsonResponse({'message': 'Invalid data'}, status=400)
         # print('here')
