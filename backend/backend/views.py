@@ -17,10 +17,10 @@ from PIL import Image
 from django.middleware.csrf import get_token
 
 print('Loading model')
-# # from model.imageProcess import detect_parking_spots_from_image
-def detect_parking_spots_from_image(*args, **kwargs):
-    pass
-# # print('Model loaded')
+from model.imageProcess import detect_parking_spots_from_image
+# def detect_parking_spots_from_image(*args, **kwargs):
+#     pass
+print('Model loaded')
 
 RADIUS = 2000 # in metres
 
@@ -50,7 +50,6 @@ def index(request):
 def searchParkings(request):
     data = json.loads(request.body)
     print(request.body)
-    # print(dict(data))
     lat = float(data.get('lat'))
     long = float(data.get('long'))
     city = data['city'].strip().title()
@@ -126,6 +125,11 @@ def getParkings(request):
 
     # Query logic (you should ideally filter by proximity to lat/long)
     parkings = Parking.objects.filter(city=city, state=state)
+    spots = {
+        "car_spots": [[[204.285, 205.998], [304.6536018676758, 209.334], [300.98160186767575, 328.596], [205.50960186767577, 323.592]]],
+        "bike_spots": [[[384.2136018676758, 208.5], [476.0136018676758, 206.832], [476.0136018676758, 322.758], [381.7656018676758, 324.426]]]
+    }
+    car_count, bike_count = detect_parking_spots_from_image('model/ParkingLot.jpg', spots, 'model/coco.txt')
 
     filtered_parkings = []
     for parking in parkings:
@@ -141,8 +145,8 @@ def getParkings(request):
                 'four_wheeler_price': parking.four_wheeler_price,
                 'lat': parking.lat,
                 'long': parking.long,
-                'car_spots': 1,
-                'bike_spots': 1,
+                'car_spots': car_count,
+                'bike_spots': bike_count,
                 'distance': distance,
                 'time': '{:0.2f} min'.format(round(distance / 500)),
                 'address': f'{parking.address}, {parking.city}, {parking.state}',
