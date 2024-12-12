@@ -4,10 +4,15 @@ import SmallScreenErrorComponent from "../Components/SmallScreenError";
 import { useNavigate } from "react-router-dom";
 
 const ParkingSpaceForm = () => {
+    const navigate = useNavigate();
     const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 640);
     const [menuOpen, setMenuOpen] = useState(false);
     const [numCameras, setNumCameras] = useState(0);
     const [cameraUrls, setCameraUrls] = useState([]);
+
+    const handleClick = () => {
+        navigate('/drop-pin');
+    };
 
     useEffect(() => {
         const handleResize = () => {
@@ -113,11 +118,9 @@ const ParkingSpaceForm = () => {
                     <form className="grid grid-cols-3 gap-6">
                         {[
                             { id: "firstName", label: "First Name", placeholder: "Enter first name" },
-                            { id: "middleName", label: "Middle Name", placeholder: "Enter middle name" },
                             { id: "lastName", label: "Last Name", placeholder: "Enter last name" },
-                            { id: "phone", label: "Phone Number", placeholder: "Enter phone number" },
                             { id: "email", label: "Email", placeholder: "Enter email" },
-                            { id: "org", label: "Select Organisation", placeholder: "Organisation" },
+                            { id: "phone", label: "Phone Number", placeholder: "Enter phone number" },
                             { id: "parkingName", label: "Parking Space Name", placeholder: "Enter name" },
                             { id: "address", label: "Address", placeholder: "Enter address" },
                             { id: "area", label: "Area", placeholder: "Enter area" },
@@ -140,8 +143,11 @@ const ParkingSpaceForm = () => {
                                     className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#68BBE3] focus:outline-none"
                                     placeholder={field.placeholder}
                                 />
-                            </div>
+                                </div>
                         ))}
+                        <div className="col-span-1">
+                                        <button onClick={handleClick} className="w-full py-2 bg-custom-gradient text-white font-semibold rounded-md hover:bg-[#68BBE3] transition">Drop a Pin</button>
+                                    </div>
 
                         {/* Number of Cameras */}
                         <div className="col-span-1">
@@ -192,7 +198,7 @@ const ParkingSpaceForm = () => {
             </main>
             {/* Footer */}
             <footer className="w-full rounded-t-2xl text-center py-2 text-white text-xs sm:text-sm">
-                © 2024 ParkSmart ~ All rights reserved
+                &copy; 2024 ParkSmart ~ All rights reserved
             </footer>
         </div>
     );

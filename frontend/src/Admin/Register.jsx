@@ -133,12 +133,11 @@ const RegisterPage = () => {
             )}
         </header>
 
-      {/* Main Content */}
       <main className="flex-grow flex flex-col items-center justify-center">
         <div className="w-11/12 max-w-sm bg-white p-6 rounded-lg shadow-lg">
           <h1 className="text-xl font-semibold text-center text-gray-700">Register</h1>
           <form className="mt-6" onSubmit={handleRegister}>
-            {/* Username */}
+
             <div className="mb-4">
               <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                 Username
@@ -158,7 +157,25 @@ const RegisterPage = () => {
               )}
             </div>
 
-            {/* Email */}
+            <div className="mb-4">
+              <label htmlFor="contact" className="block text-sm font-medium text-gray-700">
+                Contact Number
+              </label>
+              <input
+                type="contact"
+                id="contact"
+                name="contact"
+                value={formData.contact}
+                onChange={handleInputChange}
+                className={`w-full mt-1 px-4 py-2 border ${formErrors.contact ? "border-red-500" : "border-gray-300"
+                  } rounded-md focus:ring focus:ring-[#68BBE3] focus:outline-none`}
+                placeholder="Contact"
+              />
+              {formErrors.contact && (
+                <p className="text-sm text-red-500 mt-1">{formErrors.contact}</p>
+              )}
+            </div>
+
             <div className="mb-4">
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email
@@ -177,8 +194,26 @@ const RegisterPage = () => {
                 <p className="text-sm text-red-500 mt-1">{formErrors.email}</p>
               )}
             </div>
+            
+            <div className="mb-4">
+              <label htmlFor="organisation" className="block text-sm font-medium text-gray-700">
+                Organisation
+              </label>
+              <input
+                type="organisation"
+                id="organisation"
+                name="organisation"
+                value={formData.organisation}
+                onChange={handleInputChange}
+                className={`w-full mt-1 px-4 py-2 border ${formErrors.organisation ? "border-red-500" : "border-gray-300"
+                  } rounded-md focus:ring focus:ring-[#68BBE3] focus:outline-none`}
+                placeholder="Organisation"
+              />
+              {formErrors.organisation && (
+                <p className="text-sm text-red-500 mt-1">{formErrors.organisation}</p>
+              )}
+            </div>
 
-            {/* Password */}
             <div className="mb-4">
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
@@ -198,7 +233,6 @@ const RegisterPage = () => {
               )}
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               className="w-full px-4 py-2 bg-custom-gradient text-white font-semibold rounded-md shadow-md hover:bg-[#68BBE3] hover:shadow-lg transition"
@@ -215,7 +249,6 @@ const RegisterPage = () => {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="w-full rounded-t-2xl text-center py-2 text-white text-xs sm:text-sm">
         © 2024 ParkSmart ~ All rights reserved
       </footer>
