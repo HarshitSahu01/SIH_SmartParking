@@ -119,8 +119,6 @@ const ParkingBox = ({
                 </div>
                 <p>{address}</p>
               </div>
-
-
             </div>
 
             <div className="c22 flex flex-col gap-3">
@@ -175,7 +173,7 @@ const ParkingBox = ({
                 <p>Rs {bikeprice}</p>
               </div>
             </div>
-            </div>
+          </div>
         </div>
         <div className="down mx-3 my-3 flex justify-end">
           <button className="p-2 bg-green-400 font-medium rounded-xl">
