@@ -32,5 +32,14 @@ class Camera(models.Model):
     parking = models.ForeignKey(Parking, on_delete=models.CASCADE)
     camera_num = models.PositiveIntegerField()
     url = models.URLField(max_length=400)
-    car_spots = models.JSONField()
-    bike_spots = models.JSONField()
+    spots = models.JSONField(null=True)
+
+class Booking(models.Model):
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    parking = models.ForeignKey(Parking, on_delete=models.CASCADE)
+    vehicle_num = models.CharField(max_length=20)
+    checkin_time = models.DateTimeField()
+    checkout_time = models.DateTimeField()
+    is_checked_out = models.BooleanField(default=False)
+    amount = models.DecimalField(max_digits=6, decimal_places=2)
+    is_paid = models.BooleanField(default=False)
