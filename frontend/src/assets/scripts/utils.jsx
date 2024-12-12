@@ -13,8 +13,31 @@ export function getCookie(name) {
   return cookieValue;
 }
 
+export function setCSRFToken(token) {
+  document.cookie = `csrftoken=${token}; path=/; secure; samesite=strict`;
+}
+
+export async function getCSRFToken() {
+  let csrfToken = getCookie('csrftoken');
+  
+  if (!csrfToken) {
+    try {
+      const response = await fetch('/get-csrf-token/');  // Fetch the CSRF token from your server endpoint
+      if (response.ok) {
+        const data = await response.json();
+        csrfToken = data.csrfToken;
+        setCSRFToken(csrfToken);  // Save the token in a cookie
+      } else {
+        console.error('Failed to fetch CSRF token');
+      }
+    } catch (error) {
+      console.error('Error while fetching CSRF token:', error);
+    }
+  }
+}
+
 export function getCSRFToken () {
-  return getCookie('csrftoken')
+  return getCookie('csrftoken');
 }
 
 export const BACKEND = 'http://localhost:8000'  // Backend URL
