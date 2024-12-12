@@ -88,7 +88,7 @@ const ParkingBox = ({
       )}
 
       <div
-        className="flex flex-col w-full min-h-[58vh] sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-transparent drop-shadow-xl backdrop-blur-2xl shadow-md transform transition-transform duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100"
+        className="flex flex-col w-full min-h-[54vh] sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-transparent drop-shadow-xl backdrop-blur-2xl shadow-md transform transition-transform duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100"
         onClick={() => {
           if (isTracking) {
             setShowTrackingModal(true); // Show modal if already tracked
