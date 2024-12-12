@@ -189,7 +189,7 @@ export default function ImageEditor() {
 
     const dump = () => {
         for(let i=0; i<spots.length; i++) {
-            let xfactor = canvasImages[i].width / imageDimensions.requiredHeight;
+            let xfactor = canvasImages[i].height / imageDimensions.requiredHeight;
             let yfactor = canvasImages[i].height / imageDimensions.requiredHeight;
             let spot_copy = {car_spots: [], bike_spots: []};
             for(let j=0; j<spots[i].car_spots.length; j++) {

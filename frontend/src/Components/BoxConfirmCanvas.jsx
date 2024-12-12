@@ -4,10 +4,7 @@ import imageSrc from '../assets/sampleParking.png';
 const BoxConfirmCanvas = ({ spots }) => {
   const canvasRef = useRef(null);
 
-  spots = {
-        "car_spots": [[[204.285, 205.998], [304.6536018676758, 209.334], [300.98160186767575, 328.596], [205.50960186767577, 323.592]]],
-        "bike_spots": [[[384.2136018676758, 208.5], [476.0136018676758, 206.832], [476.0136018676758, 322.758], [381.7656018676758, 324.426]]]
-    }
+  spots = {"car_spots":[[[20.5998006362915,322.758],[20.5998006362915,208.5],[83.1498006362915,208.5],[82.3158006362915,322.758]],[[82.3158006362915,322.758],[141.5298006362915,321.924],[144.0318006362915,208.5],[84.8178006362915,208.5]]],"bike_spots":[]}
 
   console.log(spots);
 
@@ -27,16 +24,28 @@ const BoxConfirmCanvas = ({ spots }) => {
       ctx.font = '16px Arial';
       ctx.fillStyle = 'blue';
 
-      spots.forEach((spot, index) => {
-        const quad = spot.coordinates;
+      spots['car_spots'].forEach((spot, index) => {
+        console.log(spot)
         ctx.beginPath();
-        ctx.moveTo(quad[0][0], quad[0][1]);
-        for (let i = 1; i < quad.length; i++) {
-          ctx.lineTo(quad[i][0], quad[i][1]);
+        ctx.moveTo(spot[0][0], spot[0][1]);
+        for (let i = 1; i < spot.length; i++) {
+          ctx.lineTo(spot[i][0], spot[i][1]);
         }
         ctx.closePath();
         ctx.stroke();
-        ctx.fillText(`Spot ${index + 1}`, quad[0][0] + 5, quad[0][1] - 5);
+        ctx.fillText(`Spot ${index + 1}`, spot[0][0] + 5, spot[0][1] - 5);
+      });
+
+      ctx.strokeStyle = 'blue';
+      spots['bike_spots'].forEach((spot, index) => {
+        ctx.beginPath();
+        ctx.moveTo(spot[0][0], spot[0][1]);
+        for (let i = 1; i < spot.length; i++) {
+          ctx.lineTo(spot[i][0], spot[i][1]);
+        }
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fillText(`Spot ${index + 1}`, spot[0][0] + 5, spot[0][1] - 5);
       });
     };
 
