@@ -46,3 +46,18 @@ class Booking(models.Model):
     amount = models.DecimalField(max_digits=6, decimal_places=2)
     is_paid = models.BooleanField(default=False)
     status = models.CharField(max_length=20, default='pending')    # pending, confirmed, cancelled, completed
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'user': self.user.username,
+            'parking': self.parking.name,
+            'vehicle_num': self.vehicle_num,
+            'checkin_time': self.checkin_time,
+            'checkout_time': self.checkout_time,
+            'slot_timing': self.slot_timing,
+            'is_checked_out': self.is_checked_out,
+            'amount': self.amount,
+            'is_paid': self.is_paid,
+            'status': self.status
+        }

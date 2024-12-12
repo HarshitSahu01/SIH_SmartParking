@@ -407,8 +407,42 @@ def get_booking(request):
             parkingowner = ParkingOwner.objects.filter(user=request.user)
             if parkingowner.exists():
                 bookings = Booking.objects.filter(parking=Parking.objects.get(owner=parkingowner))
+                return JsonResponse({'message': 'success', 'bookings': [booking.serialize() for booking in bookings]}, status=200)
+            bookings = Booking.objects.filter(user=request.user)
+            return JsonResponse({'message': 'success', 'bookings': [booking.serialize() for booking in bookings]}, status=200)
+        except ObjectDoesNotExist:
+            return JsonResponse({'message': 'Booking not found'}, status=404)
+    return JsonResponse({'message': 'Invalid request method'}, status=405)
+    # /getBookings
 
-            return JsonResponse({'message': 'success', 'booking': booking.serialize()}, status=200)
+def modify_booking(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        booking_id = data.get('booking_id')
+        action = data.get('action')
+        
+        try:
+            booking = Booking.objects.get(id=booking_id)
+            if request.user == booking.user:
+                if action == 'cancel':
+                    booking.status = 'Cancelled'
+                    booking.save()
+                    return JsonResponse({'message': 'Booking cancelled successfully'}, status=200)
+                else:
+                    return JsonResponse({'message': 'Invalid action for user'}, status=400)
+            elif request.user == booking.parking.owner.user:
+                if action == 'approve':
+                    booking.status = 'Approved'
+                    booking.save()
+                    return JsonResponse({'message': 'Booking approved successfully'}, status=200)
+                elif action == 'cancel':
+                    booking.status = 'Cancelled'
+                    booking.save()
+                    return JsonResponse({'message': 'Booking cancelled successfully'}, status=200)
+                else:
+                    return JsonResponse({'message': 'Invalid action for parking owner'}, status=400)
+            else:
+                return JsonResponse({'message': 'Permission denied'}, status=403)
         except ObjectDoesNotExist:
             return JsonResponse({'message': 'Booking not found'}, status=404)
     return JsonResponse({'message': 'Invalid request method'}, status=405)
