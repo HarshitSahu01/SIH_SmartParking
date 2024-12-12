@@ -30,6 +30,7 @@ import Book from "./Pages/Book"
 import Register from "./Pages/Register"
 import Pay from "./Pages/Pay"
 import BookForm from "./Pages/BookingForm"
+import Logout from './Pages/Logout';
 function App() {
   return (
     <>
@@ -63,6 +64,7 @@ function App() {
         <Route path="/register-user" element={<Register />} />
         <Route path="/pay" element={<Pay />} />
         <Route path="/book-form" element={<BookForm />} />
+        <Route path="/logout" element={<Logout />} />
       </Routes>
     </>
   );

@@ -37,7 +37,7 @@ const LogiBox = ({
               </div>
               <div className="c2 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
                 <img src={clock} alt="" className="w-7" />
-                <p>{distance}</p>
+                <p>{((parseFloat(distance))/1000).toFixed(1)} km</p>
               </div>
               <div className="c3 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
                 <img src={addressicon} alt="" className="w-7" />
@@ -190,7 +190,7 @@ const LogiLoc = () => {
                         </p>
                         <p>Available Car Slots: {shop.car_spots}</p>
                         <p>Available Bike Slots: {shop.bike_spots}</p>
-                        <p>Distance: {shop.distance?.toFixed(2)} meters</p>
+                        <p>Distance: {((parseFloat(shop.distance))/1000).toFixed(1)} km</p>
                         <p>Time: {shop.time}</p>
                         <img
                           src="http://localhost:8000/static/sampleParking3.png"

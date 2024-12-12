@@ -14,6 +14,7 @@ import json
 import requests
 from io import BytesIO
 from PIL import Image
+from django.middleware.csrf import get_token
 
 print('Loading model')
 # # from model.imageProcess import detect_parking_spots_from_image
@@ -22,6 +23,10 @@ def detect_parking_spots_from_image(*args, **kwargs):
 # # print('Model loaded')
 
 RADIUS = 2000 # in metres
+
+def csrf_token_view(request):
+    csrf_token = get_token(request)
+    return JsonResponse({'csrfToken': csrf_token})
 
 def getSampleImages(request):
     try:
@@ -150,6 +155,23 @@ def getParkings(request):
 # /getParkingData
 @csrf_exempt
 def getParking(request):
+    if 'mode' in request.GET and request.GET['mode'] == 'id':
+        if not request.user.is_authenticated:
+            return JsonResponse({'message': 'User not authenticated'}, status=401)
+        try:
+            parking = Parking.objects.filter(owner=ParkingOwner.objects.get(user=request.user))[0]
+            return JsonResponse({
+                'id': parking.id,
+                'name': parking.name,
+                'owner_name': parking.owner.user.first_name + ' ' + parking.owner.user.last_name,
+                'contact': parking.contact,
+                'address': parking.address,
+                'city': parking.city,
+                'state': parking.state,
+                'pincode': parking.pincode,
+            }, status=200)
+        except IndexError:
+            return JsonResponse({'message': 'Parking not found'}, status=404)
     parking_id = request.GET.get('id')
     lat = request.GET.get('lat')
     long = request.GET.get('long')
@@ -171,7 +193,8 @@ def getParking(request):
                 'bike_spots': 1,
                 'time': '{:0.2f} min'.format(round(distance / 500)),
                 'address': f'{parking.address}, {parking.city}, {parking.state}',
-                'image': parking.image.url
+                'image': parking.image.url,
+                'owner': parking.owner.user.first_name + ' ' + parking.owner.user.last_name
             }
         return JsonResponse({'message': 'Success', 'parkings': parking_data}, status=200)
     except ObjectDoesNotExist:
@@ -351,4 +374,75 @@ def create_parking_spots(request):
     
     return JsonResponse({'message': 'Invalid request method'}, status=405)
 
+def request_parking(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        parking_id = data.get('parking_id')
+        vehicle_num = data.get('vehicle_num')
+        slot_timing = data.get('slot_timing')
+        user = request.user
 
+        try:
+            parking = Parking.objects.get(id=parking_id)
+            booking = Booking.objects.create(user=user, parking=parking, vehicle_num=vehicle_num, slot_timing=slot_timing)
+            booking.save()
+            return JsonResponse({'message': 'success'}, status=200)
+        except ObjectDoesNotExist:
+            return JsonResponse({'message': 'Parking not found'}, status=404)
+
+    return JsonResponse({'message': 'Invalid request method'}, status=405)
+
+def get_bookings(request):
+    if request.method == "GET":
+        user = request.user
+        bookings = Booking.objects.filter(user=user)
+        return JsonResponse({'message': 'success', 'bookings': [booking.serialize() for booking in bookings]}, status=200)
+    return JsonResponse({'message': 'Invalid request method'}, status=405)
+
+def get_booking(request):
+    if request.method == "GET":
+        if not request.user.is_authenticated:
+            return JsonResponse({'message': 'User not authenticated'}, status=401)
+        try:
+            parkingowner = ParkingOwner.objects.filter(user=request.user)
+            if parkingowner.exists():
+                bookings = Booking.objects.filter(parking=Parking.objects.get(owner=parkingowner))
+                return JsonResponse({'message': 'success', 'bookings': [booking.serialize() for booking in bookings]}, status=200)
+            bookings = Booking.objects.filter(user=request.user)
+            return JsonResponse({'message': 'success', 'bookings': [booking.serialize() for booking in bookings]}, status=200)
+        except ObjectDoesNotExist:
+            return JsonResponse({'message': 'Booking not found'}, status=404)
+    return JsonResponse({'message': 'Invalid request method'}, status=405)
+    # /getBookings
+
+def modify_booking(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        booking_id = data.get('booking_id')
+        action = data.get('action')
+        
+        try:
+            booking = Booking.objects.get(id=booking_id)
+            if request.user == booking.user:
+                if action == 'cancel':
+                    booking.status = 'Cancelled'
+                    booking.save()
+                    return JsonResponse({'message': 'Booking cancelled successfully'}, status=200)
+                else:
+                    return JsonResponse({'message': 'Invalid action for user'}, status=400)
+            elif request.user == booking.parking.owner.user:
+                if action == 'approve':
+                    booking.status = 'Approved'
+                    booking.save()
+                    return JsonResponse({'message': 'Booking approved successfully'}, status=200)
+                elif action == 'cancel':
+                    booking.status = 'Cancelled'
+                    booking.save()
+                    return JsonResponse({'message': 'Booking cancelled successfully'}, status=200)
+                else:
+                    return JsonResponse({'message': 'Invalid action for parking owner'}, status=400)
+            else:
+                return JsonResponse({'message': 'Permission denied'}, status=403)
+        except ObjectDoesNotExist:
+            return JsonResponse({'message': 'Booking not found'}, status=404)
+    return JsonResponse({'message': 'Invalid request method'}, status=405)
