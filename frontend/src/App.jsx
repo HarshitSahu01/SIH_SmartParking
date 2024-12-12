@@ -39,7 +39,7 @@ function App() {
         <Route path="/maps" element={<Map />} />
         <Route path="/drop-pin" element={<DropPin />} />
         <Route path="/test" element={<Swiper />} />
-        <Route path="/testlan" element={<TestingLandingPage />} />
+        <Route path="/admin/imageEditor" element={<TestingLandingPage />} />
         <Route path="/parking-card" element={<ParkingBox />} />
         <Route path="/search" element={<Search />} />
         <Route path="/parkings-maps" element={<ParkingOnMap />} />
