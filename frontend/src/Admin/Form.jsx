@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import logo from "../assets/logo.png";
 import SmallScreenErrorComponent from "../Components/SmallScreenError";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
+import { getCSRFToken, backendUrl } from "../assets/scripts/utils";
 
 const ParkingSpaceForm = () => {
     const navigate = useNavigate();
@@ -66,19 +68,20 @@ const ParkingSpaceForm = () => {
         data['lat'] = lat;
         data['long'] = lng;
         data['camera_urls'] = [];
+        data['is_smart'] = document.getElementById('is_smart').checked ? 1 : 0;
 
         document.querySelectorAll("form .cameras").forEach((camera, index) => {
             data['camera_urls'].push(camera.value);
         });
 
-        axios.post(`${backendUrl()}/parking-space`, data, {
+        axios.post(`${backendUrl()}/createParking`, data, {
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCSRFToken(),
             },
             withCredentials: true
         }).then((response) => {
-            console.log(response.data);
+            alert(response.data);
             navigate('/admin/dashboard');
         }).catch((error) => {
             console.log(error.response);
@@ -164,8 +167,9 @@ const ParkingSpaceForm = () => {
                             { id: "state", label: "State", placeholder: "Enter state" },
                             { id: "pincode", label: "Pincode", placeholder: "Enter pincode" },
                             { id: "slots", label: "Slots Provided", placeholder: "Enter slots provided" },
-                            { id: "two_wheeler_parking", label: "Cost of 2 Wheeler", placeholder: "Enter cost" },
-                            { id: "four_wheeler_parking", label: "Cost of 4 Wheeler", placeholder: "Enter cost" },
+                            { id: "two_wheeler_price", label: "Cost of 2 Wheeler", placeholder: "Enter cost" },
+                            { id: "four_wheeler_price", label: "Cost of 4 Wheeler", placeholder: "Enter cost" },
+                            { id: "image", label: "Profile Image", placeholder: "Enter url, http:// https://" },
                         ].map((field) => (
                             <div key={field.id} className="col-span-1">
                                 <label
@@ -200,6 +204,21 @@ const ParkingSpaceForm = () => {
                                 className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#68BBE3] focus:outline-none"
                                 placeholder="Enter number of cameras"
                             />
+                        </div>
+
+                        <div></div>
+                        {/* Smart Parking Checkbox */}
+                        <div className="col-span-1 flex items-center">
+                            <input
+                                type="checkbox"
+                                id="is_smart"
+                                name="is_smart"
+                                value={1}
+                                className="h-4 w-4 text-[#68BBE3] border-gray-300 rounded focus:ring-[#68BBE3]"
+                            />
+                            <label htmlFor="smartParking" className="ml-2 block text-sm font-medium text-gray-700">
+                                Smart Parking (Transmittable Cameras)
+                            </label>
                         </div>
 
                         {/* Camera URLs */}

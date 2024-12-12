@@ -41,7 +41,7 @@ const ParkingBox = ({
             </div>
             <div className="c2 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
               <img src={clock} alt="" className="w-7" />
-              <p>{distance}</p>
+              <p>{distance} km</p>
             </div>
             <div className="c3 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
               <img src={addressicon} alt="" className="w-7" />
@@ -210,7 +210,7 @@ const ParkingOnmap = () => {
                         </p>
                         <p>Available Car Slots: {shop.car_spots}</p>
                         <p>Available Bike Slots: {shop.bike_spots}</p>
-                        <p>Distance: {shop.distance?.toFixed(2)} meters</p>
+                        <p>Distance:   {((parseFloat(shop.distance))/1000).toFixed(1)} km</p>
                         <p>Time: {shop.time}</p>
                         <img
                           src={'http://localhost:8000'+shop.image}
@@ -282,7 +282,7 @@ const ParkingOnmap = () => {
                     name={store.name}
                     carprice={store.four_wheeler_price}
                     bikeprice={store.two_wheeler_price}
-                    distance={(store.distance)}
+                    distance={((parseFloat(store.distance))/1000).toFixed(1)}
                     carspots={store.car_spots}
                     bikespots={store.bike_spots}
                     address={store.address}

@@ -3,6 +3,7 @@ import axios from 'axios'
 import { getCSRFToken, backendUrl } from '../assets/scripts/utils'
 
 export default function Dashboard() {
+  navigate('/testlan')
   const logout = () => {
     axios.post(`${backendUrl()}/logout`,{}, {
       headers: {
