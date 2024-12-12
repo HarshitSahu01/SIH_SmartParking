@@ -18,7 +18,7 @@ const LogiBox = ({
       >
         <img
           // src={image ? image : P}
-          src="http://localhost:8000/static/sampleParking3.png"
+          src="${}/static/sampleParking3.png"
           alt="Parking"
           className="w-full h-[220px] object-cover p-3 rounded-3xl"
         />
