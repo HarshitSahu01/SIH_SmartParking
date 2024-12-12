@@ -155,6 +155,23 @@ def getParkings(request):
 # /getParkingData
 @csrf_exempt
 def getParking(request):
+    if 'mode' in request.GET and request.GET['mode'] == 'id':
+        if not request.user.is_authenticated:
+            return JsonResponse({'message': 'User not authenticated'}, status=401)
+        try:
+            parking = Parking.objects.filter(owner=ParkingOwner.objects.get(user=request.user))[0]
+            return JsonResponse({
+                'id': parking.id,
+                'name': parking.name,
+                'owner_name': parking.owner.user.first_name + ' ' + parking.owner.user.last_name,
+                'contact': parking.contact,
+                'address': parking.address,
+                'city': parking.city,
+                'state': parking.state,
+                'pincode': parking.pincode,
+            }, status=200)
+        except IndexError:
+            return JsonResponse({'message': 'Parking not found'}, status=404)
     parking_id = request.GET.get('id')
     lat = request.GET.get('lat')
     long = request.GET.get('long')
@@ -176,7 +193,8 @@ def getParking(request):
                 'bike_spots': 1,
                 'time': '{:0.2f} min'.format(round(distance / 500)),
                 'address': f'{parking.address}, {parking.city}, {parking.state}',
-                'image': parking.image.url
+                'image': parking.image.url,
+                'owner': parking.owner.user.first_name + ' ' + parking.owner.user.last_name
             }
         return JsonResponse({'message': 'Success', 'parkings': parking_data}, status=200)
     except ObjectDoesNotExist:
@@ -379,4 +397,18 @@ def get_bookings(request):
         user = request.user
         bookings = Booking.objects.filter(user=user)
         return JsonResponse({'message': 'success', 'bookings': [booking.serialize() for booking in bookings]}, status=200)
+    return JsonResponse({'message': 'Invalid request method'}, status=405)
+
+def get_booking(request):
+    if request.method == "GET":
+        if not request.user.is_authenticated:
+            return JsonResponse({'message': 'User not authenticated'}, status=401)
+        try:
+            parkingowner = ParkingOwner.objects.filter(user=request.user)
+            if parkingowner.exists():
+                bookings = Booking.objects.filter(parking=Parking.objects.get(owner=parkingowner))
+
+            return JsonResponse({'message': 'success', 'booking': booking.serialize()}, status=200)
+        except ObjectDoesNotExist:
+            return JsonResponse({'message': 'Booking not found'}, status=404)
     return JsonResponse({'message': 'Invalid request method'}, status=405)
