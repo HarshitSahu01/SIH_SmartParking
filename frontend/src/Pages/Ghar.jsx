@@ -8,14 +8,14 @@ import priceicon from "../assets/price.png";
 import Car from "../assets/car.png";
 import bike from "../assets/bike.png";
 import siren from "../Components/icons/siren.png";
-import map from "../Conponents/icons/map22.png";
+import map from "../Components/icons/map22.png";
 import home from "../Components/icons/home.png";
 const Ghar = () => {
   const [location, setLocation] = useState("");
   const navigate = useNavigate();
 
   const handleInputClick = () => {
-    navigate('/maps');
+    navigate('/asa');
   };
 
   // ParkingBox Component
@@ -76,7 +76,7 @@ const Ghar = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="App bg-white-100 flex-grow relative">
+      <div className="App bg-white-100 flex-grow relative motion-preset-fade motion-duration-500">
         {/* Logout icon */}
         <div className="absolute top-5 right-5 z-[1000]">
           <img
@@ -87,7 +87,7 @@ const Ghar = () => {
         </div>
 
         {/* SVG */}
-        <svg className='z-0' width="440" height="162" viewBox="0 0 440 162" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className='z-0 motion-preset-blur-down-lg' width="440" height="162" viewBox="0 0 440 162" fill="none" xmlns="http://www.w3.org/2000/svg">
           <ellipse cx="219.5" cy="18.5" rx="244.5" ry="87.5" fill="#C087C4" />
           <ellipse opacity="0.78" cx="219.5" cy="74.5" rx="244.5" ry="87.5" fill="#C087C4" />
           <ellipse opacity="0.6" cx="214.5" cy="49" rx="244.5" ry="94" fill="#6159B7" />
@@ -131,20 +131,24 @@ const Ghar = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-custom-gradient text-white py-3 mt-7 ">
-        <div className="container mx-auto flex justify-between px-4">
+      <footer className="bg-custom-gradient text-white py-2  mt-14 motion-preset-slide-up">
+        <div className="container mx-auto flex justify-between px-4 items-center">
           {/* Division 1 */}
           <div className="flex flex-col space-y-2 gap-6">
-            <p>Home</p>
+            <img src={home} onClick={()=>{
+              navigate('/')
+            }}  alt="" className='w-10 h-10' />
           </div>
 
           <div className="flex flex-col space-y-2">
-            <p>Maps</p>
+            <img src={map}  onClick={handleInputClick} alt="" className='w-10 h-10'/>
           </div>
 
           {/* Division 1 */}
           <div className="flex flex-col space-y-2">
-            <p>Contact</p>
+            <img src={siren}  onClick={()=>{
+              navigate('/contact')
+            }} alt="" className='w-10 h-10' />
           </div>
         </div>
       </footer>

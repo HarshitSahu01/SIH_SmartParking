@@ -3,8 +3,10 @@ import trafficRulesImage from "../assets/1.jpg";
 import nhaiImage from "../assets/2.png";
 import myGovImage from "../assets/3.png";
 import four from "../assets/41.png";
-
+import backarr from "../assets/back-arrow.png"
+import { useNavigate } from "react-router-dom";
 const ContactPage = () => {
+  const navigate= useNavigate();
   const emergencyContacts = [
     { name: "Police", number: "100", icon: "🚓" },
     { name: "Ambulance", number: "108", icon: "🚑" },
@@ -37,7 +39,16 @@ const ContactPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-custom-gradient p-5 flex flex-col space-y-5">
+    <div className="min-h-screen bg-custom-gradient p-5 flex flex-col space-y-5 relative">
+              <div className="back absolute top-2 right-2 bg-white rounded-full  text-white  z-[2000] motion-preset-slide-left motion-delay-300">
+                <button
+                  onClick={() => {
+                    navigate("/ghar");
+                  }}
+                >
+                  <img src={backarr} alt="" className="w-6 h-7 mx-2 my-1" />
+                </button>
+              </div>
       {/* Header Section */}
       <header className="text-center text-white">
         <h1 className="text-2xl font-bold mb-2">Contact & Assistance</h1>
