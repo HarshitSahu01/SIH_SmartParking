@@ -29,7 +29,7 @@ import AdminDrop from "./Pages/AdminDrop";
 import Book from "./Pages/Book"
 import Register from "./Pages/Register"
 import Pay from "./Pages/Pay"
-
+import BookForm from "./Pages/BookingForm"
 function App() {
   return (
     <>
@@ -62,6 +62,7 @@ function App() {
         <Route path="/book" element={<Book/>} />
         <Route path="/register-user" element={<Register />} />
         <Route path="/pay" element={<Pay />} />
+        <Route path="/book-form" element={<BookForm />} />
       </Routes>
     </>
   );

@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
-// import './style.css';
-
+import { useNavigate } from 'react-router-dom';
 const PaymentGateway = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
+  const [carPrice, setCarPrice] = useState(50000); // Example car price
 
   const handleTabChange = (index) => {
     setActiveTab(index);
   };
+  const handleOnClick=()=>{
+    alert("Payment Successful")
+
+  }
 
   return (
-    <div className="payment-gateway bg-gray-100 p-8 rounded-lg shadow-md max-w-3xl mx-auto">
+    <div className="payment-gateway bg-custom-gradient min-h-screen p-8  shadow-md max-w-3xl mx-auto ">
       <h2 className="text-2xl font-semibold mb-6 text-center">Select Payment Method</h2>
       <ul className="tabs-list flex justify-center space-x-4 mb-6">
         {['Credit Card', 'Net Banking', 'PayPal', 'Debit Card'].map((method, index) => (
@@ -24,22 +29,34 @@ const PaymentGateway = () => {
       </ul>
 
       <div className="tabs-content bg-white p-6 rounded-lg shadow">
-        {activeTab === 0 && <CreditCardForm />}
-        {activeTab === 1 && <NetBanking />}
-        {activeTab === 2 && <PayPalForm />}
-        {activeTab === 3 && <DebitCardForm />}
+        {activeTab === 0 && <CreditCardForm carPrice={carPrice} />}
+        {activeTab === 1 && <NetBanking carPrice={carPrice} />}
+        {activeTab === 2 && <PayPalForm carPrice={carPrice} />}
+        {activeTab === 3 && <DebitCardForm carPrice={carPrice} />}
+      </div>
+
+      <div className="go text-xl text-white mt-5">
+        <button onClick={()=>{
+          navigate("/")
+          
+        }}>Go to home</button>
       </div>
     </div>
   );
 };
 
-const CreditCardForm = () => (
+const CreditCardForm = ({ carPrice }) => (
   <div className="payment-info">
     <h3 className="text-xl font-semibold mb-4">Credit Card Info</h3>
     <form>
       <div className="form-group mb-4">
         <label className="block text-sm font-medium mb-2">Amount</label>
-        <input type="text" placeholder="₹.00" required className="w-full p-2 border border-gray-300 rounded-md" />
+        <input
+          type="text"
+          // value={`₹ ${carPrice}`}
+          readOnly
+          className="w-full p-2 border border-gray-300 rounded-md"
+        />
       </div>
       <div className="form-group mb-4">
         <label className="block text-sm font-medium mb-2">Name on Card</label>
@@ -67,7 +84,7 @@ const CreditCardForm = () => (
   </div>
 );
 
-const NetBanking = () => (
+const NetBanking = ({ carPrice }) => (
   <div className="payment-info">
     <h3 className="text-xl font-semibold mb-4">Net Banking</h3>
     <div className="bank-options space-y-2 mb-4">
@@ -91,11 +108,20 @@ const NetBanking = () => (
         </div>
       ))}
     </div>
+    <div className="form-group mb-4">
+      <label className="block text-sm font-medium mb-2">Amount</label>
+      <input
+        type="text"
+        value={`₹ ${carPrice}`}
+        readOnly
+        className="w-full p-2 border border-gray-300 rounded-md"
+      />
+    </div>
     <button className="confirm-btn w-full bg-blue-500 text-white py-2 rounded-md font-medium hover:bg-blue-600 transition">Continue</button>
   </div>
 );
 
-const PayPalForm = () => (
+const PayPalForm = ({ carPrice }) => (
   <div className="payment-info">
     <h3 className="text-xl font-semibold mb-4">PayPal</h3>
     <h4 className="text-lg font-medium mb-4">Already Have A PayPal Account?</h4>
@@ -114,18 +140,32 @@ const PayPalForm = () => (
           <span className="text-sm">Remember me</span>
         </label>
       </div>
+      <div className="form-group mb-4">
+        <label className="block text-sm font-medium mb-2">Amount</label>
+        <input
+          type="text"
+          // value={`₹ ${carPrice}`}
+          readOnly
+          className="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
       <button type="submit" className="confirm-btn w-full bg-blue-500 text-white py-2 rounded-md font-medium hover:bg-blue-600 transition">Login</button>
     </form>
   </div>
 );
 
-const DebitCardForm = () => (
+const DebitCardForm = ({ carPrice }) => (
   <div className="payment-info">
     <h3 className="text-xl font-semibold mb-4">Debit Card Info</h3>
     <form>
       <div className="form-group mb-4">
         <label className="block text-sm font-medium mb-2">Amount</label>
-        <input type="text" placeholder="₹.00" required className="w-full p-2 border border-gray-300 rounded-md" />
+        <input
+          type="text"
+          // value={`₹ ${carPrice}`}
+          readOnly
+          className="w-full p-2 border border-gray-300 rounded-md"
+        />
       </div>
       <div className="form-group mb-4">
         <label className="block text-sm font-medium mb-2">Name on Card</label>
