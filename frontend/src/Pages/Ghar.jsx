@@ -7,7 +7,9 @@ import addressicon from "../assets/address.png";
 import priceicon from "../assets/price.png";
 import Car from "../assets/car.png";
 import bike from "../assets/bike.png";
-
+import siren from "../Components/icons/siren.png";
+import map from "../Conponents/icons/map22.png";
+import home from "../Components/icons/home.png";
 const Ghar = () => {
   const [location, setLocation] = useState("");
   const navigate = useNavigate();
