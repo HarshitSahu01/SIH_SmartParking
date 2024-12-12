@@ -55,7 +55,7 @@ const ParkingSpaceForm = () => {
         setCameraUrls(updatedUrls);
     };
 
-    
+
     const handleForm = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
@@ -65,7 +65,25 @@ const ParkingSpaceForm = () => {
         });
         data['lat'] = lat;
         data['long'] = lng;
-        console.log(data);
+        data['camera_urls'] = [];
+
+        document.querySelectorAll("form .cameras").forEach((camera, index) => {
+            data['camera_urls'].push(camera.value);
+        });
+
+        axios.post(`${backendUrl()}/parking-space`, data, {
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken(),
+            },
+            withCredentials: true
+        }).then((response) => {
+            console.log(response.data);
+            navigate('/admin/dashboard');
+        }).catch((error) => {
+            console.log(error.response);
+        }
+        );
     };
 
 
@@ -77,57 +95,57 @@ const ParkingSpaceForm = () => {
         <div className="min-h-screen bg-custom-gradient flex flex-col">
             {/* Header */}
             <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3">
-            <div className="flex items-center">
-                <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-10" />
-                <span className="ml-2 text-2xl sm:text-2xl font-semibold text-white tracking-tighter">
-                    Park-N-Go
-                </span>
-            </div>
-            <div className="cursor-pointer" onClick={() => setMenuOpen((prev) => !prev)}>
-                <svg
-                    fill="none"
-                    viewBox="0 0 50 50"
-                    height="28"
-                    width="28"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-8 h-8 md:w-12 md:h-12"
-                >
-                    <path
-                        className="lineTop line"
-                        strokeLinecap="round"
-                        strokeWidth="4"
-                        stroke="white"
-                        d="M6 11L44 11"
-                    ></path>
-                    <path
-                        strokeLinecap="round"
-                        strokeWidth="4"
-                        stroke="white"
-                        d="M6 24H43"
-                        className="lineMid line"
-                    ></path>
-                    <path
-                        strokeLinecap="round"
-                        strokeWidth="4"
-                        stroke="white"
-                        d="M6 37H43"
-                        className="lineBottom line"
-                    ></path>
-                </svg>
-            </div>
-            {menuOpen && (
-                <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg w-32 sm:w-40">
-                    <ul className="text-gray-800">
-                        <li
-                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                            onClick={() => navigate('/admin/login')}
-                        >
-                            Admin Controls
-                        </li>
-                    </ul>
+                <div className="flex items-center">
+                    <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-10" />
+                    <span className="ml-2 text-2xl sm:text-2xl font-semibold text-white tracking-tighter">
+                        Park-N-Go
+                    </span>
                 </div>
-            )}
-        </header>
+                <div className="cursor-pointer" onClick={() => setMenuOpen((prev) => !prev)}>
+                    <svg
+                        fill="none"
+                        viewBox="0 0 50 50"
+                        height="28"
+                        width="28"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-8 h-8 md:w-12 md:h-12"
+                    >
+                        <path
+                            className="lineTop line"
+                            strokeLinecap="round"
+                            strokeWidth="4"
+                            stroke="white"
+                            d="M6 11L44 11"
+                        ></path>
+                        <path
+                            strokeLinecap="round"
+                            strokeWidth="4"
+                            stroke="white"
+                            d="M6 24H43"
+                            className="lineMid line"
+                        ></path>
+                        <path
+                            strokeLinecap="round"
+                            strokeWidth="4"
+                            stroke="white"
+                            d="M6 37H43"
+                            className="lineBottom line"
+                        ></path>
+                    </svg>
+                </div>
+                {menuOpen && (
+                    <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg w-32 sm:w-40">
+                        <ul className="text-gray-800">
+                            <li
+                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                onClick={() => navigate('/admin/login')}
+                            >
+                                Admin Controls
+                            </li>
+                        </ul>
+                    </div>
+                )}
+            </header>
             {/* Main Content */}
             <main className="flex-grow flex items-center justify-center">
                 <div className="w-11/12 max-w-4xl bg-white p-8 rounded-lg shadow-lg">
@@ -163,11 +181,11 @@ const ParkingSpaceForm = () => {
                                     className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#68BBE3] focus:outline-none"
                                     placeholder={field.placeholder}
                                 />
-                                </div>
+                            </div>
                         ))}
                         <div className="col-span-1">
-                                        <button onClick={handleClick} className="w-full py-2 bg-custom-gradient text-white font-semibold rounded-md hover:bg-[#68BBE3] transition">Drop a Pin</button>
-                                    </div>
+                            <button onClick={handleClick} className="w-full py-2 bg-custom-gradient text-white font-semibold rounded-md hover:bg-[#68BBE3] transition">Drop a Pin</button>
+                        </div>
 
                         {/* Number of Cameras */}
                         <div className="col-span-1">
@@ -198,7 +216,7 @@ const ParkingSpaceForm = () => {
                                     id={`cameraUrl-${index}`}
                                     value={url}
                                     onChange={(e) => handleCameraUrlChange(index, e.target.value)}
-                                    className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#68BBE3] focus:outline-none"
+                                    className="cameras mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#68BBE3] focus:outline-none"
                                     placeholder={`Enter URL for Camera ${index + 1}`}
                                 />
                             </div>
