@@ -78,8 +78,8 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen bg-custom-gradient flex flex-col">
       {/* Header */}
-      <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3">
-            <div className="flex items-center">
+      <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3 motion-preset-slide-down-md motion-delay-200">
+            <div className="flex items-center motion-preset-fade motion-delay-500">
                 <img src={logo} alt="Logo" className="w-12 h-12 md:w-16 md:h-10" />
                 <span className="ml-2 text-2xl sm:text-2xl font-semibold text-white tracking-tighter">
                     Park-N-Go

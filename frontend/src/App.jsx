@@ -30,6 +30,7 @@ import Book from "./Pages/Book"
 import Register from "./Pages/Register"
 import Pay from "./Pages/Pay"
 import BookForm from "./Pages/BookingForm"
+import Logout from './Pages/Logout';
 function App() {
   return (
     <>
@@ -39,7 +40,7 @@ function App() {
         <Route path="/maps" element={<Map />} />
         <Route path="/drop-pin" element={<DropPin />} />
         <Route path="/test" element={<Swiper />} />
-        <Route path="/testlan" element={<TestingLandingPage />} />
+        <Route path="/admin/imageEditor" element={<TestingLandingPage />} />
         <Route path="/parking-card" element={<ParkingBox />} />
         <Route path="/search" element={<Search />} />
         <Route path="/parkings-maps" element={<ParkingOnMap />} />
@@ -63,6 +64,7 @@ function App() {
         <Route path="/register-user" element={<Register />} />
         <Route path="/pay" element={<Pay />} />
         <Route path="/book-form" element={<BookForm />} />
+        <Route path="/logout" element={<Logout />} />
       </Routes>
     </>
   );

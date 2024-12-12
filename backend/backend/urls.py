@@ -21,6 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('get-csrf-token/', views.csrf_token_view, name='get_csrf_token'),
     path('admin/', admin.site.urls),
     path('', views.index),
     path('getCords', views.getCords),
