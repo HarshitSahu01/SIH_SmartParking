@@ -58,6 +58,8 @@ const ParkingSpaceForm = () => {
         formData.forEach((value, key) => {
             data[key] = value;
         });
+        data[lat] = 0;
+        data[long] = 0;
         console.log(data);
     };
 
