@@ -48,9 +48,10 @@ const LogiBox = ({
                   </div>
                   <p>{distance}</p>
                 </div>
-                <div className="c4 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
+                <div className="c4 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-1">
                   <img src={clock} alt="" className="w-7" />
-                  <p>{expected}</p>
+                  <p>{(distance / 30).toFixed(2)} min</p>
+
                 </div>
               </div>
             </div>

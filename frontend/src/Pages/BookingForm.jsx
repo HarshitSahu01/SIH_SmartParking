@@ -8,7 +8,7 @@ function TicketGenerator() {
 
   const { carPrice, bikePrice, parkingName } = location.state || {};
   console.log(carPrice);
-
+  const [isClicked, setIsClicked] = useState(false);
   const [userName, setUserName] = useState('');
   const [timeSlot, setTimeSlot] = useState('');
   const [vehicleNo, setVehicleNo] = useState('');
@@ -20,7 +20,11 @@ function TicketGenerator() {
   const generateRandomNumber = () => {
     return Math.floor(100000 + Math.random() * 900000); // 6-digit random number
   };
-
+  const handleClick = () => {
+    // Perform your action here
+    console.log('Button clicked!');
+    setIsClicked(true); // Disable the button after clicking
+  };
   // Update the price whenever the time slot or vehicle type changes
   useEffect(() => {
     if (vehicleType === 'car') {
@@ -112,9 +116,15 @@ function TicketGenerator() {
 
         {/* Generate Ticket Button */}
         <button
-          onClick={handleGenerateTicket}
-          className="mb-4 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-        >
+      onClick={() => {
+        handleClick(); // First function
+        handleGenerateTicket(); // Second function
+      }}
+      disabled={isClicked} // Disable the button based on state
+      className={`mb-4 w-full py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+        isClicked ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'
+      }`}
+    >
          Generate Ticket
         </button>
 
