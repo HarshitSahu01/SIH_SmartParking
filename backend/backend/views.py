@@ -374,11 +374,12 @@ def create_parking_spots(request):
     
     return JsonResponse({'message': 'Invalid request method'}, status=405)
 
-def request_parking(request):
+def requestBooking(request):
     if request.method == "POST":
         data = json.loads(request.body)
         parking_id = data.get('parking_id')
         vehicle_num = data.get('vehicle_num')
+        vehicle_type = data.get('vehicle_type')
         slot_timing = data.get('slot_timing')
         user = request.user
 
@@ -386,7 +387,7 @@ def request_parking(request):
             parking = Parking.objects.get(id=parking_id)
             booking = Booking.objects.create(user=user, parking=parking, vehicle_num=vehicle_num, slot_timing=slot_timing)
             booking.save()
-            return JsonResponse({'message': 'success'}, status=200)
+            return JsonResponse({'message': 'Booking request made successfully'}, status=200)
         except ObjectDoesNotExist:
             return JsonResponse({'message': 'Parking not found'}, status=404)
 
