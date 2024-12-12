@@ -1,3 +1,9 @@
+import { useLocation, useNavigate, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import logo from "../assets/logo.png";
+import { backendUrl, getCSRFToken } from "../assets/scripts/utils";
+
 const Book = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -73,7 +79,6 @@ const Book = () => {
   };
 
   return (
-    <ErrorBoundary>
       <div className="min-h-screen bg-custom-gradient flex flex-col">
         {/* Header */}
         <header className="w-full min-h-[8vh] rounded-b-2xl flex justify-between items-center px-4 py-3">
@@ -164,7 +169,6 @@ const Book = () => {
           © 2024 ParkSmart ~ All rights reserved
         </footer>
       </div>
-    </ErrorBoundary>
   );
 };
 export default Book;
