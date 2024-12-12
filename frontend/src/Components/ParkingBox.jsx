@@ -175,7 +175,13 @@ const ParkingBox = ({
         <div className="absolute bottom-2 right-0 z-[1000] text-white px-2 py-1 rounded-lg bg-custom-gradient">
         <button
               onClick={() => {
-                navigate("/book");
+                navigate("/book-form", {
+                  state: {
+                    carPrice: carprice,
+                    bikePrice: bikeprice,
+                    parkingName: name, // Optionally include parking name or other details
+                  },
+                });
               }}
             >Book a Slot</button>
         </div>

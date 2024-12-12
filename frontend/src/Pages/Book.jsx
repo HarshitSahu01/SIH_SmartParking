@@ -1,34 +1,53 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import axios from "axios";
 import { getCSRFToken, backendUrl } from "../assets/scripts/utils";
 
 const Book = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const { carPrice, bikePrice, parkingName } = location.state || {};
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
+  const [hasError, setHasError] = useState(false);
+
+  const handlesubmit = () => {
+    // Pass data to '/book-form'
+    navigate("/book-form", {
+      state: {
+        carPrice,
+        bikePrice,
+        parkingName,
+      },
+    });
+  };
 
   useEffect(() => {
-    axios.get(`${backendUrl()}/ping`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': getCSRFToken()
-      },
-      withCredentials: true
-    }).then((response) => {
-      if (response.data.id != null) {
-        alert('User already logged in!');
-        navigate('/pay');
-      } else {
-        console.log('Not logged in');
-        console.log(response.data);
-      }
-    }).catch((error) => {
-      console.log(error.response);
-    });
+    axios
+      .get(`${backendUrl()}/ping`, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCSRFToken(),
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.data.id != null) {
+          alert("User already logged in!");
+          navigate("/book-form");
+        } else {
+          console.log("Not logged in");
+        }
+      })
+      .catch((error) => {
+        console.log(error.response);
+        setHasError(true); // Set error state when there is a failure
+      });
   }, [navigate]);
 
   const handleLogin = async (e) => {
@@ -39,24 +58,40 @@ const Book = () => {
       return;
     }
 
-    axios.post(`${backendUrl()}/login`, {
-      username: username,
-      password: password
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': getCSRFToken(),  // Include CSRF token
-      },
-      withCredentials: true  // Include cookies (sessionid)
-    }).then((response) => {
-      console.log('here');
-      console.log(response.data);
-      navigate('/pay');
-    }).catch((error) => {
-      alert(error.response);
-      console.log(error.response);
-    });
+    axios
+      .post(
+        `${backendUrl()}/login`,
+        {
+          username: username,
+          password: password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(), // Include CSRF token
+          },
+          withCredentials: true, // Include cookies (sessionid)
+        }
+      )
+      .then((response) => {
+        console.log("Login successful");
+        console.log(response.data);
+        navigate("/book-form");
+      })
+      .catch((error) => {
+        setErrorMessage("Login failed. Please try again.");
+        console.log(error.response);
+        setHasError(true); // Handle error on login
+      });
   };
+
+  if (hasError) {
+    return (
+      <div className="error-container">
+        <h2>Something went wrong. Please try again later.</h2>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-custom-gradient flex flex-col">
@@ -68,7 +103,10 @@ const Book = () => {
             Park-N-Go
           </span>
         </div>
-        <div className="cursor-pointer" onClick={() => setMenuOpen((prev) => !prev)}>
+        <div
+          className="cursor-pointer"
+          onClick={() => setMenuOpen((prev) => !prev)}
+        >
           <svg
             fill="none"
             viewBox="0 0 50 50"
@@ -105,7 +143,7 @@ const Book = () => {
             <ul className="text-gray-800">
               <li
                 className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                onClick={() => navigate('/pay')}
+                onClick={() => navigate("/pay")}
               >
                 Admin Controls
               </li>
@@ -155,8 +193,8 @@ const Book = () => {
               />
             </div>
             <button
-              type="submit"
               className="w-full px-4 py-2 bg-custom-gradient text-white font-semibold rounded-md shadow-md hover:bg-[#68BBE3] hover:shadow-lg transition"
+              onClick={handlesubmit}
             >
               Login
             </button>
