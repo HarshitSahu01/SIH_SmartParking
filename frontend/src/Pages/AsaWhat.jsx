@@ -15,6 +15,8 @@ export default function AsaWhat() {
     }
   };
 
+  const [menuOpen, setMenuOpen] = React.useState(false);
+
   return (
     <div className="lan-main min-h-screen flex flex-col bg-[#fff] font-body">
       {/* Header */}
