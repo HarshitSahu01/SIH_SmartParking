@@ -17,7 +17,6 @@ const ParkingBox = ({
   carspots,
   bikespots,
   time,
-  time,
   address,
   image,
 }) => {
