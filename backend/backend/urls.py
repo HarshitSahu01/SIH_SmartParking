@@ -30,6 +30,7 @@ urlpatterns = [
     path('getParkings', views.getParkings),
     path('getParking', views.getParking),
     path('ping', views.ping),
+    path('createParking', views.createParking),
 
     path('register', views.register_view),
     path('login', views.login_view),

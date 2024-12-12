@@ -104,6 +104,7 @@ def ping(request):
 def validate_fields(data, required_fields):
     for field in required_fields:
         if field not in data or data[field] == '':
+            print(field)
             return False
     return True
 
@@ -248,7 +249,7 @@ def isAuthenticated(request):
 
 # /createParking
 @require_parking_owner
-def create_parking(request):
+def createParking(request):
     if request.method == "POST":
         data = json.loads(request.body)
 
