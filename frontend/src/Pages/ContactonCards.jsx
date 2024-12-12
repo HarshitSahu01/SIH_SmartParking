@@ -43,7 +43,7 @@ const ContactPage = () => {
               <div className="back absolute top-2 right-2 bg-white rounded-full  text-white  z-[2000] motion-preset-slide-left motion-delay-300">
                 <button
                   onClick={() => {
-                    navigate("/ghar");
+                    navigate("/parkings-cards");
                   }}
                 >
                   <img src={backarr} alt="" className="w-6 h-7 mx-2 my-1" />

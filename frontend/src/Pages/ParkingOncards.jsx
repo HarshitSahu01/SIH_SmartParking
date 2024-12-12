@@ -5,7 +5,7 @@ import MapIcon from "../assets/map-icon.png"
 import adrsicon from "../assets/adrsicon.png"
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+import siren from "../Components/icons/siren.png"
 const ParkingOnCards = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -71,6 +71,11 @@ const ParkingOnCards = () => {
     >
       {/* Header Section */}
       <div className="panel-head motion-preset-slide-down motion-duration-1000 bg-custom-gradient flex flex-col justify-center items-center gap-2 rounded-b-3xl p-4 min-h-[16vh] min-w-[100vw] border border-black">
+        <div className="contact">
+          <img src={siren} alt="" className="w-6 h-6 self-end " onClick={()=>{
+            navigate("/contactoncard")
+          }} />
+        </div>
         <div className="flex gap-4">
           <p className="font-bold text-2xl">View All Parking Locations</p>
         </div>

@@ -32,6 +32,7 @@ import Pay from "./Pages/Pay"
 import BookForm from "./Pages/BookingForm"
 import Logout from './Pages/Logout';
 import Ghar from './Pages/Ghar';
+import ContactonCard from "./Pages/ContactonCards"
 function App() {
   return (
     <>
@@ -51,6 +52,7 @@ function App() {
         <Route path="/admin/form" element={<From />} />
         <Route path="/admin/test" element={<Test />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/contactoncard" element={<ContactonCard />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path ="/transport" element = {<Transport/>}/>
         <Route path ="/logistics" element = {<LogisticsMap/>}/>
