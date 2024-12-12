@@ -26,6 +26,9 @@ import Asa from './Pages/AsaWhat'
 import Ticket from './Pages/Ticket'
 import BoxConfirmCanvas from './Components/BoxConfirmCanvas';
 import AdminDrop from "./Pages/AdminDrop";
+import Book from "./Pages/Book"
+import Register from "./Pages/Register"
+import Pay from "./Pages/Pay"
 
 function App() {
   return (
@@ -56,6 +59,9 @@ function App() {
         <Route path ="/ticket" element = {<Ticket/>}/>
         <Route path='/test123' element={<BoxConfirmCanvas />} />
         <Route path='/admindrop' element={<AdminDrop />} />
+        <Route path="/book" element={<Book/>} />
+        <Route path="/register-user" element={<Register />} />
+        <Route path="/pay" element={<Pay />} />
       </Routes>
     </>
   );

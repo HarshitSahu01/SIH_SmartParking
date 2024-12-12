@@ -1,75 +1,166 @@
-// src/components/PaymentForm.jsx
-import React, { useState } from "react";
+import React, { useState } from 'react';
+// import './style.css';
 
-const Pay = () => {
-  const [name, setName] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
-  const [cvv, setCvv] = useState("");
+const PaymentGateway = () => {
+  const [activeTab, setActiveTab] = useState(0);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Simulate payment processing
-    alert("Payment Processed!");
+  const handleTabChange = (index) => {
+    setActiveTab(index);
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-center mb-6">Payment Gateway</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name on Card</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700">Card Number</label>
-          <input
-            type="text"
-            id="cardNumber"
-            value={cardNumber}
-            onChange={(e) => setCardNumber(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="expiryDate" className="block text-sm font-medium text-gray-700">Expiry Date</label>
-          <input
-            type="text"
-            id="expiryDate"
-            value={expiryDate}
-            onChange={(e) => setExpiryDate(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="cvv" className="block text-sm font-medium text-gray-700">CVV</label>
-          <input
-            type="text"
-            id="cvv"
-            value={cvv}
-            onChange={(e) => setCvv(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        >
-          Pay Now
-        </button>
-      </form>
+    <div className="payment-gateway bg-gray-100 p-8 rounded-lg shadow-md max-w-3xl mx-auto">
+      <h2 className="text-2xl font-semibold mb-6 text-center">Select Payment Method</h2>
+      <ul className="tabs-list flex justify-center space-x-4 mb-6">
+        {['Credit Card', 'Net Banking', 'PayPal', 'Debit Card'].map((method, index) => (
+          <li
+            key={index}
+            className={`tab-item cursor-pointer py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 ${activeTab === index ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 border border-gray-300'}`}
+            onClick={() => handleTabChange(index)}
+          >
+            {method}
+          </li>
+        ))}
+      </ul>
+
+      <div className="tabs-content bg-white p-6 rounded-lg shadow">
+        {activeTab === 0 && <CreditCardForm />}
+        {activeTab === 1 && <NetBanking />}
+        {activeTab === 2 && <PayPalForm />}
+        {activeTab === 3 && <DebitCardForm />}
+      </div>
     </div>
   );
 };
 
-export default Pay;
+const CreditCardForm = () => (
+  <div className="payment-info">
+    <h3 className="text-xl font-semibold mb-4">Credit Card Info</h3>
+    <form>
+      <div className="form-group mb-4">
+        <label className="block text-sm font-medium mb-2">Amount</label>
+        <input type="text" placeholder="₹.00" required className="w-full p-2 border border-gray-300 rounded-md" />
+      </div>
+      <div className="form-group mb-4">
+        <label className="block text-sm font-medium mb-2">Name on Card</label>
+        <input type="text" placeholder="Enter the name" required className="w-full p-2 border border-gray-300 rounded-md" />
+      </div>
+      <div className="form-group mb-4">
+        <label className="block text-sm font-medium mb-2">Card Number</label>
+        <input type="text" placeholder="0000-0000-0000-0000" required className="w-full p-2 border border-gray-300 rounded-md" />
+      </div>
+      <div className="form-row flex space-x-4 mb-4">
+        <div className="form-group flex-1">
+          <label className="block text-sm font-medium mb-2">Expiration</label>
+          <div className="flex space-x-2">
+            <input type="number" placeholder="MM" min="1" max="12" required className="w-full p-2 border border-gray-300 rounded-md" />
+            <input type="number" placeholder="YYYY" min="2023" required className="w-full p-2 border border-gray-300 rounded-md" />
+          </div>
+        </div>
+        <div className="form-group flex-1">
+          <label className="block text-sm font-medium mb-2">CVV Number</label>
+          <input type="password" placeholder="XXX" required className="w-full p-2 border border-gray-300 rounded-md" />
+        </div>
+      </div>
+      <button type="submit" className="confirm-btn w-full bg-blue-500 text-white py-2 rounded-md font-medium hover:bg-blue-600 transition">Send</button>
+    </form>
+  </div>
+);
+
+const NetBanking = () => (
+  <div className="payment-info">
+    <h3 className="text-xl font-semibold mb-4">Net Banking</h3>
+    <div className="bank-options space-y-2 mb-4">
+      {[
+        'Andhra Bank',
+        'Allahabad Bank',
+        'Bank of Baroda',
+        'Canara Bank',
+        'IDBI Bank',
+        'ICICI Bank',
+        'Indian Overseas Bank',
+        'Punjab National Bank',
+        'State Bank of India',
+        'HDFC Bank',
+      ].map((bank, index) => (
+        <div key={index} className="radio-btn">
+          <label className="flex items-center space-x-2">
+            <input type="radio" name="bank" className="h-4 w-4 text-blue-500 border-gray-300 focus:ring-blue-400" />
+            <span className="text-sm font-medium">{bank}</span>
+          </label>
+        </div>
+      ))}
+    </div>
+    <button className="confirm-btn w-full bg-blue-500 text-white py-2 rounded-md font-medium hover:bg-blue-600 transition">Continue</button>
+  </div>
+);
+
+const PayPalForm = () => (
+  <div className="payment-info">
+    <h3 className="text-xl font-semibold mb-4">PayPal</h3>
+    <h4 className="text-lg font-medium mb-4">Already Have A PayPal Account?</h4>
+    <form>
+      <div className="form-group mb-4">
+        <label className="block text-sm font-medium mb-2">Email</label>
+        <input type="email" placeholder="name@email.com" required className="w-full p-2 border border-gray-300 rounded-md" />
+      </div>
+      <div className="form-group mb-4">
+        <label className="block text-sm font-medium mb-2">Password</label>
+        <input type="password" placeholder="Password" required className="w-full p-2 border border-gray-300 rounded-md" />
+      </div>
+      <div className="form-group mb-4">
+        <label className="flex items-center space-x-2">
+          <input type="checkbox" className="h-4 w-4 text-blue-500 border-gray-300 focus:ring-blue-400" />
+          <span className="text-sm">Remember me</span>
+        </label>
+      </div>
+      <button type="submit" className="confirm-btn w-full bg-blue-500 text-white py-2 rounded-md font-medium hover:bg-blue-600 transition">Login</button>
+    </form>
+  </div>
+);
+
+const DebitCardForm = () => (
+  <div className="payment-info">
+    <h3 className="text-xl font-semibold mb-4">Debit Card Info</h3>
+    <form>
+      <div className="form-group mb-4">
+        <label className="block text-sm font-medium mb-2">Amount</label>
+        <input type="text" placeholder="₹.00" required className="w-full p-2 border border-gray-300 rounded-md" />
+      </div>
+      <div className="form-group mb-4">
+        <label className="block text-sm font-medium mb-2">Name on Card</label>
+        <input type="text" placeholder="Enter the name" required className="w-full p-2 border border-gray-300 rounded-md" />
+      </div>
+      <div className="form-group mb-4">
+        <label className="block text-sm font-medium mb-2">Card Number</label>
+        <input type="text" placeholder="0000-0000-0000-0000" required className="w-full p-2 border border-gray-300 rounded-md" />
+      </div>
+      <div className="form-row flex space-x-4 mb-4">
+        <div className="form-group flex-1">
+          <label className="block text-sm font-medium mb-2">Expiration</label>
+          <div className="flex space-x-2">
+            <input type="number" placeholder="MM" min="1" max="12" required className="w-full p-2 border border-gray-300 rounded-md" />
+            <input type="number" placeholder="YYYY" min="2023" required className="w-full p-2 border border-gray-300 rounded-md" />
+          </div>
+        </div>
+        <div className="form-group flex-1">
+          <label className="block text-sm font-medium mb-2">CVV Number</label>
+          <input
+            type="password"
+            placeholder="XXX"
+            required
+            className="w-full p-2 border border-gray-300 rounded-md"
+          />
+        </div>
+      </div>
+      <button
+        type="submit"
+        className="confirm-btn w-full bg-blue-500 text-white py-2 rounded-md font-medium hover:bg-blue-600 transition"
+      >
+        Confirm Payment
+      </button>
+    </form>
+  </div>
+);
+
+export default PaymentGateway;

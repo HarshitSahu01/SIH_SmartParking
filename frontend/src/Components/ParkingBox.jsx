@@ -8,7 +8,7 @@ import priceicon from "../assets/price.png";
 import bike from "../assets/bike.png";
 import addressicon from "../assets/address.png";
 import line from "../assets/distance.png"
-
+import { useNavigate, useLocation } from "react-router-dom";
 const ParkingBox = ({
   name,
   carprice,
@@ -25,7 +25,7 @@ const ParkingBox = ({
   const [isTracking, setIsTracking] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showTrackingModal, setShowTrackingModal] = useState(false);
-
+ const navigate = useNavigate();
   useEffect(() => {
     if (isTracking) {
       const interval = setInterval(() => {
@@ -88,7 +88,7 @@ const ParkingBox = ({
       )}
 
       <div
-        className="flex flex-col w-full sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-transparent drop-shadow-xl backdrop-blur-2xl shadow-md transform transition-transform duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100"
+        className="flex flex-col w-full min-h-[54vh] sm:w-[300px] border border-gray-300 rounded-3xl overflow-hidden bg-transparent drop-shadow-xl backdrop-blur-2xl shadow-md transform transition-transform duration-50 hover:scale-100 active:scale-110 hover:bg-gray-100"
         onClick={() => {
           if (isTracking) {
             setShowTrackingModal(true); // Show modal if already tracked
@@ -133,7 +133,7 @@ const ParkingBox = ({
                   <img src={line} alt="" className="w-7" />
                 </div>
                 <p>{distance} km</p>
-                <p>{distance} km</p>
+          
               </div>
             </div>
           </div>
@@ -166,21 +166,18 @@ const ParkingBox = ({
                 </div>
                 <p>Rs {bikeprice}</p>
               </div>
-              <div className="c4 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2 mt-4">
-                <div className="icon4">
-                  <img src={priceicon} alt="" className="w-7" />
-                </div>
-                <p>Rs {bikeprice}</p>
-              </div>
+          
             </div>
           </div>
         </div>
-        <div className="down mx-3 my-3 flex justify-end">
-          <button className="p-2 bg-green-400 font-medium rounded-xl">
-            Book Your Slot
-          </button>
-        </div>
       </div>
+        <div className="absolute bottom-2 right-0 z-[1000] text-white px-2 py-1 rounded-lg bg-custom-gradient">
+        <button
+              onClick={() => {
+                navigate("/book");
+              }}
+            >Book a Slot</button>
+        </div>
 
       {/* Initial Confirmation Modal */}
       {showModal && (
