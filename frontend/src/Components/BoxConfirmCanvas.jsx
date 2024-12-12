@@ -6,7 +6,6 @@ const BoxConfirmCanvas = ({ spots }) => {
 
   spots = {"car_spots":[[[20.5998006362915,322.758],[20.5998006362915,208.5],[83.1498006362915,208.5],[82.3158006362915,322.758]],[[82.3158006362915,322.758],[141.5298006362915,321.924],[144.0318006362915,208.5],[84.8178006362915,208.5]]],"bike_spots":[]}
 
-  console.log(spots);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -25,7 +24,6 @@ const BoxConfirmCanvas = ({ spots }) => {
       ctx.fillStyle = 'blue';
 
       spots['car_spots'].forEach((spot, index) => {
-        console.log(spot)
         ctx.beginPath();
         ctx.moveTo(spot[0][0], spot[0][1]);
         for (let i = 1; i < spot.length; i++) {
