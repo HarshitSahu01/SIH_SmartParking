@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from "react";
 import logo from "../assets/logo.png";
 import SmallScreenErrorComponent from "../Components/SmallScreenError";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ParkingSpaceForm = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // Destructure lat and lng from the location state
+    const { lat, lng } = location.state || { lat: null, lng: null }
     const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 640);
     const [menuOpen, setMenuOpen] = useState(false);
     const [numCameras, setNumCameras] = useState(0);
     const [cameraUrls, setCameraUrls] = useState([]);
 
     const handleClick = () => {
-        navigate('/drop-pin');
+        navigate('/admindrop');
     };
 
     useEffect(() => {
+        console.log(lat, lng);
         const handleResize = () => {
             setIsSmallScreen(window.innerWidth < 640);
         };
@@ -58,8 +63,8 @@ const ParkingSpaceForm = () => {
         formData.forEach((value, key) => {
             data[key] = value;
         });
-        data[lat] = 0;
-        data[long] = 0;
+        data['lat'] = lat;
+        data['long'] = lng;
         console.log(data);
     };
 
