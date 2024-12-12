@@ -10,6 +10,7 @@ import addressicon from "../assets/address.png";
 import line from "../assets/distance.png"
 import { useNavigate, useLocation } from "react-router-dom";
 const ParkingBox = ({
+  id,
   name,
   carprice,
   bikeprice,
@@ -25,7 +26,7 @@ const ParkingBox = ({
   const [isTracking, setIsTracking] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showTrackingModal, setShowTrackingModal] = useState(false);
- const navigate = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     if (isTracking) {
       const interval = setInterval(() => {
@@ -80,7 +81,8 @@ const ParkingBox = ({
   };
 
   return (
-    <div className="flex mx-2 mt-4 relative">
+    <div className="flex mx-2 mt-4 relative"
+      key={id}>
       {isTracking && (
         <div className="absolute top-0 right-0 z-[1000] text-white px-2 py-1 rounded-lg bg-red-500">
           <button onClick={stopTracking}>Stop notifications</button>
@@ -102,7 +104,7 @@ const ParkingBox = ({
           alt="Parking"
           className="w-full h-[220px] object-cover p-3 rounded-3xl"
         />
-<div className="pt-1 px-4 pb-4">
+        <div className="pt-1 px-4 pb-4">
           <div className="flex flex-row mx-2 sm:flex-row justify-between items-start sm:items-center">
             <div className="c11 flex flex-col gap-3">
               <div className="c1 flex items-center text-sm font-bold text-gray-600 mb-2 sm:mb-0 gap-2">
@@ -133,7 +135,7 @@ const ParkingBox = ({
                   <img src={line} alt="" className="w-7" />
                 </div>
                 <p>{distance} km</p>
-          
+
               </div>
             </div>
           </div>
@@ -166,24 +168,25 @@ const ParkingBox = ({
                 </div>
                 <p>Rs {bikeprice}</p>
               </div>
-          
+
             </div>
           </div>
         </div>
       </div>
-        <div className="absolute bottom-2 right-0 z-[1000] text-white px-2 py-1 rounded-lg bg-custom-gradient">
+      <div className="absolute bottom-2 right-0 z-[1000] text-white px-2 py-1 rounded-lg bg-custom-gradient">
         <button
-              onClick={() => {
-                navigate("/book-form", {
-                  state: {
-                    carPrice: carprice,
-                    bikePrice: bikeprice,
-                    parkingName: name, // Optionally include parking name or other details
-                  },
-                });
-              }}
-            >Book a Slot</button>
-        </div>
+          onClick={() => {
+            navigate("/book-form", {
+              state: {
+                id: id,
+                carPrice: carprice,
+                bikePrice: bikeprice,
+                parkingName: name, // Optionally include parking name or other details
+              },
+            });
+          }}
+        >Book a Slot</button>
+      </div>
 
       {/* Initial Confirmation Modal */}
       {showModal && (
